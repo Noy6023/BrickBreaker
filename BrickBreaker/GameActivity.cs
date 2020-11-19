@@ -37,10 +37,18 @@ namespace BrickBreaker
             if (e.Sensor.Type.Equals(SensorType.Accelerometer))
             {
                 //if a phone movement is detected - move the bat;
-                board.batDeltax = e.Values[0];
-                Android.Util.Log.Debug("sh", "x=" + board.batDeltax);
-                if (board.lost) Finish();
+                board.bat.velocity.x = (int)e.Values[0];
+                Android.Util.Log.Debug("sh", "x=" + board.bat.velocity.x);
+                if (board.hasLost)
+                {
+                    Intent intent = new Intent(this, typeof(MainActivity));
+                    intent.PutExtra("score", board.score.ToString());
+                    SetResult(Result.Ok, intent);
+                    Finish();
+                }
+                    
             }
         }
+
     }
 }

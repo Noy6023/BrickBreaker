@@ -13,6 +13,8 @@ namespace BrickBreaker
     public class MainActivity : AppCompatActivity, Android.Views.View.IOnClickListener
     {
         Button btnStart;
+        TextView tvScore;
+        int max;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -23,7 +25,9 @@ namespace BrickBreaker
         private void InitView()
         {
             btnStart = FindViewById<Button>(Resource.Id.btnStart);
+            tvScore = FindViewById<TextView>(Resource.Id.tvScore);
             btnStart.SetOnClickListener(this);
+            max = 0;
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
@@ -36,7 +40,23 @@ namespace BrickBreaker
             if(v.Id == btnStart.Id)
             {
                 Intent intent = new Intent(this, typeof(GameActivity));
-                StartActivity(intent);
+                StartActivityForResult(intent, 0);
+            }
+        }
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            if (requestCode == 0)
+            {
+                if (resultCode == Result.Ok)
+                {
+                    if (data.Extras != null)
+                    {
+                        int lastScore = Int32.Parse(data.GetStringExtra("score"));
+                        if (lastScore > max) max = lastScore;
+                        tvScore.Text = "Score: " + lastScore.ToString() + "\nHighest Score: " + max.ToString();
+                    }
+                }
             }
         }
     }
