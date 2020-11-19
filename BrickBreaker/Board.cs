@@ -38,6 +38,38 @@ namespace BrickBreaker
             score = 0; //init the score
             player = new MediaPlayer(); //Init the media player
         }
+        public void StartPlayer(int sound)
+        {
+            if (player == null)
+            {
+                player = new MediaPlayer();
+            }
+            else
+            {
+                player.Reset();
+                if(sound == 1)
+                {
+                    player = MediaPlayer.Create(context, Resource.Raw.sound1);
+                }
+                if (sound == 2)
+                {
+                    player = MediaPlayer.Create(context, Resource.Raw.sound2);
+                }
+                if (sound == 3)
+                {
+                    player = MediaPlayer.Create(context, Resource.Raw.sound3);
+                }
+                if (sound == 4)
+                {
+                    player = MediaPlayer.Create(context, Resource.Raw.sound4);
+                }
+                //Java.IO.File file = new Java.IO.File(filePath);
+                //Java.IO.FileInputStream fis = new Java.IO.FileInputStream(file);
+                //player.SetDataSourceAsync(fis.FD);
+                //player.PrepareAsync();
+                player.Start();
+            }
+        }
 
         /// <summary>
         /// generates a random position for the ball to start from
@@ -114,7 +146,11 @@ namespace BrickBreaker
             ball.UpdateMovement(); //update the ball movement
             bat.UpdateBounds(canvas); //check bounds of the bat
             ball.UpdateWallHit(new Vector(canvas.Width, canvas.Height), bat); //check bounds of the ball - walls
-            hasLost = !bat.IsBallHit(ball, canvas); //check if the bat missed the ball and lost
+            if (bat.IsBallHit(ball, canvas)) //check if the bat missed the ball and lost
+            {
+                //StartPlayer(4);
+            }
+            else hasLost = true;
             //brick hit
             for (int i = 0; i < bricks.GetLength(0); i++)
             {
@@ -122,6 +158,7 @@ namespace BrickBreaker
                 {
                     if (bricks[i, j].IsHit(ball, SPACE))
                     {
+                        StartPlayer(4);
                         score++;
                     }
                 }
