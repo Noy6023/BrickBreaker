@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Graphics;
+using Android.Media;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -58,15 +59,19 @@ namespace BrickBreaker
         /// </summary>
         /// <param name="ball">the ball</param>
         /// <param name="canvas">the canvas</param>
-        /// <returns>true- the bat hit the ball. false- the bat missed the ball.</returns>
-        public bool IsBallHit(Ball ball, Canvas canvas)
+        /// <returns>1- the bat hit the ball. -1- the bat missed the ball. 0- the ball wasn't near the bat</returns>
+        public int IsBallHit(Ball ball, Canvas canvas)
         {
-            if (ball.position.y >= canvas.Height - size.y- ball.radius) //if the bat missed the ball
+            if (ball.position.y >= canvas.Height - size.y - ball.radius) //if the bat missed the ball
             {
-                if (ball.position.x < this.position.x || ball.position.x > this.position.x + this.size.x) return false;
-                else ball.velocity.y = -ball.velocity.y;
+                if (ball.position.x < this.position.x || ball.position.x > this.position.x + this.size.x) return -1;
+                else
+                {
+                    ball.velocity.y = -ball.velocity.y;
+                    return 1;
+                }
             }
-            return true;
+            return 0;
             
         }
         /// <summary>

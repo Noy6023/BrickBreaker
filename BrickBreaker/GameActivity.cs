@@ -10,6 +10,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Java.Lang;
 
 namespace BrickBreaker
 {
@@ -18,6 +19,8 @@ namespace BrickBreaker
     {
         SensorManager sensMan;
         Board board;
+        bool userAskBack = false;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -26,6 +29,58 @@ namespace BrickBreaker
             sensMan = (SensorManager)GetSystemService(Context.SensorService);
             Sensor sen = sensMan.GetDefaultSensor(SensorType.Accelerometer);
             sensMan.RegisterListener(this, sen, Android.Hardware.SensorDelay.Game);
+            board.t.Start();
+        }
+        protected override void OnResume()
+        {
+            base.OnResume();
+            if (board != null)
+            {
+                board.resume();
+            }
+        }
+
+        protected override void OnStart()
+        {
+            base.OnStart(); ;
+        }
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+        }
+        protected override void OnStop()
+        {
+            base.OnStop();
+        }
+        protected override void OnPause()
+        {
+            base.OnPause();
+            if (userAskBack)
+            {
+            }
+            else if (board != null)
+            {
+                board.pause();
+            }
+        }
+        public override void Finish()
+        {
+
+            base.Finish();
+            userAskBack = true;
+            board.threadRunning = false;
+            while (true)
+            {
+                try
+                {
+                    board.t.Join();
+                }
+                catch (InterruptedException e)
+                {
+                    //Toast.MakeText(this,"some problem happened",ToastLength.Long).Show();
+                }
+                break;
+            }
         }
         public void OnAccuracyChanged(Sensor sensor, [GeneratedEnum] SensorStatus accuracy)
         {

@@ -4106,6 +4106,9 @@ namespace BrickBreaker
 			// aapt resource value: 0x7F0D0003
 			public const int sound4 = 2131558403;
 			
+			// aapt resource value: 0x7F0D0004
+			public const int sound5 = 2131558404;
+			
 			static Raw()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();

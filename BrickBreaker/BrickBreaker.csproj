@@ -122,10 +122,13 @@
     <AndroidResource Include="Resources\raw\sound2.wav" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\raw\sound3.wav" />
+    <AndroidResource Include="Resources\raw\sound4.mp3" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\raw\sound4.mp3" />
+    <AndroidResource Include="Resources\raw\sound3.ogg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\raw\sound5.ogg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

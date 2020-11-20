@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-
+using System.Threading;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -16,8 +16,11 @@ using Org.Apache.Http.Impl.Client;
 
 namespace BrickBreaker
 {
-    public class Board : View
+    public class Board : SurfaceView
     {
+        public bool threadRunning = true;
+        public bool isRunning = true;
+
         private readonly Vector SCREEN_SIZE = new Vector(1000, 2000); //defult screen size
         private const int SPACE = 25;
         Ball ball; // the ball
@@ -26,8 +29,11 @@ namespace BrickBreaker
         public bool hasLost { get; set; } //keeps the result whether the bat ha missed and lost or not
         Context context; //the context
         bool isFirstCall = true;
-        protected MediaPlayer player;
+        protected MediaPlayer[] players;
         public int score { get; set; } //the score that is increased by hitting a brick
+
+        public Thread t;
+        ThreadStart ts;
         public Board(Context context) : base(context) //constructor
         {
             this.context = context;
@@ -36,38 +42,122 @@ namespace BrickBreaker
             ball.position = new Vector(BallStartPosintionGenerator()); //set the ball on a random place
             bat = new Bat(); //init the bat
             score = 0; //init the score
-            player = new MediaPlayer(); //Init the media player
-        }
-        public void StartPlayer(int sound)
-        {
-            if (player == null)
+            players = new MediaPlayer[5];
+            for(int i = 0; i < players.Length; i++)
             {
-                player = new MediaPlayer();
+                players[i] = new MediaPlayer();
+                InitPlayers(i+1);
+            }
+            ts = new ThreadStart(Run);
+            t = new Thread(ts);
+        }
+        public void SurfaceCreated(ISurfaceHolder holder)
+        {
+
+        }
+        public void SurfaceDestroyed(ISurfaceHolder holder)
+        {
+
+        }
+        public void SurfaceChanged(ISurfaceHolder holder, [GeneratedEnum] Format format, int width, int height)
+        {
+
+
+        }
+
+        public void destroy()
+        {
+            isRunning = false;
+            ((GameActivity)context).Finish();
+        }
+
+
+        public void pause()
+        {
+            isRunning = false;
+        }
+
+
+        public void resume()
+        {
+            isRunning = true;
+        }
+        public void startGame()
+        {
+            isRunning = true;
+        }
+        public void Run()
+        {
+            while (threadRunning)
+            {
+                if (isRunning)
+                {
+                    if (!this.Holder.Surface.IsValid)
+                        continue;
+                    Canvas canvas = null;
+                    try
+                    {
+                        canvas = this.Holder.LockCanvas();
+                        if (isFirstCall)
+                        {
+                            InitBricks(canvas);
+                            bat.position = new Vector(canvas.Width / 2, canvas.Height - canvas.Height / 10);
+                            isFirstCall = false;
+                        }
+                        Update(canvas);
+                        Draw(canvas);
+                        if (hasLost)
+                        {
+                            for (int i = 0; i < players.Length; i++)
+                            {
+                                players[i].Release();
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+                    finally
+                    {
+                        if (canvas != null)
+                        {
+                            this.Holder.UnlockCanvasAndPost(canvas);
+                        }
+                    }
+                }
+            }
+        }
+                        
+        private void InitPlayers(int sound)
+        {
+            if (players[sound-1] == null)
+            {
+                players[sound-1] = new MediaPlayer();
             }
             else
             {
-                player.Reset();
+                players[sound-1].Reset();
                 if(sound == 1)
                 {
-                    player = MediaPlayer.Create(context, Resource.Raw.sound1);
+                    players[sound - 1] = MediaPlayer.Create(context, Resource.Raw.sound1);
                 }
                 if (sound == 2)
                 {
-                    player = MediaPlayer.Create(context, Resource.Raw.sound2);
+                    players[sound - 1] = MediaPlayer.Create(context, Resource.Raw.sound2);
                 }
                 if (sound == 3)
                 {
-                    player = MediaPlayer.Create(context, Resource.Raw.sound3);
+                    players[sound - 1] = MediaPlayer.Create(context, Resource.Raw.sound3);
                 }
                 if (sound == 4)
                 {
-                    player = MediaPlayer.Create(context, Resource.Raw.sound4);
+                    players[sound - 1] = MediaPlayer.Create(context, Resource.Raw.sound4);
                 }
-                //Java.IO.File file = new Java.IO.File(filePath);
-                //Java.IO.FileInputStream fis = new Java.IO.FileInputStream(file);
-                //player.SetDataSourceAsync(fis.FD);
-                //player.PrepareAsync();
-                player.Start();
+                if (sound == 5)
+                {
+                    players[sound - 1] = MediaPlayer.Create(context, Resource.Raw.sound5);
+                }
             }
         }
 
@@ -108,12 +198,6 @@ namespace BrickBreaker
         /// <param name="canvas">the canvas</param>
         public new void Draw(Canvas canvas)
         {
-            if (isFirstCall)
-            {
-                InitBricks(canvas);
-                bat.position = new Vector(canvas.Width / 2, canvas.Height - canvas.Height / 10);
-                isFirstCall = false;
-            }
             canvas.DrawColor(Color.Black); //set background color to black
             Paint pscore = new Paint();
             pscore.Color = Color.White;
@@ -146,11 +230,12 @@ namespace BrickBreaker
             ball.UpdateMovement(); //update the ball movement
             bat.UpdateBounds(canvas); //check bounds of the bat
             ball.UpdateWallHit(new Vector(canvas.Width, canvas.Height), bat); //check bounds of the ball - walls
-            if (bat.IsBallHit(ball, canvas)) //check if the bat missed the ball and lost
+            //check if the bat missed the ball and lost
+            if (bat.IsBallHit(ball, canvas) == 1)
             {
-                //StartPlayer(4);
+                players[4].Start();
             }
-            else hasLost = true;
+            else if (bat.IsBallHit(ball, canvas) == -1) hasLost = true;
             //brick hit
             for (int i = 0; i < bricks.GetLength(0); i++)
             {
@@ -158,7 +243,7 @@ namespace BrickBreaker
                 {
                     if (bricks[i, j].IsHit(ball, SPACE))
                     {
-                        StartPlayer(4);
+                        players[3].Start();
                         score++;
                     }
                 }
@@ -168,7 +253,7 @@ namespace BrickBreaker
         /// game loop that goes on and on until the bat has missed the ball
         /// </summary>
         /// <param name="canvas"></param>
-        protected override void OnDraw(Canvas canvas)
+        /*protected override void OnDraw(Canvas canvas)
         {
             //draw the objects on the canvas
             Draw(canvas);
@@ -176,6 +261,6 @@ namespace BrickBreaker
             Update(canvas);
             if (!hasLost) Invalidate(); //keep calling this function and drawing until the player lost.
             else player.Release();
-        }
+        }*/
     }
 }
