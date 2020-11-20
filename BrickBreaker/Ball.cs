@@ -13,23 +13,19 @@ using System.Text;
 
 namespace BrickBreaker
 {
-    public class Ball
+    public class Ball : Shape
     {
-        public Vector position { get; set; } //the current positon of the ball
-        public Paint paint { get; set; } //the paint of the ball
         public int radius { get;  set; } //the radius of the ball
         public Vector velocity { get; set; } //the velocity of the ball
-        public Ball(Vector position, Paint paint, Vector velocity, int radius) //constructor
+        public Ball(Vector position, Paint paint, Vector velocity, int radius) : base(position, paint) //constructor
         {
-            this.position = new Vector(position);
-            this.paint = new Paint(paint);
             this.velocity = new Vector(velocity);
             this.radius = radius;
         }
-        public Ball() //defult constructor
+        public Ball() : base() //defult constructor
         {
-            this.position = new Vector(300, 1000);
-            this.paint = new Paint();
+            base.position = new Vector(300, 1000);
+            base.paint = new Paint();
             paint.Color = Color.White;
             this.velocity = new Vector(7, 15);
             this.radius = 30;
@@ -58,7 +54,7 @@ namespace BrickBreaker
         /// draws the ball on the canvas
         /// </summary>
         /// <param name="canvas"></param>
-        public void Draw(Canvas canvas) //draw the ball in the correct position
+        public override void Draw(Canvas canvas) //draw the ball in the correct position
         {
             canvas.DrawCircle(position.x + radius, position.y + radius, radius, paint); 
         }

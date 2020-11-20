@@ -13,23 +13,18 @@ using Android.Widget;
 
 namespace BrickBreaker
 {
-    public class Brick
+    public class Brick : Shape
     {
         public readonly Vector SIZE = new Vector(70, 40);
-        public Vector position { get; set; } //the position of the brick
         public bool isVisible { get; set; } //true if the brick is visable and can be hit. else false
-        public Paint paint { get; set; } //the paint of the brick
-
-        public Brick(Vector position, Paint paint) //constructor
+        public Brick(Vector position, Paint paint) : base(position, paint) //constructor
         {
-            this.position = new Vector(position);
-            this.paint = new Paint(paint);
             this.isVisible = true;
         }
-        public Brick(Vector position) //constructor
+        public Brick(Vector position) : base() //constructor
         {
-            this.position = new Vector(position);
-            this.paint = new Paint();
+            base.position = new Vector(position);
+            base.paint = new Paint();
             paint.Color = Color.Green;
             isVisible = true;
         }
@@ -43,7 +38,7 @@ namespace BrickBreaker
             canvas.DrawRect(position.x + space, position.y + space, position.x + SIZE.x + space, position.y + SIZE.y + space, paint);
         }
         /// <summary>
-        /// a check if the brick was hit by the ball. if so then change velocity and the visiblity of the brick
+        /// a check if the brick was hit by the ball. if so then change velocity of the ball and the visiblity of the brick
         /// </summary>
         /// <param name="ball">the ball</param>
         /// <param name="space">the space</param>
@@ -59,9 +54,8 @@ namespace BrickBreaker
                     {
                         this.isVisible = false;
                         ball.velocity.y = -ball.velocity.y;
-                        //handle hit from left
-                        if (ball.position.x > this.position.x) ball.velocity.x -= 2;
-                        if (ball.position.x < this.position.x + SIZE.x) ball.velocity.x += 2;
+                        Random rand = new Random();
+                        ball.velocity.x += rand.Next(-5, 5);
                         return true;
                     }
                 }
