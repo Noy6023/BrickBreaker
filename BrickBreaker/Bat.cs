@@ -13,26 +13,22 @@ using System.Text;
 
 namespace BrickBreaker
 {
-    public class Bat
+    public class Bat : Shape
     {
         private readonly Vector SIZE = new Vector(300, 20);
         private readonly Vector SCREEN_SIZE = new Vector(500, 1500);
-        public Vector position { get; set; } //the current positon of the bat
         public Vector size { get; set; } //the size of the bat
-        public Paint paint { get; set; } //the paint of the bat
         public Vector velocity { get; set; } //the velocity of the bat
-        public Bat(Vector position, Vector size, Paint paint, Vector velocity) //costructor
+        public Bat(Vector position, Vector size, Paint paint, Vector velocity) : base(position, paint) //costructor
         {
-            this.position = new Vector(position);
             this.size = new Vector(size);
-            this.paint = new Paint(paint);
             this.velocity = new Vector(velocity);
         }
-        public Bat() //defult constructor
+        public Bat():base() //defult constructor
         {
-            this.position = new Vector(0, SCREEN_SIZE.y - (SCREEN_SIZE.y / 10));
+            base.position = new Vector(0, SCREEN_SIZE.y - (SCREEN_SIZE.y / 10));
             this.size = new Vector(SIZE.x, SIZE.y);
-            this.paint = new Paint();
+            base.paint = new Paint();
             paint.Color = Color.Red;
             velocity = new Vector(0, 0);
         }
@@ -78,7 +74,7 @@ namespace BrickBreaker
         /// draws the bat on the canvas
         /// </summary>
         /// <param name="canvas">the canvas</param>
-        public void Draw(Canvas canvas)
+        public override void Draw(Canvas canvas)
         {
             canvas.DrawRect(position.x, canvas.Height - size.y, position.x + size.x, canvas.Height, paint);
         }
