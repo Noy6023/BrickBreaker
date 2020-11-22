@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">BrickBreaker</string>
     <string name="action_settings">Settings</string>
+    <string name="save">Save</string>
+    <string name="back">Back</string>
+    <string name="play">Play</string>
+    <string name="home">Home</string>
+    <string name="muteSound">Mute Sound</string>
+    <string name="muteMusic">Mute Music</string>
 </resources>

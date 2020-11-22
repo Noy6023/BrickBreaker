@@ -69,8 +69,10 @@
     <Compile Include="Bat.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="Brick.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="GameActivity.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="PlayerManager.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shape.cs" />
@@ -130,6 +132,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\raw\sound5.ogg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\activity_menu.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_settings.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

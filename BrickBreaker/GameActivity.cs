@@ -92,8 +92,7 @@ namespace BrickBreaker
             if (e.Sensor.Type.Equals(SensorType.Accelerometer))
             {
                 //if a phone movement is detected - move the bat;
-                board.bat.velocity.x = (int)e.Values[0];
-                Android.Util.Log.Debug("sh", "x=" + board.bat.velocity.x);
+                board.MoveBatBySensor((int)e.Values[0]);
                 if (board.hasLost)
                 {
                     Intent intent = new Intent(this, typeof(MainActivity));

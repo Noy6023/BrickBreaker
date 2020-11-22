@@ -21,15 +21,15 @@ namespace BrickBreaker
         public bool threadRunning = true;
         public bool isRunning = true;
 
-        private readonly Vector SCREEN_SIZE = new Vector(1000, 2000); //defult screen size
-        private const int SPACE = 25;
         Ball ball; // the ball
         Brick[,] bricks; //the bricks array
-        public Bat bat { get; set; } //the bat
+        public Bat topBat { get; set; } //the top bat
+        public Bat bottomBat { get; set; } //the bottom bat
         public bool hasLost { get; set; } //keeps the result whether the bat ha missed and lost or not
         Context context; //the context
         bool isFirstCall = true;
-        protected MediaPlayer[] players;
+        private PlayerManager playerManager;
+        //private MediaPlayer[] players;
         public int score { get; set; } //the score that is increased by hitting a brick
 
         public Thread t;
@@ -40,14 +40,10 @@ namespace BrickBreaker
             hasLost = false; //init the result
             ball = new Ball(); //init the ball
             ball.position = new Vector(BallStartPosintionGenerator()); //set the ball on a random place
-            bat = new Bat(); //init the bat
+            bottomBat = new Bat(); //init the bat
+            topBat = new Bat(); //init the bat
             score = 0; //init the score
-            players = new MediaPlayer[5];
-            for(int i = 0; i < players.Length; i++)
-            {
-                players[i] = new MediaPlayer();
-                InitPlayers(i+1);
-            }
+            playerManager = new PlayerManager(context);
             ts = new ThreadStart(Run);
             t = new Thread(ts);
         }
@@ -101,17 +97,15 @@ namespace BrickBreaker
                         if (isFirstCall)
                         {
                             InitBricks(canvas);
-                            bat.position = new Vector(canvas.Width / 2, canvas.Height - canvas.Height / 10);
+                            bottomBat.position = new Vector(canvas.Width / 2, canvas.Height - bottomBat.size.y);
+                            topBat.position = new Vector(canvas.Width / 2, topBat.size.y);
                             isFirstCall = false;
                         }
                         Update(canvas);
                         Draw(canvas);
                         if (hasLost)
                         {
-                            for (int i = 0; i < players.Length; i++)
-                            {
-                                players[i].Release();
-                            }
+                            playerManager.Release();
                         }
                     }
                     catch (Exception e)
@@ -128,38 +122,6 @@ namespace BrickBreaker
                 }
             }
         }
-                        
-        private void InitPlayers(int sound)
-        {
-            if (players[sound-1] == null)
-            {
-                players[sound-1] = new MediaPlayer();
-            }
-            else
-            {
-                players[sound-1].Reset();
-                if(sound == 1)
-                {
-                    players[sound - 1] = MediaPlayer.Create(context, Resource.Raw.sound1);
-                }
-                if (sound == 2)
-                {
-                    players[sound - 1] = MediaPlayer.Create(context, Resource.Raw.sound2);
-                }
-                if (sound == 3)
-                {
-                    players[sound - 1] = MediaPlayer.Create(context, Resource.Raw.sound3);
-                }
-                if (sound == 4)
-                {
-                    players[sound - 1] = MediaPlayer.Create(context, Resource.Raw.sound4);
-                }
-                if (sound == 5)
-                {
-                    players[sound - 1] = MediaPlayer.Create(context, Resource.Raw.sound5);
-                }
-            }
-        }
 
         /// <summary>
         /// generates a random position for the ball to start from
@@ -168,7 +130,9 @@ namespace BrickBreaker
         private Vector BallStartPosintionGenerator()
         {
             Random r = new Random();
-            return new Vector(r.Next(SCREEN_SIZE.x), r.Next(SCREEN_SIZE.y / 3, SCREEN_SIZE.y - 200));
+            //return new Vector(r.Next(Constants.DEFULT_SCREEN_SIZE.x), r.Next(Constants.DEFULT_SCREEN_SIZE.y / 2, Constants.DEFULT_SCREEN_SIZE.y - 200));
+            return new Vector(r.Next(Constants.DEFULT_SCREEN_SIZE.x), r.Next(200, Constants.DEFULT_SCREEN_SIZE.y/4));
+
         }
         /// <summary>
         /// inits the brick array by creating the brickes and positioning them
@@ -176,21 +140,27 @@ namespace BrickBreaker
         /// <param name="canvas">the canvas</param>
         private void InitBricks(Canvas canvas)
         {
-            Brick brick = new Brick(new Vector(0,0));
-            bricks = new Brick[(int)((canvas.Height / 3) / (brick.SIZE.y + SPACE)), (int)(canvas.Width / (brick.SIZE.x + SPACE))];
-            int x = SPACE/2;
-            int y = SPACE * 3;
+            int x = Constants.SPACE *2;
+            int y = canvas.Height / 3;
+            bricks = new Brick[(int)((canvas.Height / 3) / (Constants.BRICK_SIZE.y + Constants.SPACE)), (int)((canvas.Width - x) / (Constants.BRICK_SIZE.x + Constants.SPACE))];
+
             for(int i = 0; i < bricks.GetLength(0); i++)
             {
                 for(int j = 0; j < bricks.GetLength(1); j++)
                 {
                     bricks[i, j] = new Brick(new Vector(x, y));
-                    x += brick.SIZE.x + SPACE;
+                    x += Constants.BRICK_SIZE.x + Constants.SPACE;
                 }
-                y += brick.SIZE.y + SPACE;
-                x = SPACE/2;
+                y += Constants.BRICK_SIZE.y + Constants.SPACE;
+                x = Constants.SPACE*2;
             }
             
+        }
+        public void MoveBatBySensor(int newVelocity)
+        {
+            bottomBat.velocity.x = newVelocity;
+            topBat.velocity.x = bottomBat.velocity.x;
+            //topBat.velocity.x = -bottomBat.velocity.x;
         }
         /// <summary>
         /// draws all the objects on the canvas
@@ -205,7 +175,8 @@ namespace BrickBreaker
             canvas.DrawText("Score: " + score.ToString(), 0, pscore.TextSize, pscore);
             base.OnDraw(canvas); //set the canvas to be drawn on
             //draw the bat in the correct position
-            bat.Draw(canvas);
+            bottomBat.Draw(canvas);
+            canvas.DrawRect(topBat.position.x, topBat.position.y, topBat.position.x + topBat.size.x, topBat.position.y + topBat.size.y, topBat.paint);
             //draw the bricks
             for (int i = 0; i < bricks.GetLength(0); i++)
             {
@@ -213,7 +184,7 @@ namespace BrickBreaker
                 {
                     if (bricks[i, j].isVisible)
                     {
-                        bricks[i, j].Draw(canvas, SPACE);
+                        bricks[i, j].Draw(canvas);
                     }
                 }
             }
@@ -226,28 +197,32 @@ namespace BrickBreaker
         /// <param name="canvas">the canvas</param>
         private void Update(Canvas canvas)
         {
-            bat.UpdateMovement(); //update the bat movement
-            ball.UpdateMovement(); //update the ball movement
-            bat.UpdateBounds(canvas); //check bounds of the bat
-            ball.UpdateWallHit(new Vector(canvas.Width, canvas.Height), bat); //check bounds of the ball - walls
-            //check if the bat missed the ball and lost
-            if (bat.IsBallHit(ball, canvas) == 1)
-            {
-                players[4].Start();
-            }
-            else if (bat.IsBallHit(ball, canvas) == -1) hasLost = true;
             //brick hit
             for (int i = 0; i < bricks.GetLength(0); i++)
             {
                 for (int j = 0; j < bricks.GetLength(1); j++)
                 {
-                    if (bricks[i, j].IsHit(ball, SPACE))
+                    if (bricks[i, j].IsHit(ball))
                     {
-                        players[3].Start();
+                        playerManager.PlaySound(3);
                         score++;
                     }
                 }
             }
+            bottomBat.UpdateMovement(); //update the bat movement
+            topBat.UpdateMovement();
+            ball.UpdateMovement(); //update the ball movement
+            bottomBat.UpdateBounds(canvas); //check bounds of the bat
+            topBat.UpdateBounds(canvas); //check bounds of the bat
+            ball.UpdateWallHit(new Vector(canvas.Width, canvas.Height)); //check bounds of the ball - walls
+            //check if the bat missed the ball and lost
+            if (bottomBat.IsBallHit(ball, canvas, 'b') == 1 || topBat.IsBallHit(ball, canvas, 't') == 1)
+            {
+                playerManager.PlaySound(4);
+            }
+            else if (bottomBat.IsBallHit(ball, canvas, 'b') == -1 || topBat.IsBallHit(ball, canvas, 't') == -1)
+                hasLost = true;
+            
         }
         /// <summary>
         /// game loop that goes on and on until the bat has missed the ball

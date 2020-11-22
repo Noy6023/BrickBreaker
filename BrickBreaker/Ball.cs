@@ -42,12 +42,11 @@ namespace BrickBreaker
         /// handles a hit with the wall by negating the velocity
         /// </summary>
         /// <param name="screenSize">the screen size</param>
-        /// <param name="bat">the bat</param>
-        public void UpdateWallHit(Vector screenSize, Bat bat) //handle hits with the ball
+        public void UpdateWallHit(Vector screenSize) //handle hits with the ball
         {
-            if (position.x <= 0 || position.x >= screenSize.x - 2 * radius)
+            if (position.x - radius <= 0 || position.x >= screenSize.x - radius)
                 velocity.x = -velocity.x;
-            if (position.y < 0 )//|| position.y >= screenSize.y - bat.size.y - 2 * radius)
+            if (position.y < 0 )//position.y >= screenSize.y - bat.size.y - 2 * radius)
                 velocity.y = -velocity.y;
         }
         /// <summary>
@@ -56,7 +55,7 @@ namespace BrickBreaker
         /// <param name="canvas"></param>
         public override void Draw(Canvas canvas) //draw the ball in the correct position
         {
-            canvas.DrawCircle(position.x + radius, position.y + radius, radius, paint); 
+            canvas.DrawCircle(position.x, position.y, radius, paint); 
         }
     }
 }

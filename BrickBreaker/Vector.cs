@@ -25,5 +25,9 @@ namespace BrickBreaker
             this.x = other.x;
             this.y = other.y;
         }
+        public double Distance(Vector other)
+        {
+            return Math.Sqrt(Math.Pow((double)(this.x - other.x), 2.0) + Math.Pow((double)(this.y - other.y), 2.0));
+        }
     }
 }

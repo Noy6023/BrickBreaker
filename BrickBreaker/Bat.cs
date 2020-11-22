@@ -15,8 +15,6 @@ namespace BrickBreaker
 {
     public class Bat : Shape
     {
-        private readonly Vector SIZE = new Vector(300, 20);
-        private readonly Vector SCREEN_SIZE = new Vector(500, 1500);
         public Vector size { get; set; } //the size of the bat
         public Vector velocity { get; set; } //the velocity of the bat
         public Bat(Vector position, Vector size, Paint paint, Vector velocity) : base(position, paint) //costructor
@@ -26,8 +24,8 @@ namespace BrickBreaker
         }
         public Bat():base() //defult constructor
         {
-            base.position = new Vector(0, SCREEN_SIZE.y - (SCREEN_SIZE.y / 10));
-            this.size = new Vector(SIZE.x, SIZE.y);
+            base.position = new Vector(0, Constants.DEFULT_SCREEN_SIZE.y - (Constants.DEFULT_SCREEN_SIZE.y / 10));
+            this.size = new Vector(Constants.BAT_SIZE.x, Constants.BAT_SIZE.y);
             base.paint = new Paint();
             paint.Color = Color.Red;
             velocity = new Vector(0, 0);
@@ -55,10 +53,24 @@ namespace BrickBreaker
         /// </summary>
         /// <param name="ball">the ball</param>
         /// <param name="canvas">the canvas</param>
+        /// <param name="bat">'t' if its the top bat. 'b' if its the bottom bat</param>
         /// <returns>1- the bat hit the ball. -1- the bat missed the ball. 0- the ball wasn't near the bat</returns>
-        public int IsBallHit(Ball ball, Canvas canvas)
+        public int IsBallHit(Ball ball, Canvas canvas, char bat)
         {
-            if (ball.position.y >= canvas.Height - size.y - ball.radius) //if the bat missed the ball
+            if(bat == 'b')
+            {
+                if (ball.position.y >= this.position.y - ball.radius) //if the bottom bat missed the ball
+                {
+                    if (ball.position.x < this.position.x || ball.position.x > this.position.x + this.size.x) return -1;
+                    else
+                    {
+                        ball.velocity.y = -ball.velocity.y;
+                        return 1;
+                    }
+                }
+                return 0;
+            }
+            if (ball.position.y <= this.position.y + size.y + ball.radius) //if the bat missed the ball
             {
                 if (ball.position.x < this.position.x || ball.position.x > this.position.x + this.size.x) return -1;
                 else
@@ -68,7 +80,6 @@ namespace BrickBreaker
                 }
             }
             return 0;
-            
         }
         /// <summary>
         /// draws the bat on the canvas
