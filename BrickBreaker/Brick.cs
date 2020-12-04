@@ -16,16 +16,10 @@ namespace BrickBreaker
     public class Brick : Shape
     {
         public bool isVisible { get; set; } //true if the brick is visable and can be hit. else false
-        public Brick(Vector position, Paint paint) : base(position, paint) //constructor
+        public static Vector size { get; set; }
+        public Brick(Vector position, Color color) : base(position, color) //constructor
         {
             this.isVisible = true;
-        }
-        public Brick(Vector position) : base() //constructor
-        {
-            base.position = new Vector(position);
-            base.paint = new Paint();
-            paint.Color = Color.Green;
-            isVisible = true;
         }
         public Brick(Brick other):base()
         {
@@ -43,8 +37,8 @@ namespace BrickBreaker
         {
             canvas.DrawRect(position.x,
                 position.y,
-                position.x + Constants.BRICK_SIZE.x,
-                position.y + Constants.BRICK_SIZE.y, paint);
+                position.x + size.x,
+                position.y + size.y, paint);
         }
         
         /// <summary>
@@ -59,17 +53,24 @@ namespace BrickBreaker
             {
                 return false;
             }
-            Rect brickRect = new Rect(this.position.x, this.position.y, this.position.x + Constants.BRICK_SIZE.x, this.position.y + Constants.BRICK_SIZE.y);
-            Rect ballRect = new Rect(ball.position.x - ball.radius, ball.position.y - ball.radius, ball.position.x + ball.radius, ball.position.y + ball.radius);
+            Rect brickRect = new Rect(this.position.x, this.position.y, this.position.x + size.x, this.position.y + size.y);
+            Rect ballRect = new Rect(ball.position.x - Ball.radius, ball.position.y - Ball.radius, ball.position.x + Ball.radius, ball.position.y + Ball.radius);
             if(brickRect.Intersect(ballRect))
             {
                 this.isVisible = false;
                 ball.velocity.y = -ball.velocity.y;
                 Random rand = new Random();
                 ball.velocity.x += rand.Next(-2, 2);
+                int sign = 0;
+                if (ball.velocity.x > 0) sign = 1;
+                else sign = -1;
+                //if velocity gets too slow or too fast - normalize it
+                if (Math.Abs(ball.velocity.x) < Constants.BALL_MIN_VELOCITY.x) ball.velocity.x = sign * Constants.BALL_MIN_VELOCITY.x;
+                if (Math.Abs(ball.velocity.x) > Constants.BALL_MAX_VELOCITY.x) ball.velocity.x = sign * Constants.BALL_MAX_VELOCITY.x;
                 return true;
             }
             return false;
         }
+
     }
 }

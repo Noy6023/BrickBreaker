@@ -15,20 +15,19 @@ namespace BrickBreaker
 {
     public class Bat : Shape
     {
-        public Vector size { get; set; } //the size of the bat
+        public static Vector size { get; set; } //the size of the bat
         public Vector velocity { get; set; } //the velocity of the bat
-        public Bat(Vector position, Vector size, Paint paint, Vector velocity) : base(position, paint) //costructor
+        public Bat(Vector position, Color color, Vector velocity) : base(position, color) //costructor
         {
-            this.size = new Vector(size);
             this.velocity = new Vector(velocity);
         }
-        public Bat():base() //defult constructor
+        public Bat(Color color):base(color) //defult constructor
         {
             base.position = new Vector(0, Constants.DEFULT_SCREEN_SIZE.y - (Constants.DEFULT_SCREEN_SIZE.y / 10));
-            this.size = new Vector(Constants.BAT_SIZE.x, Constants.BAT_SIZE.y);
+            size = new Vector(Constants.BAT_SIZE.x, Constants.BAT_SIZE.y);
             base.paint = new Paint();
-            paint.Color = Color.Red;
-            velocity = new Vector(0, 0);
+            paint.Color = color;
+            velocity = new Vector(Constants.DEFULT_VECTOR);
         }
         /// <summary>
         /// handle the bats bounds
@@ -57,11 +56,11 @@ namespace BrickBreaker
         /// <returns>1- the bat hit the ball. -1- the bat missed the ball. 0- the ball wasn't near the bat</returns>
         public int IsBallHit(Ball ball, Canvas canvas, char bat)
         {
-            if(bat == 'b')
+            if (bat == 'b')
             {
-                if (ball.position.y >= this.position.y - ball.radius) //if the bottom bat missed the ball
+                if (ball.position.y >= this.position.y - Ball.radius) //if the bottom bat missed the ball
                 {
-                    if (ball.position.x < this.position.x || ball.position.x > this.position.x + this.size.x) return -1;
+                    if (ball.position.x < this.position.x || ball.position.x > this.position.x + size.x) return -1;
                     else
                     {
                         ball.velocity.y = -ball.velocity.y;
@@ -70,9 +69,9 @@ namespace BrickBreaker
                 }
                 return 0;
             }
-            if (ball.position.y <= this.position.y + size.y + ball.radius) //if the bat missed the ball
+            if (ball.position.y <= this.position.y + Ball.radius) //if the bat missed the ball
             {
-                if (ball.position.x < this.position.x || ball.position.x > this.position.x + this.size.x) return -1;
+                if (ball.position.x < this.position.x || ball.position.x > this.position.x + size.x) return -1;
                 else
                 {
                     ball.velocity.y = -ball.velocity.y;
@@ -87,7 +86,7 @@ namespace BrickBreaker
         /// <param name="canvas">the canvas</param>
         public override void Draw(Canvas canvas)
         {
-            canvas.DrawRect(position.x, canvas.Height - size.y, position.x + size.x, canvas.Height, paint);
+            canvas.DrawRect(position.x, position.y, position.x + size.x, position.y + size.y, paint);
         }
     }
 }

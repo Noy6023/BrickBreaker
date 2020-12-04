@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,12 +20,11 @@ namespace BrickBreaker
     {
         SensorManager sensMan;
         Board board;
-        bool userAskBack = false;
-
+        public static Hashtable colors;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            board = new Board(this);
+            board = new Board(this, colors);
             SetContentView(board);
             sensMan = (SensorManager)GetSystemService(Context.SensorService);
             Sensor sen = sensMan.GetDefaultSensor(SensorType.Accelerometer);
@@ -36,13 +36,16 @@ namespace BrickBreaker
             base.OnResume();
             if (board != null)
             {
-                board.resume();
+                board.Resume();
             }
         }
-
         protected override void OnStart()
         {
-            base.OnStart(); ;
+            base.OnStart();
+            if (board != null)
+            {
+                board.StartGame();
+            }
         }
         protected override void OnDestroy()
         {
@@ -55,19 +58,15 @@ namespace BrickBreaker
         protected override void OnPause()
         {
             base.OnPause();
-            if (userAskBack)
+            if (board != null)
             {
-            }
-            else if (board != null)
-            {
-                board.pause();
+                board.Pause();
             }
         }
         public override void Finish()
         {
 
             base.Finish();
-            userAskBack = true;
             board.threadRunning = false;
             while (true)
             {
@@ -96,7 +95,7 @@ namespace BrickBreaker
                 if (board.hasLost)
                 {
                     Intent intent = new Intent(this, typeof(MainActivity));
-                    intent.PutExtra("score", board.score.ToString());
+                    intent.PutExtra("score", board.score.GetScore());
                     SetResult(Result.Ok, intent);
                     Finish();
                 }

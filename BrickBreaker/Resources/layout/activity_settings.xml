@@ -3,9 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_bright">
-
-
+    android:background="@color/color1">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +15,7 @@
             android:layout_height="70.5dp"
             android:textSize="40sp"
             android:text="@string/action_settings"
-            android:textColor="@android:color/black"
+            android:textColor="@color/colorDark1"
             android:layout_gravity="center"
             android:id="@+id/textView1" />
         <CheckBox
@@ -25,27 +23,93 @@
             android:layout_width="121.0dp"
             android:layout_height="wrap_content"
             android:text="@string/muteSound"
-            android:buttonTint="@android:color/black"
-            android:textColor="@android:color/black"
+            android:buttonTint="@color/colorDark1"
+            android:textColor="@color/colorDark1"
             android:layout_marginLeft="0.0dp" 
             />
-
         <CheckBox
             android:id="@+id/cbMuteMusic"
             android:layout_width="112.5dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="4.2dp"
             android:text="@string/muteMusic"
-            android:textColor="@android:color/black"
-            android:buttonTint="@android:color/black"
+            android:textColor="@color/colorDark1"
+            android:buttonTint="@color/colorDark1"
             />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ball Size: "
+            android:layout_gravity="center"
+            android:textColor="@color/colorDark1"/>
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:id="@+id/rgBallSize">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Big"
+                android:id="@+id/rbBallBig"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medium"
+                android:id="@+id/rbBallMedium"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Small"
+                android:id="@+id/rbBallSmall"/>
+        </RadioGroup>
+    </LinearLayout>
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Brick Size:"
+            android:textColor="@color/colorDark1"
+            />
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/rgBrickSize">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Big"
+                android:id="@+id/rbBrickBig"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medium"
+                android:id="@+id/rbBrickMedium"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Small"
+                android:id="@+id/rbBrickSmall"/>
+        </RadioGroup>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center">
-  
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,8 +118,8 @@
             android:textSize="18sp"
             android:textAllCaps="false"
             android:layout_margin="15dp"
-            android:textColor="@android:color/black"
-            android:background="@android:color/holo_blue_bright"
+            android:textColor="@android:color/white"
+            android:background="@color/colorDark1"
             />
         <Button
             android:layout_width="wrap_content"
@@ -64,9 +128,8 @@
             android:text="@string/back"
             android:textAllCaps="false"
             android:textSize="18sp"
-            android:textColor="@android:color/black"
-            android:background="@android:color/holo_blue_bright"
+            android:textColor="@android:color/white"
+            android:background="@color/colorDark1"
             />
     </LinearLayout>
-
 </LinearLayout>

@@ -16,19 +16,29 @@ namespace BrickBreaker
     {
         public Vector position { get; set; } //the current positon of the shape
         public Paint paint { get; set; } //the paint of the shape
-        public Shape(Vector position, Paint paint)
+        public Shape(Vector position, Color color)
         {
             this.position = new Vector(position);
-            this.paint = new Paint(paint);
+            this.paint = new Paint();
+            paint.Color = color;
+        }
+        public Shape(Vector position)
+        {
+            this.position = new Vector(position);
+            this.paint = new Paint();
+        }
+        public Shape(Color color)
+        {
+            position = new Vector(Constants.DEFULT_VECTOR);
+            this.paint = new Paint();
+            paint.Color = color;
         }
         public Shape()
         {
             paint = new Paint();
-            position = new Vector(0, 0);
+            paint.Color = Constants.DEFULT_COLOR;
+            position = new Vector(Constants.DEFULT_VECTOR);
         }
-        public virtual void Draw(Canvas canvas)
-        {
-            
-        }
+        public virtual void Draw(Canvas canvas) { }
     }
 }

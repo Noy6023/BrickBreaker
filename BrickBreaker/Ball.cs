@@ -15,20 +15,18 @@ namespace BrickBreaker
 {
     public class Ball : Shape
     {
-        public int radius { get;  set; } //the radius of the ball
+        public static  int radius { get; set; } //the radius of the ball
         public Vector velocity { get; set; } //the velocity of the ball
-        public Ball(Vector position, Paint paint, Vector velocity, int radius) : base(position, paint) //constructor
+        public Ball(Vector position, Color color, Vector velocity) : base(position, color) //constructor
         {
             this.velocity = new Vector(velocity);
-            this.radius = radius;
         }
-        public Ball() : base() //defult constructor
+        public Ball(Color color) : base(color) //defult constructor
         {
-            base.position = new Vector(300, 1000);
+            base.position = new Vector(Constants.DEFULT_VECTOR);
             base.paint = new Paint();
-            paint.Color = Color.White;
-            this.velocity = new Vector(7, 15);
-            this.radius = 30;
+            paint.Color = color;
+            this.velocity = new Vector(Constants.BALL_START_VELOCITY);
         }
         /// <summary>
         /// updates the movement of the ball by adding the velocity to the position

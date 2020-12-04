@@ -6,19 +6,34 @@ using Android.Widget;
 using System;
 using Android.Views;
 using Android.Content;
+using Java.IO;
+using System.IO;
+using System.Text;
+using System.Collections;
 
 namespace BrickBreaker
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
-    public class MainActivity : AppCompatActivity, Android.Views.View.IOnClickListener
+    [Activity(Label = "", Theme = "@style/AppTheme", MainLauncher = true)]
+    public class MainActivity : AppCompatActivity, Android.Views.View.IOnClickListener, RadioGroup.IOnCheckedChangeListener
     {
         Button btnStart;
-        Button btnSave;
-        Button btnBack;
+        Button btnSaveSettings;
+        Button btnBackSettings;
+        Button btnSaveName;
+        Button btnBackName;
+        Button btnName;
+        EditText etName;
         CheckBox cbMuteSound, cbMuteMusic;
-        TextView tvScore;
-        int max;
-        Dialog settingsDialog;
+        TextView tvLastScore;
+        TextView tvMaxScore;
+        int max, lastScore;
+        Dialog settingsDialog, nameDialog;
+        ISharedPreferences sp;
+        Hashtable colors;
+        RadioGroup rgBallSize, rgBrickSize;
+        RadioButton rbBallSmall, rbBallMedium, rbBallBig;
+        RadioButton rbBrickSmall, rbBrickMedium, rbBrickBig;
+        Size lastBallChecked, lastBrickChecked;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -28,10 +43,60 @@ namespace BrickBreaker
         }
         private void InitView()
         {
+            sp = this.GetSharedPreferences("Settings", FileCreationMode.Private);
             btnStart = FindViewById<Button>(Resource.Id.btnStart);
-            tvScore = FindViewById<TextView>(Resource.Id.tvScore);
+            tvLastScore = FindViewById<TextView>(Resource.Id.tvLastScore);
+            tvMaxScore = FindViewById<TextView>(Resource.Id.tvMaxScore);
+            btnName = FindViewById<Button>(Resource.Id.btnName);
+            btnName.SetOnClickListener(this);
             btnStart.SetOnClickListener(this);
             max = 0;
+            lastScore = 0;
+            InitColors();
+            AudioManager.IsSoundMuted = sp.GetBoolean("sound", false);
+            AudioManager.IsMusicMuted = sp.GetBoolean("music", false);
+            lastBallChecked = Size.medium;
+            lastBrickChecked = Size.medium;
+            SetSizes();
+            LoadInfo();
+        }
+        private void SetSizes()
+        {
+            Size ballSize = (Size)sp.GetInt("ball size", 1);
+            lastBallChecked = ballSize;
+            if (ballSize == Size.big)
+            {
+                Ball.radius = Constants.BIG_BALL_RADIUS;
+                if (rbBallBig != null) rbBallBig.Checked = true;
+            }
+            else if (ballSize == Size.small)
+            {
+                Ball.radius = Constants.SMALL_BALL_RADIUS;
+                if(rbBallSmall != null) rbBallSmall.Checked = true;
+            }
+            else
+            {
+                Ball.radius = Constants.MEDIUM_BALL_RADIUS;
+                if (rbBallMedium != null) rbBallMedium.Checked = true;
+
+            }
+            Size brickSize = (Size)sp.GetInt("brick size", 1);
+            lastBrickChecked = brickSize;
+            if (brickSize == Size.big)
+            {
+                Brick.size = Constants.BRICK_BIG_SIZE;
+                if (rbBrickBig != null) rbBrickBig.Checked = true;
+            }
+            else if (brickSize == Size.small)
+            {
+                Brick.size = Constants.BRICK_SMALL_SIZE;
+                if (rbBrickSmall != null) rbBrickSmall.Checked = true;
+            }
+            else
+            {
+                Brick.size = Constants.BRICK_MEDIUM_SIZE;
+                if (rbBrickMedium != null) rbBrickMedium.Checked = true;
+            }
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
@@ -54,7 +119,7 @@ namespace BrickBreaker
             }
             else if (item.ItemId == Resource.Id.settings)
             {
-                createSettingsDialog();
+                CreateSettingsDialog();
                 return true;
             }
             else if (item.ItemId == Resource.Id.play)
@@ -64,7 +129,7 @@ namespace BrickBreaker
             }
             return base.OnOptionsItemSelected(item);
         }
-        public void createSettingsDialog()
+        public void CreateSettingsDialog()
         {
             settingsDialog = new Dialog(this);
             settingsDialog.SetContentView(Resource.Layout.activity_settings);
@@ -72,27 +137,71 @@ namespace BrickBreaker
             settingsDialog.SetCancelable(true);
             cbMuteSound = settingsDialog.FindViewById<CheckBox>(Resource.Id.cbMuteSound);
             cbMuteMusic = settingsDialog.FindViewById<CheckBox>(Resource.Id.cbMuteMusic);
-            btnSave = settingsDialog.FindViewById<Button>(Resource.Id.btnSave);
-            btnBack = settingsDialog.FindViewById<Button>(Resource.Id.btnBack);
-            btnBack.SetOnClickListener(this);
-            btnSave.SetOnClickListener(this);
+            cbMuteSound.Checked = AudioManager.IsSoundMuted;
+            cbMuteMusic.Checked = AudioManager.IsMusicMuted;
+            rgBallSize = settingsDialog.FindViewById<RadioGroup>(Resource.Id.rgBallSize);
+            rgBrickSize = settingsDialog.FindViewById<RadioGroup>(Resource.Id.rgBrickSize);
+            rgBallSize.SetOnCheckedChangeListener(this);
+            rgBrickSize.SetOnCheckedChangeListener(this);
+            rbBallSmall = settingsDialog.FindViewById<RadioButton>(Resource.Id.rbBallSmall);
+            rbBallMedium = settingsDialog.FindViewById<RadioButton>(Resource.Id.rbBallMedium);
+            rbBallBig = settingsDialog.FindViewById<RadioButton>(Resource.Id.rbBallBig);
+            rbBrickSmall = settingsDialog.FindViewById<RadioButton>(Resource.Id.rbBrickSmall);
+            rbBrickMedium = settingsDialog.FindViewById<RadioButton>(Resource.Id.rbBrickMedium);
+            rbBrickBig = settingsDialog.FindViewById<RadioButton>(Resource.Id.rbBrickBig);
+            SetSizes();
+            btnSaveSettings = settingsDialog.FindViewById<Button>(Resource.Id.btnSave);
+            btnBackSettings = settingsDialog.FindViewById<Button>(Resource.Id.btnBack);
+            btnBackSettings.SetOnClickListener(this);
+            btnSaveSettings.SetOnClickListener(this);
             settingsDialog.Show();
+        }
+        public void CreateNameDialog()
+        {
+            nameDialog = new Dialog(this);
+            nameDialog.SetContentView(Resource.Layout.activity_name);
+            nameDialog.SetCancelable(true);
+            etName = nameDialog.FindViewById<EditText>(Resource.Id.etName);
+            btnSaveName = nameDialog.FindViewById<Button>(Resource.Id.btnSave);
+            btnBackName = nameDialog.FindViewById<Button>(Resource.Id.btnBack);
+            btnBackName.SetOnClickListener(this);
+            btnSaveName.SetOnClickListener(this);
+            nameDialog.Show();
         }
         public void OnClick(View v)
         {
-            if(v.Id == btnStart.Id)
+            if(v == btnStart)
             {
+                GameActivity.colors = new Hashtable(colors);
                 Intent intent = new Intent(this, typeof(GameActivity));
                 StartActivityForResult(intent, 0);
             }
-            if(v == btnBack)
+            if(v == btnName)
             {
-                if (btnBack != null) settingsDialog.Dismiss();
+                CreateNameDialog();
             }
-            if (v == btnSave)
+            if(v == btnBackName)
             {
-                PlayerManager.IsMusicMuted = cbMuteMusic.Checked;
-                PlayerManager.IsSoundMuted = cbMuteSound.Checked;
+                nameDialog.Dismiss();
+            }
+            if(v == btnSaveName)
+            {
+                btnName.Text = etName.Text;
+                SaveInfo();
+                nameDialog.Dismiss();
+            }
+            if(v == btnBackSettings)
+            {
+                if (btnBackSettings != null) settingsDialog.Dismiss();
+            }
+            if (v == btnSaveSettings)
+            {
+                var editor = sp.Edit();
+                editor.PutBoolean("sound", cbMuteSound.Checked);
+                editor.PutBoolean("music", cbMuteMusic.Checked);
+                editor.Commit();
+                AudioManager.IsSoundMuted = sp.GetBoolean("sound", false);
+                AudioManager.IsMusicMuted = sp.GetBoolean("music", false);
                 settingsDialog.Dismiss();
             }
         }
@@ -105,12 +214,133 @@ namespace BrickBreaker
                 {
                     if (data.Extras != null)
                     {
-                        int lastScore = Int32.Parse(data.GetStringExtra("score"));
+                        lastScore = data.GetIntExtra("score", 0);
                         if (lastScore > max) max = lastScore;
-                        tvScore.Text = "Score: " + lastScore.ToString() + "\nHighest Score: " + max.ToString();
+                        SetScoreInfo(max, lastScore);
+                        SaveInfo();
                     }
                 }
             }
+        }
+        public void SaveInfo()
+        {
+            //save: score, highest score, name
+            string str;
+            try
+            {
+                
+                str = lastScore.ToString() + '\n' + max.ToString() + '\n';
+                if (btnName != null)
+                    str += btnName.Text;
+                using (Stream stream = OpenFileOutput("userinfo.txt", FileCreationMode.Private))
+                {
+                    if (str != null)
+                    {
+                        try
+                        {
+                            stream.Write(Encoding.ASCII.GetBytes(str), 0, str.Length);
+                            stream.Close();
+                        }
+                        catch (Java.IO.IOException e)
+                        {
+                            e.PrintStackTrace();
+                        }
+                    }
+                }
+            }
+            catch (Java.IO.FileNotFoundException e)
+            {
+                e.PrintStackTrace();
+            }
+        }
+        public void LoadInfo()
+        {
+            string[] seperators = new [] { "\n" };
+            string str;
+            try
+            {
+                using (Stream inTo = OpenFileInput("userinfo.txt"))
+                //using (StreamReader sr = new StreamReader("TestFile.txt"))
+                {
+                    try
+                    {
+                        byte[] buffer = new byte[4096];
+                        inTo.Read(buffer, 0, buffer.Length);
+                        str = System.Text.Encoding.Default.GetString(buffer);
+                        inTo.Close();
+                        if (str != null)
+                        {
+                            string[] info = str.Split(seperators, StringSplitOptions.RemoveEmptyEntries);
+                            lastScore = Int32.Parse(info[0]);
+                            max = Int32.Parse(info[1]);
+                            btnName.Text = info[2];
+                            SetScoreInfo(max, lastScore);
+                        }
+                    }
+                    catch (Java.IO.IOException e)
+                    {
+                        e.PrintStackTrace();
+                    }
+                }
+            }
+            catch (Java.IO.FileNotFoundException e)
+            {
+                e.PrintStackTrace();
+            }
+        }
+        public void SetScoreInfo(int max, int lastScore)
+        {
+            tvLastScore.Text = "Last Score: " + lastScore.ToString();
+            tvMaxScore.Text = "Highest Score: " + max.ToString();
+        }
+        public void InitColors()
+        {
+            colors = new Hashtable();
+            colors.Add("ball", Constants.DEFULT_COLOR);
+            colors.Add("bottomBat", Constants.DEFULT_BAT_COLOR);
+            colors.Add("topBat", Constants.DEFULT_BAT_COLOR);
+            colors.Add("brick", Constants.DEFULT_BRICK_COLOR);
+        }
+
+        public void OnCheckedChanged(RadioGroup group, int checkedId)
+        {
+            var editor = sp.Edit();
+            if (group == rgBallSize)
+            {
+                Size ballSize = Size.medium;
+                if(checkedId == Resource.Id.rbBallSmall)
+                {
+                    ballSize = Size.small;
+                }
+                if (checkedId == Resource.Id.rbBallMedium)
+                {
+                    ballSize = Size.medium;
+                }
+                if (checkedId == Resource.Id.rbBallBig)
+                {
+                    ballSize = Size.big;
+                }
+                editor.PutInt("ball size", (int)ballSize);
+            }
+            if (group == rgBrickSize)
+            {
+                Size brickSize = Size.medium;
+                if (checkedId == Resource.Id.rbBrickSmall)
+                {
+                    brickSize = Size.small;
+                }
+                if (checkedId == Resource.Id.rbBrickMedium)
+                {
+                    brickSize = Size.medium;
+                }
+                if (checkedId == Resource.Id.rbBrickBig)
+                {
+                    brickSize = Size.big;
+                }
+                editor.PutInt("brick size", (int)brickSize);
+            }
+            editor.Commit();
+            SetSizes();
         }
     }
 }

@@ -1,35 +1,86 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
+    android:background="@color/color1"
     android:orientation="vertical">
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="50sp"
+        android:padding="15dp"
+        android:gravity="center">
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:text="Brick Breaker"
-        android:textColor="@android:color/white"
-        android:gravity="center"/>
-    <Button
-        android:layout_width="wrap_content"
+        android:textSize="75sp"
+        android:textColor="@color/colorDark1"/>  
+    </LinearLayout>      
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="45dp"
+        android:orientation="vertical">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Player"
+            android:textAllCaps="false"
+            android:gravity="center"
+            android:textSize="40sp"
+            android:id="@+id/btnName"
+            android:fontFamily="sans-serif"
+            android:background="@color/colorDark1"
+            android:textColor="@android:color/white"
+            android:stateListAnimator="@null"
+        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp">
+           <TextView
+            android:id="@+id/tvLastScore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="35sp"
+            android:text="Last Score : 564"
+            android:textColor="@color/colorDark1"
+            android:gravity="center"/>
+            <TextView
+            android:id="@+id/tvMaxScore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:text="Highest Score : 564"
+            android:textColor="@color/colorDark1"
+            android:gravity="center"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingHorizontal="35dp"
+    >
+        <Button
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="125dp"
         android:textSize="50sp"
-        android:background="@android:color/holo_red_dark"
-        android:text="Start"
+        android:background="@color/colorDark1"
+        android:text="Play"
         android:id="@+id/btnStart"
-        android:padding="20dp"/>
-    <TextView
-        android:id="@+id/tvScore"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:text=""
-        android:layout_margin="50dp"
         android:textColor="@android:color/white"
-        android:gravity="center"/>
+        android:stateListAnimator="@null"
+        android:padding="20dp"/>
+    
+    </LinearLayout>
+
 </LinearLayout>
