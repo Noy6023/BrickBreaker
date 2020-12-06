@@ -30,10 +30,12 @@ namespace BrickBreaker
         Dialog settingsDialog, nameDialog;
         ISharedPreferences sp;
         Hashtable colors;
-        RadioGroup rgBallSize, rgBrickSize;
+        RadioGroup rgBallSize, rgBrickSize, rgDifficulty;
         RadioButton rbBallSmall, rbBallMedium, rbBallBig;
         RadioButton rbBrickSmall, rbBrickMedium, rbBrickBig;
+        RadioButton rbEasy, rbHard;
         Size lastBallChecked, lastBrickChecked;
+        Difficulty lastDifficultyChecked;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -55,46 +57,61 @@ namespace BrickBreaker
             InitColors();
             AudioManager.IsSoundMuted = sp.GetBoolean("sound", false);
             AudioManager.IsMusicMuted = sp.GetBoolean("music", false);
-            lastBallChecked = Size.medium;
-            lastBrickChecked = Size.medium;
+            lastBallChecked = Size.Medium;
+            lastBrickChecked = Size.Medium;
+            lastDifficultyChecked = Difficulty.Easy;
             SetSizes();
+            SetDifficulty();
             LoadInfo();
+        }
+        private void SetDifficulty()
+        {
+            Difficulty difficulty = (Difficulty)sp.GetInt("difficulty", 0);
+            lastDifficultyChecked = difficulty;
+            if(difficulty == Difficulty.Hard)
+            {
+                if (rbHard != null) rbHard.Checked = true;
+            }
+            else
+            {
+                if (rbEasy != null) rbEasy.Checked = true;
+            }
         }
         private void SetSizes()
         {
             Size ballSize = (Size)sp.GetInt("ball size", 1);
             lastBallChecked = ballSize;
-            if (ballSize == Size.big)
+            if (ballSize == Size.Big)
             {
-                Ball.radius = Constants.BIG_BALL_RADIUS;
+                Ball.Radius = Constants.BIG_BALL_RADIUS;
                 if (rbBallBig != null) rbBallBig.Checked = true;
             }
-            else if (ballSize == Size.small)
+            else if (ballSize == Size.Small)
             {
-                Ball.radius = Constants.SMALL_BALL_RADIUS;
+                Ball.Radius = Constants.SMALL_BALL_RADIUS;
                 if(rbBallSmall != null) rbBallSmall.Checked = true;
             }
             else
             {
-                Ball.radius = Constants.MEDIUM_BALL_RADIUS;
+                Ball.Radius = Constants.MEDIUM_BALL_RADIUS;
                 if (rbBallMedium != null) rbBallMedium.Checked = true;
 
             }
             Size brickSize = (Size)sp.GetInt("brick size", 1);
             lastBrickChecked = brickSize;
-            if (brickSize == Size.big)
+            if (brickSize == Size.Big)
             {
-                Brick.size = Constants.BRICK_BIG_SIZE;
+                Brick.Size = Constants.BRICK_BIG_SIZE;
                 if (rbBrickBig != null) rbBrickBig.Checked = true;
             }
-            else if (brickSize == Size.small)
+            else if (brickSize == Size.Small)
             {
-                Brick.size = Constants.BRICK_SMALL_SIZE;
+                Brick.Size = Constants.BRICK_SMALL_SIZE;
                 if (rbBrickSmall != null) rbBrickSmall.Checked = true;
             }
             else
             {
-                Brick.size = Constants.BRICK_MEDIUM_SIZE;
+                Brick.Size = Constants.BRICK_MEDIUM_SIZE;
                 if (rbBrickMedium != null) rbBrickMedium.Checked = true;
             }
         }
@@ -122,11 +139,11 @@ namespace BrickBreaker
                 CreateSettingsDialog();
                 return true;
             }
-            else if (item.ItemId == Resource.Id.play)
+            /*else if (item.ItemId == Resource.Id.play)
             {
                 OnClick(btnStart);
                 return true;
-            }
+            }*/
             return base.OnOptionsItemSelected(item);
         }
         public void CreateSettingsDialog()
@@ -141,15 +158,20 @@ namespace BrickBreaker
             cbMuteMusic.Checked = AudioManager.IsMusicMuted;
             rgBallSize = settingsDialog.FindViewById<RadioGroup>(Resource.Id.rgBallSize);
             rgBrickSize = settingsDialog.FindViewById<RadioGroup>(Resource.Id.rgBrickSize);
+            rgDifficulty = settingsDialog.FindViewById<RadioGroup>(Resource.Id.rgDifficulty);
             rgBallSize.SetOnCheckedChangeListener(this);
             rgBrickSize.SetOnCheckedChangeListener(this);
+            rgDifficulty.SetOnCheckedChangeListener(this);
             rbBallSmall = settingsDialog.FindViewById<RadioButton>(Resource.Id.rbBallSmall);
             rbBallMedium = settingsDialog.FindViewById<RadioButton>(Resource.Id.rbBallMedium);
             rbBallBig = settingsDialog.FindViewById<RadioButton>(Resource.Id.rbBallBig);
             rbBrickSmall = settingsDialog.FindViewById<RadioButton>(Resource.Id.rbBrickSmall);
             rbBrickMedium = settingsDialog.FindViewById<RadioButton>(Resource.Id.rbBrickMedium);
             rbBrickBig = settingsDialog.FindViewById<RadioButton>(Resource.Id.rbBrickBig);
+            rbEasy = settingsDialog.FindViewById<RadioButton>(Resource.Id.rbEasy);
+            rbHard = settingsDialog.FindViewById<RadioButton>(Resource.Id.rbHard);
             SetSizes();
+            SetDifficulty();
             btnSaveSettings = settingsDialog.FindViewById<Button>(Resource.Id.btnSave);
             btnBackSettings = settingsDialog.FindViewById<Button>(Resource.Id.btnBack);
             btnBackSettings.SetOnClickListener(this);
@@ -172,8 +194,9 @@ namespace BrickBreaker
         {
             if(v == btnStart)
             {
-                GameActivity.colors = new Hashtable(colors);
+                GameActivity.Colors = new Hashtable(colors);
                 Intent intent = new Intent(this, typeof(GameActivity));
+                intent.PutExtra("difficulty", (int)lastDifficultyChecked);
                 StartActivityForResult(intent, 0);
             }
             if(v == btnName)
@@ -307,40 +330,54 @@ namespace BrickBreaker
             var editor = sp.Edit();
             if (group == rgBallSize)
             {
-                Size ballSize = Size.medium;
+                Size ballSize = Size.Medium;
                 if(checkedId == Resource.Id.rbBallSmall)
                 {
-                    ballSize = Size.small;
+                    ballSize = Size.Small;
                 }
                 if (checkedId == Resource.Id.rbBallMedium)
                 {
-                    ballSize = Size.medium;
+                    ballSize = Size.Medium;
                 }
                 if (checkedId == Resource.Id.rbBallBig)
                 {
-                    ballSize = Size.big;
+                    ballSize = Size.Big;
                 }
                 editor.PutInt("ball size", (int)ballSize);
             }
             if (group == rgBrickSize)
             {
-                Size brickSize = Size.medium;
+                Size brickSize = Size.Medium;
                 if (checkedId == Resource.Id.rbBrickSmall)
                 {
-                    brickSize = Size.small;
+                    brickSize = Size.Small;
                 }
                 if (checkedId == Resource.Id.rbBrickMedium)
                 {
-                    brickSize = Size.medium;
+                    brickSize = Size.Medium;
                 }
                 if (checkedId == Resource.Id.rbBrickBig)
                 {
-                    brickSize = Size.big;
+                    brickSize = Size.Big;
                 }
                 editor.PutInt("brick size", (int)brickSize);
             }
+            if(group == rgDifficulty)
+            {
+                Difficulty difficulty = Difficulty.Easy;
+                if (checkedId == Resource.Id.rbEasy)
+                {
+                    difficulty = Difficulty.Easy;
+                }
+                if (checkedId == Resource.Id.rbHard)
+                {
+                    difficulty = Difficulty.Hard;
+                }
+                editor.PutInt("difficulty", (int)difficulty);
+            }
             editor.Commit();
             SetSizes();
+            SetDifficulty();
         }
     }
 }

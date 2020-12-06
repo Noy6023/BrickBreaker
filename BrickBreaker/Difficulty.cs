@@ -11,10 +11,9 @@ using System.Text;
 
 namespace BrickBreaker
 {
-    public enum Size
+    public enum Difficulty
     {
-        Big,
-        Medium,
-        Small
+        Easy,
+        Hard
     }
 }

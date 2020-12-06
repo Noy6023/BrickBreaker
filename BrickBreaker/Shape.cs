@@ -12,33 +12,33 @@ using System.Text;
 
 namespace BrickBreaker
 {
-    public class Shape
+    public abstract class Shape
     {
-        public Vector position { get; set; } //the current positon of the shape
-        public Paint paint { get; set; } //the paint of the shape
+        public Vector Position { get; set; } //the current positon of the shape
+        public Paint Paint { get; set; } //the paint of the shape
         public Shape(Vector position, Color color)
         {
-            this.position = new Vector(position);
-            this.paint = new Paint();
-            paint.Color = color;
+            this.Position = new Vector(position);
+            this.Paint = new Paint();
+            Paint.Color = color;
         }
         public Shape(Vector position)
         {
-            this.position = new Vector(position);
-            this.paint = new Paint();
+            this.Position = new Vector(position);
+            this.Paint = new Paint();
         }
         public Shape(Color color)
         {
-            position = new Vector(Constants.DEFULT_VECTOR);
-            this.paint = new Paint();
-            paint.Color = color;
+            Position = new Vector(Constants.DEFULT_VECTOR);
+            this.Paint = new Paint();
+            Paint.Color = color;
         }
         public Shape()
         {
-            paint = new Paint();
-            paint.Color = Constants.DEFULT_COLOR;
-            position = new Vector(Constants.DEFULT_VECTOR);
+            Paint = new Paint();
+            Paint.Color = Constants.DEFULT_COLOR;
+            Position = new Vector(Constants.DEFULT_VECTOR);
         }
-        public virtual void Draw(Canvas canvas) { }
+        public abstract void Draw(Canvas canvas);
     }
 }

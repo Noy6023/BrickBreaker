@@ -17,14 +17,14 @@ namespace BrickBreaker
         private int score;
         public Score(Vector position, Color color) : base(position, color)
         {
-            base.paint.TextSize = Constants.DEFULT_SCORE_SIZE;
+            base.Paint.TextSize = Constants.DEFULT_SCORE_SIZE;
             this.score = 0;
         }
         public Score() : base()
         {
-            base.paint.TextSize = Constants.DEFULT_SCORE_SIZE;
+            base.Paint.TextSize = Constants.DEFULT_SCORE_SIZE;
             this.score = 0;
-            position = new Vector(0, (int)paint.TextSize);
+            Position = new Vector(0, (int)Paint.TextSize);
         }
         public int GetScore() { return score; }
         public void IncreaseScore()
@@ -33,7 +33,7 @@ namespace BrickBreaker
         }
         public override void Draw(Canvas canvas)
         {
-            canvas.DrawText("Score: " + score.ToString(), position.x, position.y, paint);
+            canvas.DrawText("Score: " + score.ToString(), Position.X, Position.Y, Paint);
         }
     }
 }

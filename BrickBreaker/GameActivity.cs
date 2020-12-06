@@ -20,16 +20,16 @@ namespace BrickBreaker
     {
         SensorManager sensMan;
         Board board;
-        public static Hashtable colors;
+        public static Hashtable Colors;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            board = new Board(this, colors);
+            board = new Board(this, Colors);
             SetContentView(board);
             sensMan = (SensorManager)GetSystemService(Context.SensorService);
             Sensor sen = sensMan.GetDefaultSensor(SensorType.Accelerometer);
             sensMan.RegisterListener(this, sen, Android.Hardware.SensorDelay.Game);
-            board.t.Start();
+            board.T.Start();
         }
         protected override void OnResume()
         {
@@ -67,12 +67,12 @@ namespace BrickBreaker
         {
 
             base.Finish();
-            board.threadRunning = false;
+            board.ThreadRunning = false;
             while (true)
             {
                 try
                 {
-                    board.t.Join();
+                    board.T.Join();
                 }
                 catch (InterruptedException e)
                 {
@@ -91,11 +91,16 @@ namespace BrickBreaker
             if (e.Sensor.Type.Equals(SensorType.Accelerometer))
             {
                 //if a phone movement is detected - move the bat;
-                board.MoveBatBySensor((int)e.Values[0]);
-                if (board.hasLost)
+                Difficulty difficulty = Difficulty.Easy;
+                if (Intent.Extras != null)
+                {
+                    difficulty = (Difficulty)Intent.GetIntExtra("difficulty", 1);
+                }
+                board.MoveBatBySensor((int)e.Values[0], difficulty);
+                if (board.HasLost)
                 {
                     Intent intent = new Intent(this, typeof(MainActivity));
-                    intent.PutExtra("score", board.score.GetScore());
+                    intent.PutExtra("score", board.Score.GetScore());
                     SetResult(Result.Ok, intent);
                     Finish();
                 }

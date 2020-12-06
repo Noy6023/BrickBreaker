@@ -16,7 +16,7 @@
             android:textSize="40sp"
             android:text="@string/action_settings"
             android:textColor="@color/colorDark1"
-            android:layout_gravity="center"
+            android:gravity="center"
             android:id="@+id/textView1" />
         <CheckBox
             android:id="@+id/cbMuteSound"
@@ -42,11 +42,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingHorizontal="10dp"
         android:gravity="center">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ball Size: "
+            android:text="@string/ballSize"
             android:layout_gravity="center"
             android:textColor="@color/colorDark1"/>
         <RadioGroup
@@ -58,17 +59,17 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Big"
+                android:text="@string/big"
                 android:id="@+id/rbBallBig"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Medium"
+                android:text="@string/medium"
                 android:id="@+id/rbBallMedium"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Small"
+                android:text="@string/small"
                 android:id="@+id/rbBallSmall"/>
         </RadioGroup>
     </LinearLayout>
@@ -80,35 +81,66 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Brick Size:"
+            android:text="@string/brickSize"
             android:textColor="@color/colorDark1"
             />
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
             android:id="@+id/rgBrickSize">
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Big"
+                android:text="@string/big"
                 android:id="@+id/rbBrickBig"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Medium"
+                android:text="@string/medium"
                 android:id="@+id/rbBrickMedium"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Small"
+                android:text="@string/small"
                 android:id="@+id/rbBrickSmall"/>
+        </RadioGroup>
+    </LinearLayout>
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/difficulty"
+            android:textColor="@color/colorDark1"
+            />
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            android:id="@+id/rgDifficulty">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/easy"
+                android:id="@+id/rbEasy"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hard"
+                android:id="@+id/rbHard"/>
         </RadioGroup>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingVertical="10dp"
         android:gravity="center">
         <Button
             android:layout_width="wrap_content"
@@ -117,7 +149,7 @@
             android:text="@string/save"
             android:textSize="18sp"
             android:textAllCaps="false"
-            android:layout_margin="15dp"
+            android:layout_marginEnd="5dp"
             android:textColor="@android:color/white"
             android:background="@color/colorDark1"
             />

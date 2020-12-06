@@ -13,21 +13,21 @@ namespace BrickBreaker
 {
     public class Vector
     {
-        public int x { get; set; } //the x coordinate
-        public int y { get; set; } //the y coordinate
+        public int X { get; set; } //the x coordinate
+        public int Y { get; set; } //the y coordinate
         public Vector(int x, int y) //constructor
         {
-            this.x = x;
-            this.y = y;
+            this.X = x;
+            this.Y = y;
         }
         public Vector(Vector other) //copy constructor
         {
-            this.x = other.x;
-            this.y = other.y;
+            this.X = other.X;
+            this.Y = other.Y;
         }
         public double Distance(Vector other)
         {
-            return Math.Sqrt(Math.Pow((double)(this.x - other.x), 2.0) + Math.Pow((double)(this.y - other.y), 2.0));
+            return Math.Sqrt(Math.Pow((double)(this.X - other.X), 2.0) + Math.Pow((double)(this.Y - other.Y), 2.0));
         }
     }
 }

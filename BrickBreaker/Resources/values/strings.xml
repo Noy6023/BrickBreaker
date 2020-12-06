@@ -7,6 +7,14 @@
     <string name="home">Home</string>
     <string name="muteSound">Mute Sound</string>
     <string name="muteMusic">Mute Music</string>
-    <string name="brickBreaker">BRICK BREAKER</string>
+    <string name="big">Big</string>
+  <string name="small">Small</string>
+  <string name="medium">Medium</string>
+  <string name="difficulty">Difficulty:</string>
+  <string name="ballSize">Ball Size:</string>
+  <string name="brickSize">Brick Size:</string>
+  <string name="easy">Easy</string>
+  <string name="hard">Hard</string>
+  <string name="brickBreaker">BRICK BREAKER</string>
 
 </resources>

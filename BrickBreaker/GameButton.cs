@@ -14,16 +14,16 @@ namespace BrickBreaker
 {
     class GameButton : Shape
     {
-        public Bitmap bitmap { get; set; }
-        public Vector size { get; set; }
+        public Bitmap Bitmap { get; set; }
+        public Vector Size { get; set; }
         public GameButton(Vector position, Bitmap bitmap, Vector size) : base(position)
         {
-            this.bitmap = bitmap;
-            this.size = size;
+            this.Bitmap = bitmap;
+            this.Size = size;
         }
         public override void Draw(Canvas canvas)
         {
-            canvas.DrawBitmap(bitmap, position.x, position.y, paint);
+            canvas.DrawBitmap(Bitmap, Position.X, Position.Y, Paint);
         }
     }
 }
