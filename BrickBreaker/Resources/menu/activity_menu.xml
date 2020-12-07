@@ -5,8 +5,14 @@
   <item
       android:id="@+id/settings"
       android:title="Settings"
-      android:icon="@drawable/settings_icon_blue"
+      android:icon="@drawable/settings_icon_white"
       app:showAsAction="always"
+       />
+  <item
+    android:id="@+id/customize"
+    android:title="Customize"
+    android:icon="@drawable/customize_icon"
+    app:showAsAction="always"
        />
 
 </menu>

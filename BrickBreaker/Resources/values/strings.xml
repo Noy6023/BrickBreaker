@@ -15,6 +15,11 @@
   <string name="brickSize">Brick Size:</string>
   <string name="easy">Easy</string>
   <string name="hard">Hard</string>
+  <string name="customize">Customize:</string>
+  <string name="ballColor">Ball Color:</string>
+  <string name="brickColor">Brick Color:</string>
+  <string name="batColor">Bat Color:</string>
+  <string name="backgroundColor">Background Color:</string>
   <string name="brickBreaker">BRICK BREAKER</string>
 
 </resources>

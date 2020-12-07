@@ -70,7 +70,6 @@
     <Compile Include="Board.cs" />
     <Compile Include="Brick.cs" />
     <Compile Include="Difficulty.cs" />
-    <Compile Include="SettingsActivity.cs" />
     <Compile Include="Size.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="GameActivity.cs" />
@@ -162,6 +161,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\settings_icon_white.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\customize_icon.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_customize.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -64,6 +64,19 @@ namespace BrickBreaker
             SetDifficulty();
             LoadInfo();
         }
+        public void PutInfo(ISharedPreferences sp)
+        {
+            var editor = sp.Edit();
+            if (Intent.Extras != null)
+            {
+                editor.PutBoolean("sound", Intent.GetBooleanExtra("sound", false));
+                editor.PutBoolean("music", Intent.GetBooleanExtra("music", false));
+                editor.PutInt("difficulty", Intent.GetIntExtra("difficulty", 0));
+                editor.PutInt("brick size", Intent.GetIntExtra("brick size", 1));
+                editor.PutInt("ball size", Intent.GetIntExtra("ball size", 1));
+            }
+            editor.Commit();
+        }
         private void SetDifficulty()
         {
             Difficulty difficulty = (Difficulty)sp.GetInt("difficulty", 0);
@@ -129,21 +142,11 @@ namespace BrickBreaker
 
         public override bool OnOptionsItemSelected(Android.Views.IMenuItem item)
         {
-            if (item.ItemId == Resource.Id.home)
-            {
-                Toast.MakeText(this, "you are in home", ToastLength.Long).Show();
-                return true;
-            }
-            else if (item.ItemId == Resource.Id.settings)
+            if (item.ItemId == Resource.Id.settings)
             {
                 CreateSettingsDialog();
                 return true;
             }
-            /*else if (item.ItemId == Resource.Id.play)
-            {
-                OnClick(btnStart);
-                return true;
-            }*/
             return base.OnOptionsItemSelected(item);
         }
         public void CreateSettingsDialog()
