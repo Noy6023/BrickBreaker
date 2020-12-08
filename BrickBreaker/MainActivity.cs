@@ -6,6 +6,7 @@ using Android.Widget;
 using System;
 using Android.Views;
 using Android.Content;
+using Android.Graphics;
 using Java.IO;
 using System.IO;
 using System.Text;
@@ -147,6 +148,12 @@ namespace BrickBreaker
                 CreateSettingsDialog();
                 return true;
             }
+            if (item.ItemId == Resource.Id.customize)
+            {
+                Intent intent = new Intent(this, typeof(CustomizeActivity));
+                StartActivityForResult(intent, 1);
+                return true;
+            }
             return base.OnOptionsItemSelected(item);
         }
         public void CreateSettingsDialog()
@@ -197,7 +204,7 @@ namespace BrickBreaker
         {
             if(v == btnStart)
             {
-                GameActivity.Colors = new Hashtable(colors);
+                GameActivity.Colors = colors;
                 Intent intent = new Intent(this, typeof(GameActivity));
                 intent.PutExtra("difficulty", (int)lastDifficultyChecked);
                 StartActivityForResult(intent, 0);
@@ -244,6 +251,19 @@ namespace BrickBreaker
                         if (lastScore > max) max = lastScore;
                         SetScoreInfo(max, lastScore);
                         SaveInfo();
+                    }
+                }
+            }
+            if (requestCode == 1)
+            {
+                if (resultCode == Result.Ok)
+                {
+                    if(data != null)
+                    {
+                        colors["ball"] = ColorConverter.IntToColorConvertor(data.GetIntExtra("ball", Constants.DEFULT_COLOR));
+                        colors["brick"] = ColorConverter.IntToColorConvertor(data.GetIntExtra("brick", Constants.DEFULT_BRICK_COLOR));
+                        colors["bat"] = ColorConverter.IntToColorConvertor(data.GetIntExtra("bat", Constants.DEFULT_BAT_COLOR));
+                        colors["background"] = ColorConverter.IntToColorConvertor(data.GetIntExtra("background", Constants.BACKGROUND_COLOR));
                     }
                 }
             }
@@ -319,15 +339,17 @@ namespace BrickBreaker
             tvLastScore.Text = "Last Score: " + lastScore.ToString();
             tvMaxScore.Text = "Highest Score: " + max.ToString();
         }
+
         public void InitColors()
         {
+
             colors = new Hashtable();
             colors.Add("ball", Constants.DEFULT_COLOR);
-            colors.Add("bottomBat", Constants.DEFULT_BAT_COLOR);
-            colors.Add("topBat", Constants.DEFULT_BAT_COLOR);
+            colors.Add("bat", Constants.DEFULT_BAT_COLOR);
             colors.Add("brick", Constants.DEFULT_BRICK_COLOR);
+            colors.Add("background", Constants.BACKGROUND_COLOR);
         }
-
+        
         public void OnCheckedChanged(RadioGroup group, int checkedId)
         {
             var editor = sp.Edit();

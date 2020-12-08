@@ -42,8 +42,8 @@ namespace BrickBreaker
             this.colors = new Hashtable(colors);
             HasLost = false; //init the result
             ball = new Ball((Color)colors["ball"]); //init the ball
-            BottomBat = new Bat((Color)colors["bottomBat"]); //init the bat
-            TopBat = new Bat((Color)colors["topBat"]); //init the bat
+            BottomBat = new Bat((Color)colors["bat"]); //init the bat
+            TopBat = new Bat((Color)colors["bat"]); //init the bat
             Score = new Score(); //init the score
             screenSize = new Vector(Constants.DEFULT_SCREEN_SIZE);
             pause = new GameButton(Constants.DEFULT_VECTOR,
@@ -108,9 +108,7 @@ namespace BrickBreaker
                             screenSize = new Vector(canvas.Width, canvas.Height);
                             pause.Position = new Vector(screenSize.X - pause.Size.X, 0);
                             resume.Position = new Vector(screenSize.X/2 - resume.Size.X, screenSize.Y / 2 - resume.Size.Y);
-                            //ball.position = new Vector(BallStartPosintionGenerator(canvas)); //set the ball on a random place
                             BottomBat.Position = new Vector(BatStartPositionGenerator(canvas));
-                            //bottomBat.position = new Vector(canvas.Width / 2, canvas.Height - bottomBat.size.y);
                             TopBat.Position = new Vector(BottomBat.Position.X, (int)(Score.Paint.TextSize) + Bat.Size.Y);
                             ball.Position = new Vector(BottomBat.Position.X + Bat.Size.X / 2, BottomBat.Position.Y - 2*Ball.Radius);
                             isFirstCall = false;
@@ -233,7 +231,7 @@ namespace BrickBreaker
         public new void Draw(Canvas canvas)
         {
             base.OnDraw(canvas); //set the canvas to be drawn on
-            canvas.DrawColor(Constants.BACKGROUND_COLOR); //set background color to black
+            canvas.DrawColor((Color)colors["background"]); //set background color to black
             Score.Draw(canvas);
             pause.Draw(canvas);
             //canvas.DrawBitmap(bmPause, canvas.Width - Constants.PAUSE_BUTTON_SIZE, 0, new Paint());
@@ -304,7 +302,7 @@ namespace BrickBreaker
         }
         private bool IsBallNearBricks()
         {
-            if ((ball.Position.Y >= bricks[0, 0].Position.Y - Ball.Radius && ball.Position.Y <= bricks[bricks.GetLength(0) - 1, 0].Position.Y + 2* Ball.Radius))// || ball.position.y < Constants.EDGE || ball.position.y > screenSize.y - Constants.EDGE)
+            if ((ball.Position.Y >= bricks[0, 0].Position.Y - Ball.Radius && ball.Position.Y <= bricks[bricks.GetLength(0) - 1, 0].Position.Y + 2* Ball.Radius))
                 return true;
             return false;
         }
