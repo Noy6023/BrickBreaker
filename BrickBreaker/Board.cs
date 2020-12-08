@@ -30,20 +30,23 @@ namespace BrickBreaker
         public bool HasLost { get; set; } //keeps the result whether the bat ha missed and lost or not
         Context context; //the context
         bool isFirstCall = true;
-        Hashtable colors;
+        //Hashtable colors;
         Vector screenSize;
         GameButton pause;
         GameButton resume;
         public Thread T;
         ThreadStart ts;
-        public Board(Context context, Hashtable colors) : base(context) //constructor
+        public Board(Context context) : base(context) //constructor
         {
             this.context = context;
-            this.colors = new Hashtable(colors);
+            //this.colors = new Hashtable(colors);
             HasLost = false; //init the result
-            ball = new Ball((Color)colors["ball"]); //init the ball
-            BottomBat = new Bat((Color)colors["bat"]); //init the bat
-            TopBat = new Bat((Color)colors["bat"]); //init the bat
+            ball = new Ball(ColorManager.GetColor("ball"));
+            BottomBat = new Bat(ColorManager.GetColor("bat"));
+            TopBat = new Bat(ColorManager.GetColor("bat"));
+            //ball = new Ball((Color)colors["ball"]); //init the ball
+            //BottomBat = new Bat((Color)colors["bat"]); //init the bat
+            //TopBat = new Bat((Color)colors["bat"]); //init the bat
             Score = new Score(); //init the score
             screenSize = new Vector(Constants.DEFULT_SCREEN_SIZE);
             pause = new GameButton(Constants.DEFULT_VECTOR,
@@ -150,7 +153,8 @@ namespace BrickBreaker
         /// <param name="canvas">the canvas</param>
         private void InitBricks(Canvas canvas)
         {
-            Color brickColor = (Color)colors["brick"];
+            Color brickColor = ColorManager.GetColor("brick");
+            //Color brickColor = (Color)colors["brick"];
             int x = Constants.SPACE *2;
             int y = canvas.Height / 3;
             bricks = new Brick[(int)((canvas.Height / 3) / (Brick.Size.Y + Constants.SPACE)), (int)((canvas.Width - x) / (Brick.Size.X + Constants.SPACE))];
@@ -212,6 +216,11 @@ namespace BrickBreaker
                 }
             }
         }
+        /// <summary>
+        /// counts the visible bricks
+        /// </summary>
+        /// <param name="bricks">the bricks array</param>
+        /// <returns>the number of visible bricks</returns>
         public int CountVisible(Brick[,] bricks)
         {
             int count = 0;
@@ -231,7 +240,8 @@ namespace BrickBreaker
         public new void Draw(Canvas canvas)
         {
             base.OnDraw(canvas); //set the canvas to be drawn on
-            canvas.DrawColor((Color)colors["background"]); //set background color to black
+            canvas.DrawColor(ColorManager.GetColor("background"));
+            //canvas.DrawColor((Color)colors["background"]); //set background color to black
             Score.Draw(canvas);
             pause.Draw(canvas);
             //canvas.DrawBitmap(bmPause, canvas.Width - Constants.PAUSE_BUTTON_SIZE, 0, new Paint());

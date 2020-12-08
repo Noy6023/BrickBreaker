@@ -22,7 +22,7 @@ namespace BrickBreaker
         Button btnBrickColor;
         Button btnBackgroundColor;
         Button btnApply;
-        Hashtable colors;
+        //Hashtable colors;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -33,7 +33,7 @@ namespace BrickBreaker
 
         private void InitViews()
         {
-            colors = new Hashtable();
+            //colors = new Hashtable();
             btnBallColor = FindViewById<Button>(Resource.Id.btnBallColor);
             btnBatColor = FindViewById<Button>(Resource.Id.btnBatColor);
             btnBrickColor = FindViewById<Button>(Resource.Id.btnBrickColor);
@@ -67,12 +67,7 @@ namespace BrickBreaker
             }
             if(v == btnApply)
             {
-                Intent i = new Intent();
-                foreach (string key in colors.Keys)
-                {
-                    i.PutExtra(key, (int)(colors[key]));
-                }
-                SetResult(Result.Ok, i);
+                SetResult(Result.Ok);
                 Finish();
             }
         }
@@ -89,7 +84,7 @@ namespace BrickBreaker
                         int color = data.GetIntExtra("color", 0);
                         ColorDrawable colorDrawable = new ColorDrawable(ColorConverter.IntToColorConvertor(color));
                         btnBallColor.Background = colorDrawable;
-                        colors.Add("ball", color);
+                        ColorManager.SetColor("ball", color);
                     }
                 }
             }
@@ -102,7 +97,7 @@ namespace BrickBreaker
                         int color = data.GetIntExtra("color", 0);
                         ColorDrawable colorDrawable = new ColorDrawable(ColorConverter.IntToColorConvertor(color));
                         btnBatColor.Background = colorDrawable;
-                        colors.Add("bat", color);
+                        ColorManager.SetColor("bat", color);
                     }
                 }
             }
@@ -115,7 +110,7 @@ namespace BrickBreaker
                         int color = data.GetIntExtra("color", 0);
                         ColorDrawable colorDrawable = new ColorDrawable(ColorConverter.IntToColorConvertor(color));
                         btnBrickColor.Background = colorDrawable;
-                        colors.Add("brick", color);
+                        ColorManager.SetColor("brick", color);
                     }
                 }
             }
@@ -129,8 +124,7 @@ namespace BrickBreaker
                         int color = data.GetIntExtra("color", 0);
                         ColorDrawable colorDrawable = new ColorDrawable(ColorConverter.IntToColorConvertor(color));
                         btnBackgroundColor.Background = colorDrawable;
-                        colors.Add("background", color);
-
+                        ColorManager.SetColor("background", color);
                     }
                 }
             }

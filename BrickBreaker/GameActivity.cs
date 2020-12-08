@@ -20,11 +20,11 @@ namespace BrickBreaker
     {
         SensorManager sensMan;
         Board board;
-        public static Hashtable Colors;
+        //public static Hashtable Colors;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            board = new Board(this, Colors);
+            board = new Board(this);
             SetContentView(board);
             sensMan = (SensorManager)GetSystemService(Context.SensorService);
             Sensor sen = sensMan.GetDefaultSensor(SensorType.Accelerometer);

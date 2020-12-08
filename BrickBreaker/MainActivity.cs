@@ -30,7 +30,7 @@ namespace BrickBreaker
         int max, lastScore;
         Dialog settingsDialog, nameDialog;
         ISharedPreferences sp;
-        Hashtable colors;
+        //Hashtable colors;
         RadioGroup rgBallSize, rgBrickSize, rgDifficulty;
         RadioButton rbBallSmall, rbBallMedium, rbBallBig;
         RadioButton rbBrickSmall, rbBrickMedium, rbBrickBig;
@@ -55,7 +55,8 @@ namespace BrickBreaker
             btnStart.SetOnClickListener(this);
             max = 0;
             lastScore = 0;
-            InitColors();
+            ColorManager.InitColors();
+            //InitColors();
             AudioManager.IsSoundMuted = sp.GetBoolean("sound", false);
             AudioManager.IsMusicMuted = sp.GetBoolean("music", false);
             lastBallChecked = Size.Medium;
@@ -63,20 +64,25 @@ namespace BrickBreaker
             lastDifficultyChecked = Difficulty.Easy;
             SetSizes();
             SetDifficulty();
-            LoadInfo();
+            SetInfo(FileManager.LoadInfo(this));
         }
-        public void PutInfo(ISharedPreferences sp)
+        private void SetInfo(string[] info)
         {
-            var editor = sp.Edit();
-            if (Intent.Extras != null)
+            if(info != null)
             {
-                editor.PutBoolean("sound", Intent.GetBooleanExtra("sound", false));
-                editor.PutBoolean("music", Intent.GetBooleanExtra("music", false));
-                editor.PutInt("difficulty", Intent.GetIntExtra("difficulty", 0));
-                editor.PutInt("brick size", Intent.GetIntExtra("brick size", 1));
-                editor.PutInt("ball size", Intent.GetIntExtra("ball size", 1));
+                lastScore = Int32.Parse(info[0]);
+                max = Int32.Parse(info[1]);
+                btnName.Text = info[2];
+                SetScoreInfo(max, lastScore);
             }
-            editor.Commit();
+        }
+        private string[] GetInfo()
+        {
+            string[] info = new string[3];
+            info[0] = lastScore.ToString();
+            info[1] = max.ToString();
+            info[2] = btnName.Text;
+            return info;
         }
         private void SetDifficulty()
         {
@@ -204,7 +210,6 @@ namespace BrickBreaker
         {
             if(v == btnStart)
             {
-                GameActivity.Colors = colors;
                 Intent intent = new Intent(this, typeof(GameActivity));
                 intent.PutExtra("difficulty", (int)lastDifficultyChecked);
                 StartActivityForResult(intent, 0);
@@ -220,7 +225,7 @@ namespace BrickBreaker
             if(v == btnSaveName)
             {
                 btnName.Text = etName.Text;
-                SaveInfo();
+                FileManager.SaveInfo('\n', GetInfo(), this);
                 nameDialog.Dismiss();
             }
             if(v == btnBackSettings)
@@ -250,88 +255,9 @@ namespace BrickBreaker
                         lastScore = data.GetIntExtra("score", 0);
                         if (lastScore > max) max = lastScore;
                         SetScoreInfo(max, lastScore);
-                        SaveInfo();
+                        FileManager.SaveInfo('\n', GetInfo(), this);
                     }
                 }
-            }
-            if (requestCode == 1)
-            {
-                if (resultCode == Result.Ok)
-                {
-                    if(data != null)
-                    {
-                        colors["ball"] = ColorConverter.IntToColorConvertor(data.GetIntExtra("ball", Constants.DEFULT_COLOR));
-                        colors["brick"] = ColorConverter.IntToColorConvertor(data.GetIntExtra("brick", Constants.DEFULT_BRICK_COLOR));
-                        colors["bat"] = ColorConverter.IntToColorConvertor(data.GetIntExtra("bat", Constants.DEFULT_BAT_COLOR));
-                        colors["background"] = ColorConverter.IntToColorConvertor(data.GetIntExtra("background", Constants.BACKGROUND_COLOR));
-                    }
-                }
-            }
-        }
-        public void SaveInfo()
-        {
-            //save: score, highest score, name
-            string str;
-            try
-            {
-                
-                str = lastScore.ToString() + '\n' + max.ToString() + '\n';
-                if (btnName != null)
-                    str += btnName.Text;
-                using (Stream stream = OpenFileOutput("userinfo.txt", FileCreationMode.Private))
-                {
-                    if (str != null)
-                    {
-                        try
-                        {
-                            stream.Write(Encoding.ASCII.GetBytes(str), 0, str.Length);
-                            stream.Close();
-                        }
-                        catch (Java.IO.IOException e)
-                        {
-                            e.PrintStackTrace();
-                        }
-                    }
-                }
-            }
-            catch (Java.IO.FileNotFoundException e)
-            {
-                e.PrintStackTrace();
-            }
-        }
-        public void LoadInfo()
-        {
-            string[] seperators = new [] { "\n" };
-            string str;
-            try
-            {
-                using (Stream inTo = OpenFileInput("userinfo.txt"))
-                //using (StreamReader sr = new StreamReader("TestFile.txt"))
-                {
-                    try
-                    {
-                        byte[] buffer = new byte[4096];
-                        inTo.Read(buffer, 0, buffer.Length);
-                        str = System.Text.Encoding.Default.GetString(buffer);
-                        inTo.Close();
-                        if (str != null)
-                        {
-                            string[] info = str.Split(seperators, StringSplitOptions.RemoveEmptyEntries);
-                            lastScore = Int32.Parse(info[0]);
-                            max = Int32.Parse(info[1]);
-                            btnName.Text = info[2];
-                            SetScoreInfo(max, lastScore);
-                        }
-                    }
-                    catch (Java.IO.IOException e)
-                    {
-                        e.PrintStackTrace();
-                    }
-                }
-            }
-            catch (Java.IO.FileNotFoundException e)
-            {
-                e.PrintStackTrace();
             }
         }
         public void SetScoreInfo(int max, int lastScore)
@@ -339,17 +265,6 @@ namespace BrickBreaker
             tvLastScore.Text = "Last Score: " + lastScore.ToString();
             tvMaxScore.Text = "Highest Score: " + max.ToString();
         }
-
-        public void InitColors()
-        {
-
-            colors = new Hashtable();
-            colors.Add("ball", Constants.DEFULT_COLOR);
-            colors.Add("bat", Constants.DEFULT_BAT_COLOR);
-            colors.Add("brick", Constants.DEFULT_BRICK_COLOR);
-            colors.Add("background", Constants.BACKGROUND_COLOR);
-        }
-        
         public void OnCheckedChanged(RadioGroup group, int checkedId)
         {
             var editor = sp.Edit();

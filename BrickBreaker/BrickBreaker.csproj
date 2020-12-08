@@ -70,9 +70,11 @@
     <Compile Include="Board.cs" />
     <Compile Include="Brick.cs" />
     <Compile Include="ColorConverter.cs" />
+    <Compile Include="ColorManager.cs" />
     <Compile Include="ColorPickerActivity.cs" />
     <Compile Include="CustomizeActivity.cs" />
     <Compile Include="Difficulty.cs" />
+    <Compile Include="FileManager.cs" />
     <Compile Include="Size.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="GameActivity.cs" />
