@@ -1,0 +1,9 @@
+.git/*
+.vs/*
+Docs/*
+index.html
+BrickBreaker/bin/*
+BrickBreaker/obj/*
+BrickBreaker/files/*
+*.apk
+*.obj
