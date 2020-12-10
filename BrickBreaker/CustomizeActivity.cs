@@ -4,6 +4,7 @@ using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using System;
@@ -15,13 +16,15 @@ using System.Text;
 namespace BrickBreaker
 {
     [Activity(Label = "CustomizeActivity")]
-    public class CustomizeActivity : Activity, Android.Views.View.IOnClickListener
+    public class CustomizeActivity : AppCompatActivity, Android.Views.View.IOnClickListener
     {
         Button btnBallColor;
         Button btnBatColor;
         Button btnBrickColor;
         Button btnBackgroundColor;
-        Button btnApply;
+        Button btnRandom;
+        Button btnDefult;
+        Button btnBack;
         //Hashtable colors;
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -33,17 +36,21 @@ namespace BrickBreaker
 
         private void InitViews()
         {
-            //colors = new Hashtable();
             btnBallColor = FindViewById<Button>(Resource.Id.btnBallColor);
             btnBatColor = FindViewById<Button>(Resource.Id.btnBatColor);
             btnBrickColor = FindViewById<Button>(Resource.Id.btnBrickColor);
             btnBackgroundColor = FindViewById<Button>(Resource.Id.btnBackgroundColor);
-            btnApply = FindViewById<Button>(Resource.Id.btnApply);
+            btnRandom = FindViewById<Button>(Resource.Id.btnRandom);
+            btnDefult = FindViewById<Button>(Resource.Id.btnDefult);
+            btnBack = FindViewById<Button>(Resource.Id.btnBack);
+            ChangeButtonsColors();
             btnBallColor.SetOnClickListener(this);
             btnBatColor.SetOnClickListener(this);
             btnBrickColor.SetOnClickListener(this);
             btnBackgroundColor.SetOnClickListener(this);
-            btnApply.SetOnClickListener(this);
+            btnDefult.SetOnClickListener(this);
+            btnRandom.SetOnClickListener(this);
+            btnBack.SetOnClickListener(this);
         }
         public void OnClick(View v)
         {
@@ -65,13 +72,34 @@ namespace BrickBreaker
             {
                 StartActivityForResult(intent, 3);
             }
-            if(v == btnApply)
+            if(v == btnDefult)
             {
-                SetResult(Result.Ok);
+                ColorManager.Instance.InitColors();
+                ChangeButtonsColors();
+            }
+            if(v == btnRandom)
+            {
+                ColorManager.Instance.RandomColors();
+                ChangeButtonsColors();
+            }
+            if(v == btnBack)
+            {
                 Finish();
             }
         }
         
+        private void ChangeButtonsColors()
+        {
+            ColorDrawable ball = new ColorDrawable(ColorManager.Instance.GetColor("ball"));
+            ColorDrawable brick = new ColorDrawable(ColorManager.Instance.GetColor("brick"));
+            ColorDrawable bat = new ColorDrawable(ColorManager.Instance.GetColor("bat"));
+            ColorDrawable background = new ColorDrawable(ColorManager.Instance.GetColor("background"));
+            btnBallColor.Background = ball;
+            btnBrickColor.Background = brick;
+            btnBatColor.Background = bat;
+            btnBackgroundColor.Background = background;
+        }
+
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);

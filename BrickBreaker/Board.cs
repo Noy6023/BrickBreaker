@@ -30,7 +30,6 @@ namespace BrickBreaker
         public bool HasLost { get; set; } //keeps the result whether the bat ha missed and lost or not
         Context context; //the context
         bool isFirstCall = true;
-        //Hashtable colors;
         Vector screenSize;
         GameButton pause;
         GameButton resume;
@@ -39,14 +38,10 @@ namespace BrickBreaker
         public Board(Context context) : base(context) //constructor
         {
             this.context = context;
-            //this.colors = new Hashtable(colors);
             HasLost = false; //init the result
             ball = new Ball(ColorManager.Instance.GetColor("ball"));
             BottomBat = new Bat(ColorManager.Instance.GetColor("bat"));
             TopBat = new Bat(ColorManager.Instance.GetColor("bat"));
-            //ball = new Ball((Color)colors["ball"]); //init the ball
-            //BottomBat = new Bat((Color)colors["bat"]); //init the bat
-            //TopBat = new Bat((Color)colors["bat"]); //init the bat
             Score = new Score(); //init the score
             screenSize = new Vector(Constants.DEFULT_SCREEN_SIZE);
             pause = new GameButton(Constants.DEFULT_VECTOR,
@@ -154,7 +149,6 @@ namespace BrickBreaker
         private void InitBricks(Canvas canvas)
         {
             Color brickColor = ColorManager.Instance.GetColor("brick");
-            //Color brickColor = (Color)colors["brick"];
             int x = Constants.SPACE *2;
             int y = canvas.Height / 3;
             bricks = new Brick[(int)((canvas.Height / 3) / (Brick.Size.Y + Constants.SPACE)), (int)((canvas.Width - x) / (Brick.Size.X + Constants.SPACE))];
@@ -241,14 +235,11 @@ namespace BrickBreaker
         {
             base.OnDraw(canvas); //set the canvas to be drawn on
             canvas.DrawColor(ColorManager.Instance.GetColor("background"));
-            //canvas.DrawColor((Color)colors["background"]); //set background color to black
             Score.Draw(canvas);
             pause.Draw(canvas);
-            //canvas.DrawBitmap(bmPause, canvas.Width - Constants.PAUSE_BUTTON_SIZE, 0, new Paint());
             //draw the bat in the correct position
             BottomBat.Draw(canvas);
             TopBat.Draw(canvas);
-            //canvas.DrawRect(topBat.position.x, topBat.position.y, topBat.position.x + topBat.size.x, topBat.position.y + topBat.size.y, topBat.paint);
             //draw the bricks
             for (int i = 0; i < bricks.GetLength(0); i++)
             {

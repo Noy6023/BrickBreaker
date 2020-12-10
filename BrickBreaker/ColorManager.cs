@@ -44,14 +44,14 @@ namespace BrickBreaker
         public void GetColorsFromIntent(Intent data)
         {
             Colors = new Hashtable();
-            foreach (string key in Colors.Keys)
+            foreach (string key in Keys)
             {
                 Colors.Add(key, IntToColorConvertor(data.GetIntExtra(key, 0)));
             }
         }
         public void PutColorsInIntent(Intent data)
         {
-            foreach (string key in Colors.Keys)
+            foreach (string key in Keys)
             {
                 data.PutExtra(key, ((Color)Colors[key]).ToArgb());
             }
@@ -80,6 +80,19 @@ namespace BrickBreaker
             result.B = Convert.ToByte(0xff & color);
             return result;
 
+        }
+        public void RandomColors()
+        {
+            Random rand = new Random();
+            foreach (string key in Keys)
+            {
+                Color color = new Color();
+                color.A = Convert.ToByte(255);
+                color.R = Convert.ToByte(rand.Next(255));
+                color.G = Convert.ToByte(rand.Next(255));
+                color.B = Convert.ToByte(rand.Next(255));
+                Colors[key] = color;
+            }
         }
     }
 }
