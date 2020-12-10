@@ -33,6 +33,7 @@ namespace BrickBreaker
         /// </summary>
         public void UpdateMovement()
         {
+            KeepVelocity();
             Position.X += Velocity.X;
             Position.Y += Velocity.Y;
         }
@@ -44,14 +45,10 @@ namespace BrickBreaker
         {
             if (Position.X - Radius <= 0 || Position.X >= screenSize.X - Radius)
                 Velocity.X = -Velocity.X;
-            if (Position.Y < 0 )//position.y >= screenSize.y - bat.size.y - 2 * radius)
-                Velocity.Y = -Velocity.Y;
         }
         public void KeepVelocity()
         {
-            int sign = 0;
-            if (this.Velocity.X > 0) sign = 1;
-            else sign = -1;
+            int sign = Velocity.X / Math.Abs(Velocity.X);
             //if velocity gets too slow or too fast - normalize it
             if (Math.Abs(this.Velocity.X) < Constants.BALL_MIN_VELOCITY.X) this.Velocity.X = sign * Constants.BALL_MIN_VELOCITY.X;
             if (Math.Abs(this.Velocity.X) > Constants.BALL_MAX_VELOCITY.X) this.Velocity.X = sign * Constants.BALL_MAX_VELOCITY.X;
