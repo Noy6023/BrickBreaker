@@ -15,9 +15,21 @@ using System.Collections;
 
 namespace BrickBreaker
 {
-    static class FileManager
+    public sealed class FileManager
     {
-        public static void SaveInfo(char seperator, string[] info, Context context)
+        private static readonly FileManager instance = new FileManager();
+        private FileManager()
+        {
+
+        }
+        public static FileManager Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+        public void SaveInfo(char seperator, string[] info, Context context)
         {
             //save: score, highest score, name
             string str = "";
@@ -27,10 +39,6 @@ namespace BrickBreaker
                 {
                     str += info[i] + seperator;
                 }
-                /*
-                str = lastScore.ToString() + '\n' + max.ToString() + '\n';
-                if (btnName != null)
-                    str += btnName.Text;*/
                 using (Stream stream = context.OpenFileOutput("userinfo.txt", FileCreationMode.Private))
                 {
                     if (str != null)
@@ -54,7 +62,7 @@ namespace BrickBreaker
         }
 
 
-        public static string[] LoadInfo(Context context)
+        public string[] LoadInfo(Context context)
         {
             string[] seperators = new[] { "\n" };
             string str;

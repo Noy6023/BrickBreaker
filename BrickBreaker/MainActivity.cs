@@ -55,8 +55,6 @@ namespace BrickBreaker
             btnStart.SetOnClickListener(this);
             max = 0;
             lastScore = 0;
-            ColorManager.InitColors();
-            //InitColors();
             AudioManager.IsSoundMuted = sp.GetBoolean("sound", false);
             AudioManager.IsMusicMuted = sp.GetBoolean("music", false);
             lastBallChecked = Size.Medium;
@@ -64,7 +62,7 @@ namespace BrickBreaker
             lastDifficultyChecked = Difficulty.Easy;
             SetSizes();
             SetDifficulty();
-            SetInfo(FileManager.LoadInfo(this));
+            SetInfo(FileManager.Instance.LoadInfo(this));
         }
         private void SetInfo(string[] info)
         {
@@ -225,7 +223,7 @@ namespace BrickBreaker
             if(v == btnSaveName)
             {
                 btnName.Text = etName.Text;
-                FileManager.SaveInfo('\n', GetInfo(), this);
+                FileManager.Instance.SaveInfo('\n', GetInfo(), this);
                 nameDialog.Dismiss();
             }
             if(v == btnBackSettings)
@@ -255,7 +253,7 @@ namespace BrickBreaker
                         lastScore = data.GetIntExtra("score", 0);
                         if (lastScore > max) max = lastScore;
                         SetScoreInfo(max, lastScore);
-                        FileManager.SaveInfo('\n', GetInfo(), this);
+                        FileManager.Instance.SaveInfo('\n', GetInfo(), this);
                     }
                 }
             }

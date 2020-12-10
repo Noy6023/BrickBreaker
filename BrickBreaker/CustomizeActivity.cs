@@ -82,9 +82,9 @@ namespace BrickBreaker
                     if(!data.Extras.IsEmpty)
                     {
                         int color = data.GetIntExtra("color", 0);
-                        ColorDrawable colorDrawable = new ColorDrawable(ColorConverter.IntToColorConvertor(color));
+                        ColorDrawable colorDrawable = new ColorDrawable(ColorManager.Instance.IntToColorConvertor(color));
                         btnBallColor.Background = colorDrawable;
-                        ColorManager.SetColor("ball", color);
+                        ColorManager.Instance.SetColor("ball", color);
                     }
                 }
             }
@@ -95,9 +95,9 @@ namespace BrickBreaker
                     if (!data.Extras.IsEmpty)
                     {
                         int color = data.GetIntExtra("color", 0);
-                        ColorDrawable colorDrawable = new ColorDrawable(ColorConverter.IntToColorConvertor(color));
+                        ColorDrawable colorDrawable = new ColorDrawable(ColorManager.Instance.IntToColorConvertor(color));
                         btnBatColor.Background = colorDrawable;
-                        ColorManager.SetColor("bat", color);
+                        ColorManager.Instance.SetColor("bat", color);
                     }
                 }
             }
@@ -108,9 +108,9 @@ namespace BrickBreaker
                     if (!data.Extras.IsEmpty)
                     {
                         int color = data.GetIntExtra("color", 0);
-                        ColorDrawable colorDrawable = new ColorDrawable(ColorConverter.IntToColorConvertor(color));
+                        ColorDrawable colorDrawable = new ColorDrawable(ColorManager.Instance.IntToColorConvertor(color));
                         btnBrickColor.Background = colorDrawable;
-                        ColorManager.SetColor("brick", color);
+                        ColorManager.Instance.SetColor("brick", color);
                     }
                 }
             }
@@ -122,9 +122,9 @@ namespace BrickBreaker
                     if (!data.Extras.IsEmpty)
                     {
                         int color = data.GetIntExtra("color", 0);
-                        ColorDrawable colorDrawable = new ColorDrawable(ColorConverter.IntToColorConvertor(color));
+                        ColorDrawable colorDrawable = new ColorDrawable(ColorManager.Instance.IntToColorConvertor(color));
                         btnBackgroundColor.Background = colorDrawable;
-                        ColorManager.SetColor("background", color);
+                        ColorManager.Instance.SetColor("background", color);
                     }
                 }
             }

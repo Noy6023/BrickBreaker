@@ -13,14 +13,31 @@ using System.Text;
 
 namespace BrickBreaker
 {
-    public static class AudioManager
+    public sealed class AudioManager
     {
+        private static readonly AudioManager instance = new AudioManager();
         public static string[] sounds = { "brick_hit", "bat_hit", "music", "finished_bricks", "lost" };
-        public static Context context;
-        public static Hashtable players;
-        public static bool IsSoundMuted = false;
-        public static bool IsMusicMuted = false;
-        public static void InitPlayers(Context ctx)
+        public static Context context { get; set; }
+        private Hashtable players;
+        public static bool IsSoundMuted;
+        public static bool IsMusicMuted;
+        static AudioManager()
+        {
+            IsSoundMuted = false;
+            IsMusicMuted = false;
+        }
+        private AudioManager()
+        {
+            players = new Hashtable();
+        }
+        public static AudioManager Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+        public void InitPlayers(Context ctx)
         {
             context = ctx;
             players = new Hashtable();
@@ -32,14 +49,14 @@ namespace BrickBreaker
                 players[sound] = MediaPlayer.Create(context, context.Resources.GetIdentifier(sound, "raw", context.PackageName));
             }
         }
-        public static void PlaySound(string sound)
+        public void PlaySound(string sound)
         {
             if (players.ContainsKey(sound) && !IsSoundMuted)
             {
                 ((MediaPlayer)players[sound]).Start();
             }
         }
-        public static void PlayMusicLoop(string sound)
+        public void PlayMusicLoop(string sound)
         {
             if (players.ContainsKey(sound) && !IsMusicMuted)
             {
@@ -48,28 +65,28 @@ namespace BrickBreaker
                 music.Start();
             }
         }
-        public static void Pause(string sound)
+        public void Pause(string sound)
         {
             if (players.ContainsKey(sound))
             {
                 ((MediaPlayer)players[sound]).Pause();
             }
         }
-        public static void ResumeSound(string sound)
+        public void ResumeSound(string sound)
         {
             if(players.ContainsKey(sound) && !IsMusicMuted)
             {
                 ((MediaPlayer)players[sound]).Start();
             }
         }
-        public static void Stop(string sound)
+        public void Stop(string sound)
         {
             if (players.ContainsKey(sound))
             {
                 ((MediaPlayer)players[sound]).Stop();
             }
         }
-        public static void Release()
+        public void Release()
         {
             foreach (string sound in sounds)
             {

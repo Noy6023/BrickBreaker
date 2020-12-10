@@ -41,9 +41,9 @@ namespace BrickBreaker
             this.context = context;
             //this.colors = new Hashtable(colors);
             HasLost = false; //init the result
-            ball = new Ball(ColorManager.GetColor("ball"));
-            BottomBat = new Bat(ColorManager.GetColor("bat"));
-            TopBat = new Bat(ColorManager.GetColor("bat"));
+            ball = new Ball(ColorManager.Instance.GetColor("ball"));
+            BottomBat = new Bat(ColorManager.Instance.GetColor("bat"));
+            TopBat = new Bat(ColorManager.Instance.GetColor("bat"));
             //ball = new Ball((Color)colors["ball"]); //init the ball
             //BottomBat = new Bat((Color)colors["bat"]); //init the bat
             //TopBat = new Bat((Color)colors["bat"]); //init the bat
@@ -55,7 +55,7 @@ namespace BrickBreaker
             resume = new GameButton(Constants.DEFULT_VECTOR,
                BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.resumebtn),
                new Vector(Constants.RESUME_BUTTON_SIZE, Constants.RESUME_BUTTON_SIZE));
-            AudioManager.InitPlayers(context);
+            AudioManager.Instance.InitPlayers(context);
             ts = new ThreadStart(Run);
             T = new Thread(ts);
         }
@@ -81,17 +81,17 @@ namespace BrickBreaker
         {
             IsRunning = false;
             if(!HasLost)
-                AudioManager.Pause("music");
+                AudioManager.Instance.Pause("music");
         }
         public void Resume()
         {
             IsRunning = true;
-            AudioManager.ResumeSound("music");
+            AudioManager.Instance.ResumeSound("music");
         }
         public void StartGame()
         {
             IsRunning = true;
-            AudioManager.PlayMusicLoop("music");
+            AudioManager.Instance.PlayMusicLoop("music");
         }
         public void Run()
         {
@@ -120,11 +120,11 @@ namespace BrickBreaker
                         Draw(canvas);
                         if (HasLost)
                         {
-                            AudioManager.Stop("music");
-                            AudioManager.PlaySound("lost");
+                            AudioManager.Instance.Stop("music");
+                            AudioManager.Instance.PlaySound("lost");
                             Thread.Sleep(1000);
 
-                            AudioManager.Release();
+                            AudioManager.Instance.Release();
                         }
                     }
                     catch (Exception e)
@@ -153,7 +153,7 @@ namespace BrickBreaker
         /// <param name="canvas">the canvas</param>
         private void InitBricks(Canvas canvas)
         {
-            Color brickColor = ColorManager.GetColor("brick");
+            Color brickColor = ColorManager.Instance.GetColor("brick");
             //Color brickColor = (Color)colors["brick"];
             int x = Constants.SPACE *2;
             int y = canvas.Height / 3;
@@ -240,7 +240,7 @@ namespace BrickBreaker
         public new void Draw(Canvas canvas)
         {
             base.OnDraw(canvas); //set the canvas to be drawn on
-            canvas.DrawColor(ColorManager.GetColor("background"));
+            canvas.DrawColor(ColorManager.Instance.GetColor("background"));
             //canvas.DrawColor((Color)colors["background"]); //set background color to black
             Score.Draw(canvas);
             pause.Draw(canvas);
@@ -282,7 +282,7 @@ namespace BrickBreaker
                     {
                         if (bricks[i, j].IsHit(ball))
                         {
-                            AudioManager.PlaySound("brick_hit");
+                            AudioManager.Instance.PlaySound("brick_hit");
                             Score.IncreaseScore();
                         }
                     }
@@ -290,7 +290,7 @@ namespace BrickBreaker
             }
             if (CountVisible(bricks) == 0)
             {
-                AudioManager.PlaySound("finished_bricks");
+                AudioManager.Instance.PlaySound("finished_bricks");
                 Thread.Sleep(1000);
                 MakeVisible(bricks);
             }
@@ -303,7 +303,7 @@ namespace BrickBreaker
             //check if the bat missed the ball and lost
             if (BottomBat.IsBallHit(ball, canvas, 'b') == 1 || TopBat.IsBallHit(ball, canvas, 't') == 1)
             {
-                AudioManager.PlaySound("bat_hit");
+                AudioManager.Instance.PlaySound("bat_hit");
             }
             else if (BottomBat.IsBallHit(ball, canvas, 'b') == -1 || TopBat.IsBallHit(ball, canvas, 't') == -1)
             {

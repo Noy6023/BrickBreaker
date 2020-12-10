@@ -13,11 +13,27 @@ using System.Text;
 
 namespace BrickBreaker
 {
-    static class ColorManager
+    public sealed class ColorManager
     {
-        public static Hashtable Colors;
-        public static string[] keys = { "ball", "bat", "brick", "background" };
-        public static void InitColors()
+        private static readonly ColorManager instance = new ColorManager();
+        public Hashtable Colors;
+        public static string[] Keys = { "ball", "bat", "brick", "background" };
+        static ColorManager()
+        {
+
+        }
+        private ColorManager()
+        {
+            InitColors();
+        }
+        public static ColorManager Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+        public void InitColors()
         {
             Colors = new Hashtable();
             Colors.Add("ball", Constants.DEFULT_COLOR);
@@ -25,7 +41,7 @@ namespace BrickBreaker
             Colors.Add("brick", Constants.DEFULT_BRICK_COLOR);
             Colors.Add("background", Constants.BACKGROUND_COLOR);
         }
-        public static void GetColorsFromIntent(Intent data)
+        public void GetColorsFromIntent(Intent data)
         {
             Colors = new Hashtable();
             foreach (string key in Colors.Keys)
@@ -33,21 +49,21 @@ namespace BrickBreaker
                 Colors.Add(key, IntToColorConvertor(data.GetIntExtra(key, 0)));
             }
         }
-        public static void PutColorsInIntent(Intent data)
+        public void PutColorsInIntent(Intent data)
         {
             foreach (string key in Colors.Keys)
             {
                 data.PutExtra(key, ((Color)Colors[key]).ToArgb());
             }
         }
-        public static void SetColor(string key, int color)
+        public void SetColor(string key, int color)
         {
             if(Colors.ContainsKey(key))
             {
                 Colors[key] = IntToColorConvertor(color);
             }
         }
-        public static Color GetColor(string key)
+        public Color GetColor(string key)
         {
             if (Colors.ContainsKey(key))
             {
@@ -55,7 +71,7 @@ namespace BrickBreaker
             }
             return Constants.DEFULT_COLOR;
         }
-        public static Color IntToColorConvertor(int color)
+        public Color IntToColorConvertor(int color)
         {
             Color result = new Color();
             result.A = Convert.ToByte(0xff & color >> 24);
