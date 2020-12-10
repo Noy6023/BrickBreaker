@@ -19,81 +19,114 @@ namespace BrickBreaker
 {
     public class Board : SurfaceView
     {
-        public bool ThreadRunning = true;
-        public bool IsRunning = true;
+        //the context of the game
+        Context context; //the context of the game
 
+        //the objects of the game
         Ball ball; // the ball
         Brick[,] bricks; //the bricks array
         public Score Score { get; set; }//the score that is increased by hitting a brick
         public Bat TopBat { get; set; } //the top bat
         public Bat BottomBat { get; set; } //the bottom bat
+        GameButton pause; //the pause button
+        GameButton resume; //the resume button
+        Vector screenSize; //holds the screen size
+
+        //flags
         public bool HasLost { get; set; } //keeps the result whether the bat ha missed and lost or not
-        Context context; //the context
-        bool isFirstCall = true;
-        Vector screenSize;
-        GameButton pause;
-        GameButton resume;
-        public Thread T;
-        ThreadStart ts;
-        public Board(Context context) : base(context) //constructor
+        bool isFirstCall = true; //check if its the first time running to init the game
+
+        //the threads
+        public bool ThreadRunning = true; //a flag that holds whether the thread is running or not
+        public bool IsRunning = true; //a flag that holds whether the game is running or not
+        public Thread T; //the thread
+        ThreadStart ts; //the thread start
+        
+        /// <summary>
+        /// the constructor of the board class
+        /// </summary>
+        /// <param name="context">the context of the game</param>
+        public Board(Context context) : base(context)
         {
-            this.context = context;
+            this.context = context; //set this context to the given context
             HasLost = false; //init the result
-            ball = new Ball(ColorManager.Instance.GetColor("ball"));
-            BottomBat = new Bat(ColorManager.Instance.GetColor("bat"));
-            TopBat = new Bat(ColorManager.Instance.GetColor("bat"));
-            Score = new Score(); //init the score
-            screenSize = new Vector(Constants.DEFULT_SCREEN_SIZE);
-            pause = new GameButton(Constants.DEFULT_VECTOR,
+            
+            //create the objects
+            ball = new Ball(ColorManager.Instance.GetColor("ball")); //create the ball
+            BottomBat = new Bat(ColorManager.Instance.GetColor("bat"));  //create the bottom bat
+            TopBat = new Bat(ColorManager.Instance.GetColor("bat")); //create the top bat
+            Score = new Score(); //create the score
+            screenSize = new Vector(Constants.DEFULT_SCREEN_SIZE); //init the screen size to defult 
+            
+            //create the pause button
+            pause = new GameButton(Constants.DEFULT_VECTOR, 
                 BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pausebutton),
                 new Vector(Constants.PAUSE_BUTTON_SIZE, Constants.PAUSE_BUTTON_SIZE));
+            
+            //create the resume button
             resume = new GameButton(Constants.DEFULT_VECTOR,
                BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.resumebtn),
                new Vector(Constants.RESUME_BUTTON_SIZE, Constants.RESUME_BUTTON_SIZE));
+
+            //init the players
             AudioManager.Instance.InitPlayers(context);
+            
+            //start the thread - game
             ts = new ThreadStart(Run);
             T = new Thread(ts);
         }
-        public void SurfaceCreated(ISurfaceHolder holder)
-        {
 
-        }
-        public void SurfaceDestroyed(ISurfaceHolder holder)
-        {
-
-        }
-        public void SurfaceChanged(ISurfaceHolder holder, [GeneratedEnum] Format format, int width, int height)
-        {
-
-
-        }
+        /// <summary>
+        /// the function that is being called when the game is destroyed - finished.
+        /// returns the player to the homescreen.
+        /// </summary>
         public void Destroy()
         {
             IsRunning = false;
             ((GameActivity)context).Finish();
         }
+
+        /// <summary>
+        /// the function that is being called when the game is paused (clicked or minimized).
+        /// pauses the music
+        /// </summary>
         public void Pause()
         {
             IsRunning = false;
             if(!HasLost)
                 AudioManager.Instance.Pause("music");
         }
+
+        /// <summary>
+        /// the function that is being called when the game is resumed (clicked or minimized).
+        /// resumes the music
+        /// </summary>
         public void Resume()
         {
             IsRunning = true;
             AudioManager.Instance.ResumeSound("music");
         }
+
+        /// <summary>
+        /// the function that is being called when the game is started.
+        /// starts the music
+        /// </summary>
         public void StartGame()
         {
             IsRunning = true;
             AudioManager.Instance.PlayMusicLoop("music");
         }
+
+        /// <summary>
+        /// the game loop function that handles the threads
+        /// </summary>
         public void Run()
         {
             while (ThreadRunning)
             {
                 if (IsRunning)
                 {
+                    //get the canvas to draw on
                     if (!this.Holder.Surface.IsValid)
                         continue;
                     Canvas canvas = null;
@@ -102,6 +135,7 @@ namespace BrickBreaker
                         canvas = this.Holder.LockCanvas();
                         if (isFirstCall)
                         {
+                            //init the game objects positions and sizes according to the specific phone screen size - canvas
                             InitBricks(canvas);
                             screenSize = new Vector(canvas.Width, canvas.Height);
                             pause.Position = new Vector(screenSize.X - pause.Size.X, 0);
@@ -111,15 +145,20 @@ namespace BrickBreaker
                             ball.Position = new Vector(BottomBat.Position.X + Bat.Size.X / 2, BottomBat.Position.Y - 2*Ball.Radius);
                             isFirstCall = false;
                         }
+
+                        //update the game
                         Update(canvas);
+
+                        //draw everything on the canvas
                         Draw(canvas);
+
                         if (HasLost)
                         {
-                            AudioManager.Instance.Stop("music");
-                            AudioManager.Instance.PlaySound("lost");
+                            //if the game had ended and the player lost
+                            AudioManager.Instance.Stop("music"); //stop the music
+                            AudioManager.Instance.PlaySound("lost"); //play lost sound
                             Thread.Sleep(1000);
-
-                            AudioManager.Instance.Release();
+                            AudioManager.Instance.Release(); //release the sound
                         }
                     }
                     catch (Exception e)
@@ -136,12 +175,19 @@ namespace BrickBreaker
                 }
             }
         }
+
+        /// <summary>
+        /// generates a start position for the bottom bat
+        /// </summary>
+        /// <param name="canvas">the canvas</param>
+        /// <returns>the random vector position</returns>
         private Vector BatStartPositionGenerator(Canvas canvas)
         {
             Random r = new Random();
             Vector randPos = new Vector(r.Next(canvas.Width - Bat.Size.X),canvas.Height- 2*Bat.Size.Y);
             return randPos;
         }
+
         /// <summary>
         /// inits the brick array by creating the brickes and positioning them
         /// </summary>
@@ -164,26 +210,41 @@ namespace BrickBreaker
                 x = Constants.SPACE*2;
             }
         }
+
+        /// <summary>
+        /// handles touch events - button clicks
+        /// </summary>
+        /// <param name="e">the touch event</param>
+        /// <returns>true</returns>
         public override bool OnTouchEvent(MotionEvent e)
         {
-            if(HasTouchedButton(pause, e))
+            Vector position = new Vector((int)e.GetX(), (int)e.GetY());
+            if(HasTouchedButton(pause, position))
                 Pause();
-            if (HasTouchedButton(resume, e))
+            if (HasTouchedButton(resume, position))
                 Resume();
             Invalidate();
             return true;
         }
-        private bool HasTouchedButton(GameButton btn, MotionEvent e)
+
+        /// <summary>
+        /// checks if the touch was on a button
+        /// </summary>
+        /// <param name="btn">the button to check</param>
+        /// <param name="position">the position of the touch</param>
+        /// <returns></returns>
+        private bool HasTouchedButton(GameButton btn, Vector position)
         {
             int left = btn.Position.X;
             int top = btn.Position.Y;
             int right = btn.Position.X + btn.Size.X;
             int bottom = btn.Position.Y + btn.Size.Y;
-            int x = (int)e.GetX();
-            int y = (int)e.GetY();
+            int x = position.X;
+            int y = position.Y;
             if (x > left && x < right && y > top && y < bottom) return true;
             return false;
         }
+
         /// <summary>
         /// handles movement of the bat.
         /// </summary>
@@ -196,6 +257,7 @@ namespace BrickBreaker
             else 
                 TopBat.Velocity.X = -BottomBat.Velocity.X; //moves against the bottom bat - hard mode
         }
+
         /// <summary>
         /// makes every brick in the given array visible
         /// </summary>
@@ -210,6 +272,7 @@ namespace BrickBreaker
                 }
             }
         }
+
         /// <summary>
         /// counts the visible bricks
         /// </summary>
@@ -227,6 +290,7 @@ namespace BrickBreaker
             }
             return count;
         }
+
         /// <summary>
         /// draws all the objects on the canvas
         /// </summary>
@@ -234,12 +298,11 @@ namespace BrickBreaker
         public new void Draw(Canvas canvas)
         {
             base.OnDraw(canvas); //set the canvas to be drawn on
-            canvas.DrawColor(ColorManager.Instance.GetColor("background"));
-            Score.Draw(canvas);
-            pause.Draw(canvas);
-            //draw the bat in the correct position
-            BottomBat.Draw(canvas);
-            TopBat.Draw(canvas);
+            canvas.DrawColor(ColorManager.Instance.GetColor("background")); //draws the background color
+            Score.Draw(canvas); //draws the score
+            pause.Draw(canvas); //draws the pause
+            BottomBat.Draw(canvas); //draws the bottom bat
+            TopBat.Draw(canvas); //draws the top bat
             //draw the bricks
             for (int i = 0; i < bricks.GetLength(0); i++)
             {
@@ -251,13 +314,15 @@ namespace BrickBreaker
                     }
                 }
             }
-            //draw the ball
+            //draw the ball 
             ball.Draw(canvas);
             if(!IsRunning)
             {
+                //if the game is paused - draw the resume button
                 resume.Draw(canvas);
             }
         }
+
         /// <summary>
         /// updates the positions and events
         /// </summary>
@@ -266,13 +331,14 @@ namespace BrickBreaker
         {
             if(IsBallNearBricks())
             {
-                //brick hit
+                //if the ball is near the bricks - check hit on every brick
                 for (int i = 0; i < bricks.GetLength(0); i++)
                 {
                     for (int j = 0; j < bricks.GetLength(1); j++)
                     {
                         if (bricks[i, j].IsHit(ball))
                         {
+                            //if there was a hit - play hit sound and increase score
                             AudioManager.Instance.PlaySound("brick_hit");
                             Score.IncreaseScore();
                         }
@@ -281,26 +347,34 @@ namespace BrickBreaker
             }
             if (CountVisible(bricks) == 0)
             {
+                //if there aren't any bricks left - play sound and refill the bricks
                 AudioManager.Instance.PlaySound("finished_bricks");
                 Thread.Sleep(1000);
                 MakeVisible(bricks);
             }
-            BottomBat.UpdateMovement(); //update the bat movement
-            TopBat.UpdateMovement();
+            BottomBat.UpdateMovement(); //update the bottom bat movement
+            TopBat.UpdateMovement(); //update the bottom bat movement
             ball.UpdateMovement(); //update the ball movement
             BottomBat.UpdateBounds(canvas); //check bounds of the bat
             TopBat.UpdateBounds(canvas); //check bounds of the bat
             ball.UpdateWallHit(new Vector(canvas.Width, canvas.Height)); //check bounds of the ball - walls
-            //check if the bat missed the ball and lost
+            
             if (BottomBat.IsBallHit(ball, canvas, 'b') == 1 || TopBat.IsBallHit(ball, canvas, 't') == 1)
             {
+                // if the bat hit the ball - play sound
                 AudioManager.Instance.PlaySound("bat_hit");
             }
             else if (BottomBat.IsBallHit(ball, canvas, 'b') == -1 || TopBat.IsBallHit(ball, canvas, 't') == -1)
             {
+                // if the bat missed the ball - the player lost
                 HasLost = true;
             }
         }
+
+        /// <summary>
+        /// checks if the ball is near the bricks
+        /// </summary>
+        /// <returns>true- the ball is lower than the first brick and higher than the last brick. else - false.</returns>
         private bool IsBallNearBricks()
         {
             if ((ball.Position.Y >= bricks[0, 0].Position.Y - Ball.Radius && ball.Position.Y <= bricks[bricks.GetLength(0) - 1, 0].Position.Y + 2* Ball.Radius))
