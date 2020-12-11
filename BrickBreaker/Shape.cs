@@ -40,5 +40,27 @@ namespace BrickBreaker
             Position = new Vector(Constants.DEFULT_VECTOR);
         }
         public abstract void Draw(Canvas canvas);
+
+        public bool HasHitBall(Ball ball, Vector size)
+        {
+            float testX = ball.Position.X;
+            float testY = ball.Position.Y;
+
+            if (ball.Position.X < this.Position.X) testX = this.Position.X;        // left edge
+            else if (ball.Position.X > this.Position.X + size.X) testX = this.Position.X + size.X;     // right edge
+
+            if (ball.Position.Y < this.Position.Y) testY = this.Position.Y;        // top edge
+            else if (ball.Position.Y > this.Position.Y + size.Y) testY = this.Position.Y + size.Y;     // bottom edge
+
+            float distX = ball.Position.X - testX;
+            float distY = ball.Position.Y - testY;
+            double distance = Math.Sqrt((distX * distX) + (distY * distY));
+
+            if (distance <= Ball.Radius)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

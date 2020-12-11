@@ -44,7 +44,10 @@ namespace BrickBreaker
         public void UpdateWallHit(Vector screenSize) //handle hits with the ball
         {
             if (Position.X - Radius <= 0 || Position.X >= screenSize.X - Radius)
+            {
+                KeepVelocity();
                 Velocity.X = -Velocity.X;
+            }
         }
         public void KeepVelocity()
         {
@@ -52,6 +55,13 @@ namespace BrickBreaker
             //if velocity gets too slow or too fast - normalize it
             if (Math.Abs(this.Velocity.X) < Constants.BALL_MIN_VELOCITY.X) this.Velocity.X = sign * Constants.BALL_MIN_VELOCITY.X;
             if (Math.Abs(this.Velocity.X) > Constants.BALL_MAX_VELOCITY.X) this.Velocity.X = sign * Constants.BALL_MAX_VELOCITY.X;
+        }
+
+        public void ChangeVelocity()
+        {
+            Random rand = new Random();
+            Velocity.X += rand.Next(-2, 2);
+            KeepVelocity(); //make sure the velocity isn't too fast or to slow
         }
 
         /// <summary>

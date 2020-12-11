@@ -60,41 +60,25 @@ namespace BrickBreaker
             {
                 if (ball.Position.Y - Ball.Radius * 2 > canvas.Height)
                     return -1;
-                if (ball.Position.Y >= this.Position.Y - Ball.Radius) //if the bottom bat missed the ball
-                {
-                    if (ball.Position.X >= this.Position.X - Ball.Radius && ball.Position.X <= this.Position.X + Size.X + Ball.Radius)
-                    {
-                        ball.Velocity.Y = -ball.Velocity.Y;
-                        if(ball.Position.X > this.Position.X + Size.X / 2)
-                        {
-                            ball.Velocity.X = Math.Abs(ball.Velocity.X);
-                        }
-                        else
-                        {
-                            ball.Velocity.X = -1 * Math.Abs(ball.Velocity.X);
-                        }
-                        return 1;
-                    }
-                }
-                return 0;
             }
-            if (ball.Position.Y + Ball.Radius * 2 < 0)
-                return -1;
-            if (ball.Position.Y <= this.Position.Y + Ball.Radius) //if the bat missed the ball
+            else
             {
-                if (ball.Position.X >= this.Position.X - Ball.Radius && ball.Position.X <= this.Position.X + Size.X + Ball.Radius)
+                if (ball.Position.Y + Ball.Radius * 2 < 0)
+                    return -1;
+            }
+            if(HasHitBall(ball, Size))
+            {
+                ball.ChangeVelocity();
+                ball.Velocity.Y = -ball.Velocity.Y;
+                if (ball.Position.X > this.Position.X + Size.X / 2)
                 {
-                    ball.Velocity.Y = -ball.Velocity.Y;
-                    if (ball.Position.X > this.Position.X + Size.X / 2)
-                    {
-                        ball.Velocity.X = Math.Abs(ball.Velocity.X);
-                    }
-                    else
-                    {
-                        ball.Velocity.X = -1 * Math.Abs(ball.Velocity.X);
-                    }
-                    return 1;
+                    ball.Velocity.X = Math.Abs(ball.Velocity.X);
                 }
+                else
+                {
+                    ball.Velocity.X = -1 * Math.Abs(ball.Velocity.X);
+                }
+                return 1;
             }
             return 0;
         }
