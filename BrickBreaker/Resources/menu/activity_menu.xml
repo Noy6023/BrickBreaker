@@ -14,5 +14,10 @@
     android:icon="@drawable/customize_icon"
     app:showAsAction="always"
        />
-
+  <item
+    android:id="@+id/help"
+    android:title="Help"
+    android:icon="@drawable/help_icon"
+    app:showAsAction="always"
+       />
 </menu>

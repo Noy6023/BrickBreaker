@@ -28,9 +28,8 @@ namespace BrickBreaker
         TextView tvLastScore;
         TextView tvMaxScore;
         int max, lastScore;
-        Dialog settingsDialog, nameDialog;
+        Dialog settingsDialog, nameDialog, helpDialog;
         ISharedPreferences sp;
-        //Hashtable colors;
         RadioGroup rgBallSize, rgBrickSize, rgDifficulty;
         RadioButton rbBallSmall, rbBallMedium, rbBallBig;
         RadioButton rbBrickSmall, rbBrickMedium, rbBrickBig;
@@ -158,6 +157,11 @@ namespace BrickBreaker
                 StartActivityForResult(intent, 1);
                 return true;
             }
+            if(item.ItemId == Resource.Id.help)
+            {
+                CreateHelpDialog();
+                return true;
+            }
             return base.OnOptionsItemSelected(item);
         }
         public void CreateSettingsDialog()
@@ -191,6 +195,13 @@ namespace BrickBreaker
             btnBackSettings.SetOnClickListener(this);
             btnSaveSettings.SetOnClickListener(this);
             settingsDialog.Show();
+        }
+        public void CreateHelpDialog()
+        {
+            helpDialog = new Dialog(this);
+            helpDialog.SetContentView(Resource.Layout.activity_help);
+            helpDialog.SetCancelable(true);
+            helpDialog.Show();
         }
         public void CreateNameDialog()
         {
