@@ -16,6 +16,7 @@ namespace BrickBreaker
     {
         public Vector Position { get; set; } //the current positon of the shape
         public Paint Paint { get; set; } //the paint of the shape
+        ///ctors
         public Shape(Vector position, Color color)
         {
             this.Position = new Vector(position);
@@ -39,8 +40,18 @@ namespace BrickBreaker
             Paint.Color = Constants.DEFULT_COLOR;
             Position = new Vector(Constants.DEFULT_VECTOR);
         }
+        /// <summary>
+        /// an abstract draw function that will be different in every sub class
+        /// </summary>
+        /// <param name="canvas"></param>
         public abstract void Draw(Canvas canvas);
 
+        /// <summary>
+        /// check hit of the current shape with ball
+        /// </summary>
+        /// <param name="ball">the ball to check</param>
+        /// <param name="size">the size of the shape</param>
+        /// <returns>true - there was a hit. else - false.</returns>
         public bool HasHitBall(Ball ball, Vector size)
         {
             float testX = ball.Position.X;
@@ -58,6 +69,7 @@ namespace BrickBreaker
 
             if (distance <= Ball.Radius)
             {
+                
                 return true;
             }
             return false;

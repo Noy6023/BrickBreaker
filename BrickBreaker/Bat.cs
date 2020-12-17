@@ -40,6 +40,7 @@ namespace BrickBreaker
             if (Position.X >= canvas.Width - Size.X)
                 Position.X = canvas.Width - Size.X;
         }
+
         /// <summary>
         /// update the bat movement by decreasing the velocity times 5 from the position
         /// </summary>
@@ -47,6 +48,7 @@ namespace BrickBreaker
         {
             Position.X -= Velocity.X * 5;
         }
+
         /// <summary>
         /// a check if the bat has hit the ball or missed it
         /// </summary>
@@ -68,6 +70,7 @@ namespace BrickBreaker
             }
             if(HasHitBall(ball, Size))
             {
+                ball.Position.Y = this.Position.Y - Ball.Radius;
                 ball.ChangeVelocity();
                 ball.Velocity.Y = -ball.Velocity.Y;
                 if (ball.Position.X > this.Position.X + Size.X / 2)
@@ -82,6 +85,7 @@ namespace BrickBreaker
             }
             return 0;
         }
+
         /// <summary>
         /// draws the bat on the canvas
         /// </summary>

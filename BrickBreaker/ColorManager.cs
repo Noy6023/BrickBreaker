@@ -15,17 +15,19 @@ namespace BrickBreaker
 {
     public sealed class ColorManager
     {
+        //using a singelton method so that there is only one instance of color manager
         private static readonly ColorManager instance = new ColorManager();
         public Hashtable Colors;
         public static string[] Keys = { "ball", "bat", "brick", "background" };
-        static ColorManager()
+        static ColorManager() //static constructor
         {
 
         }
-        private ColorManager()
+        private ColorManager() //private constructor
         {
             InitColors();
         }
+
         public static ColorManager Instance
         {
             get
@@ -33,6 +35,10 @@ namespace BrickBreaker
                 return instance;
             }
         }
+
+        /// <summary>
+        /// inits the color hashtable to the defult colors
+        /// </summary>
         public void InitColors()
         {
             Colors = new Hashtable();
@@ -41,6 +47,7 @@ namespace BrickBreaker
             Colors.Add("brick", Constants.DEFULT_BRICK_COLOR);
             Colors.Add("background", Constants.BACKGROUND_COLOR);
         }
+
         public void GetColorsFromIntent(Intent data)
         {
             Colors = new Hashtable();
@@ -56,6 +63,12 @@ namespace BrickBreaker
                 data.PutExtra(key, ((Color)Colors[key]).ToArgb());
             }
         }
+
+        /// <summary>
+        /// sets a color
+        /// </summary>
+        /// <param name="key">the key of the color</param>
+        /// <param name="color">the color int</param>
         public void SetColor(string key, int color)
         {
             if(Colors.ContainsKey(key))
@@ -63,6 +76,12 @@ namespace BrickBreaker
                 Colors[key] = IntToColorConvertor(color);
             }
         }
+
+        /// <summary>
+        /// get a color
+        /// </summary>
+        /// <param name="key">the key of the color to get</param>
+        /// <returns>the color or a defult color if there's no such key</returns>
         public Color GetColor(string key)
         {
             if (Colors.ContainsKey(key))
@@ -71,6 +90,12 @@ namespace BrickBreaker
             }
             return Constants.DEFULT_COLOR;
         }
+
+        /// <summary>
+        /// converts an int representation of a color to a color
+        /// </summary>
+        /// <param name="color">the given int color</param>
+        /// <returns>the color</returns>
         public Color IntToColorConvertor(int color)
         {
             Color result = new Color();
@@ -81,6 +106,10 @@ namespace BrickBreaker
             return result;
 
         }
+
+        /// <summary>
+        /// randomize the colors
+        /// </summary>
         public void RandomColors()
         {
             Random rand = new Random();

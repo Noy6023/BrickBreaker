@@ -13,7 +13,7 @@ using System.Text;
 namespace BrickBreaker
 {
     [Activity(Label = "ColorPickerActivity")]
-    public class ColorPickerActivity : Activity, Android.Views.View.IOnClickListener, ColorPicker.IOnColorChangedListener
+    public class ColorPickerActivity : Activity, Android.Views.View.IOnClickListener
     {
         private ColorPicker picker;
         private SVBar svBar;
@@ -29,6 +29,9 @@ namespace BrickBreaker
             // Create your application here
         }
 
+        /// <summary>
+        /// inits the views
+        /// </summary>
         private void InitViews()
         {
             picker = FindViewById<ColorPicker>(Resource.Id.picker);
@@ -43,6 +46,10 @@ namespace BrickBreaker
             btnApply.SetOnClickListener(this);
         }
 
+        /// <summary>
+        /// handles a click event
+        /// </summary>
+        /// <param name="v"></param>
         public void OnClick(View v)
         {
             if(button == v)
@@ -59,11 +66,6 @@ namespace BrickBreaker
                 SetResult(Result.Ok, intent);
                 Finish();
             }
-        }
-
-        public void OnColorChanged(int color)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -34,6 +34,9 @@ namespace BrickBreaker
             InitViews();
         }
 
+        /// <summary>
+        /// inits the views
+        /// </summary>
         private void InitViews()
         {
             btnBallColor = FindViewById<Button>(Resource.Id.btnBallColor);
@@ -52,6 +55,11 @@ namespace BrickBreaker
             btnRandom.SetOnClickListener(this);
             btnBack.SetOnClickListener(this);
         }
+
+        /// <summary>
+        /// handles event click
+        /// </summary>
+        /// <param name="v"></param>
         public void OnClick(View v)
         {
             Intent intent = new Intent(this, typeof(ColorPickerActivity));
@@ -87,7 +95,9 @@ namespace BrickBreaker
                 Finish();
             }
         }
-        
+        /// <summary>
+        /// changes the color of the buttons
+        /// </summary>
         private void ChangeButtonsColors()
         {
             ColorDrawable ball = new ColorDrawable(ColorManager.Instance.GetColor("ball"));
@@ -100,6 +110,12 @@ namespace BrickBreaker
             btnBackgroundColor.Background = background;
         }
 
+        /// <summary>
+        /// gets the color that was chosen from the color picker
+        /// </summary>
+        /// <param name="requestCode">the view to change</param>
+        /// <param name="resultCode">the result code - ok/cancled</param>
+        /// <param name="data">the data that was sent in an intent</param>
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
@@ -109,10 +125,10 @@ namespace BrickBreaker
                 {
                     if(!data.Extras.IsEmpty)
                     {
-                        int color = data.GetIntExtra("color", 0);
+                        int color = data.GetIntExtra("color", 0); //get the color int that was chosen
                         ColorDrawable colorDrawable = new ColorDrawable(ColorManager.Instance.IntToColorConvertor(color));
-                        btnBallColor.Background = colorDrawable;
-                        ColorManager.Instance.SetColor("ball", color);
+                        btnBallColor.Background = colorDrawable; //set the button color to it
+                        ColorManager.Instance.SetColor("ball", color); //update the color in the color manager
                     }
                 }
             }

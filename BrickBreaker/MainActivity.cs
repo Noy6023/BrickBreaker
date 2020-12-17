@@ -43,6 +43,9 @@ namespace BrickBreaker
             SetContentView(Resource.Layout.activity_main);
             InitView();
         }
+        /// <summary>
+        /// inits the views in the main screen and loads the info from the previous runs
+        /// </summary>
         private void InitView()
         {
             sp = this.GetSharedPreferences("Settings", FileCreationMode.Private);
@@ -63,6 +66,10 @@ namespace BrickBreaker
             SetDifficulty();
             SetInfo(FileManager.Instance.LoadInfo(this));
         }
+        /// <summary>
+        /// sets the init info from the info array that contains the info from previous runs
+        /// </summary>
+        /// <param name="info"></param>
         private void SetInfo(string[] info)
         {
             if(info != null)
@@ -73,6 +80,11 @@ namespace BrickBreaker
                 SetScoreInfo(max, lastScore);
             }
         }
+
+        /// <summary>
+        /// gets the current info and places it in an info array the will be saved 
+        /// </summary>
+        /// <returns></returns>
         private string[] GetInfo()
         {
             string[] info = new string[3];
@@ -81,6 +93,10 @@ namespace BrickBreaker
             info[2] = btnName.Text;
             return info;
         }
+
+        /// <summary>
+        /// sets the difficulty according to the last run or what the player chose
+        /// </summary>
         private void SetDifficulty()
         {
             Difficulty difficulty = (Difficulty)sp.GetInt("difficulty", 0);
@@ -94,8 +110,13 @@ namespace BrickBreaker
                 if (rbEasy != null) rbEasy.Checked = true;
             }
         }
+
+        /// <summary>
+        /// sets the sizes according to the last run or what the player chose
+        /// </summary>
         private void SetSizes()
         {
+            //get the size or get medium size by defult
             Size ballSize = (Size)sp.GetInt("ball size", 1);
             lastBallChecked = ballSize;
             if (ballSize == Size.Big)
@@ -132,6 +153,7 @@ namespace BrickBreaker
                 if (rbBrickMedium != null) rbBrickMedium.Checked = true;
             }
         }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -144,6 +166,11 @@ namespace BrickBreaker
             return true;
         }
 
+        /// <summary>
+        /// handles menu actions
+        /// </summary>
+        /// <param name="item">the item of the menu that was selected</param>
+        /// <returns></returns>
         public override bool OnOptionsItemSelected(Android.Views.IMenuItem item)
         {
             if (item.ItemId == Resource.Id.settings)
@@ -164,6 +191,10 @@ namespace BrickBreaker
             }
             return base.OnOptionsItemSelected(item);
         }
+
+        /// <summary>
+        /// creates the setting dialog
+        /// </summary>
         public void CreateSettingsDialog()
         {
             settingsDialog = new Dialog(this);
@@ -196,6 +227,10 @@ namespace BrickBreaker
             btnSaveSettings.SetOnClickListener(this);
             settingsDialog.Show();
         }
+
+        /// <summary>
+        /// created the help dialog
+        /// </summary>
         public void CreateHelpDialog()
         {
             helpDialog = new Dialog(this);
@@ -203,6 +238,10 @@ namespace BrickBreaker
             helpDialog.SetCancelable(true);
             helpDialog.Show();
         }
+
+        /// <summary>
+        /// creates the name dialog
+        /// </summary>
         public void CreateNameDialog()
         {
             nameDialog = new Dialog(this);
@@ -215,6 +254,11 @@ namespace BrickBreaker
             btnSaveName.SetOnClickListener(this);
             nameDialog.Show();
         }
+
+        /// <summary>
+        /// handles a click event
+        /// </summary>
+        /// <param name="v">the view that was clicked</param>
         public void OnClick(View v)
         {
             if(v == btnStart)
@@ -252,6 +296,14 @@ namespace BrickBreaker
                 settingsDialog.Dismiss();
             }
         }
+
+        /// <summary>
+        /// the function that is being called after the game ended.
+        /// it sets the last score and max score and saves them.
+        /// </summary>
+        /// <param name="requestCode">the screen we came from</param>
+        /// <param name="resultCode">the result - ok/cancled</param>
+        /// <param name="data">the intent with the information that was sent from the game activity</param>
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
@@ -269,17 +321,32 @@ namespace BrickBreaker
                 }
             }
         }
+
+        /// <summary>
+        /// sets the text of the max score and last score according to the given parametrs.
+        /// </summary>
+        /// <param name="max">the max score to set</param>
+        /// <param name="lastScore">the last score to set</param>
         public void SetScoreInfo(int max, int lastScore)
         {
             tvLastScore.Text = "Last Score: " + lastScore.ToString();
             tvMaxScore.Text = "Highest Score: " + max.ToString();
         }
+
+        /// <summary>
+        /// handles a check change in the radio group
+        /// </summary>
+        /// <param name="group">the radio group</param>
+        /// <param name="checkedId">the radio button the was checked</param>
         public void OnCheckedChanged(RadioGroup group, int checkedId)
         {
+            //create an editor
             var editor = sp.Edit();
+            //check if the radio group is the ball size
             if (group == rgBallSize)
             {
-                Size ballSize = Size.Medium;
+                Size ballSize = Size.Medium; //set defult to medium
+                //check which size was clicked and change it
                 if(checkedId == Resource.Id.rbBallSmall)
                 {
                     ballSize = Size.Small;
@@ -292,11 +359,14 @@ namespace BrickBreaker
                 {
                     ballSize = Size.Big;
                 }
+                //insert the size to the editor
                 editor.PutInt("ball size", (int)ballSize);
             }
+            //check if the radio group is the brick size
             if (group == rgBrickSize)
             {
-                Size brickSize = Size.Medium;
+                Size brickSize = Size.Medium; //set defult to medium
+                //check which size was clicked and change it
                 if (checkedId == Resource.Id.rbBrickSmall)
                 {
                     brickSize = Size.Small;
@@ -309,11 +379,14 @@ namespace BrickBreaker
                 {
                     brickSize = Size.Big;
                 }
+                //insert the size to the editor
                 editor.PutInt("brick size", (int)brickSize);
             }
-            if(group == rgDifficulty)
+            //check if the radio group is the difficulty
+            if (group == rgDifficulty)
             {
-                Difficulty difficulty = Difficulty.Easy;
+                Difficulty difficulty = Difficulty.Easy; //set defult to easy
+                //check which difficulty was clicked and change it
                 if (checkedId == Resource.Id.rbEasy)
                 {
                     difficulty = Difficulty.Easy;
@@ -322,8 +395,10 @@ namespace BrickBreaker
                 {
                     difficulty = Difficulty.Hard;
                 }
+                //insert the difficulty to the editor
                 editor.PutInt("difficulty", (int)difficulty);
             }
+            //commit the changes and set them
             editor.Commit();
             SetSizes();
             SetDifficulty();

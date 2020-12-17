@@ -65,7 +65,6 @@ namespace BrickBreaker
         }
         public override void Finish()
         {
-
             base.Finish();
             board.ThreadRunning = false;
             while (true)
@@ -86,6 +85,10 @@ namespace BrickBreaker
             //we dont want anything to happen here so it's empty
         }
 
+        /// <summary>
+        /// handle sensor change event
+        /// </summary>
+        /// <param name="e">the event</param>
         public void OnSensorChanged(SensorEvent e)
         {
             if (e.Sensor.Type.Equals(SensorType.Accelerometer))

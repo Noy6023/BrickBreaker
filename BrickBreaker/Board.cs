@@ -354,7 +354,7 @@ namespace BrickBreaker
             }
             BottomBat.UpdateMovement(); //update the bottom bat movement
             TopBat.UpdateMovement(); //update the bottom bat movement
-            ball.UpdateMovement(); //update the ball movement
+            ball.UpdateMovement(canvas); //update the ball movement
             BottomBat.UpdateBounds(canvas); //check bounds of the bat
             TopBat.UpdateBounds(canvas); //check bounds of the bat
             ball.UpdateWallHit(new Vector(canvas.Width, canvas.Height)); //check bounds of the ball - walls

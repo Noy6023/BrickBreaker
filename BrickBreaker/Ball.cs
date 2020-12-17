@@ -31,11 +31,21 @@ namespace BrickBreaker
         /// <summary>
         /// updates the movement of the ball by adding the velocity to the position
         /// </summary>
-        public void UpdateMovement()
+        public void UpdateMovement(Canvas canvas)
         {
             KeepVelocity();
+            KeepInScreen(canvas);
             Position.X += Velocity.X;
             Position.Y += Velocity.Y;
+        }
+        /// <summary>
+        /// make sure the ball doesn't run from the screen 
+        /// </summary>
+        /// <param name="canvas"></param>
+        public void KeepInScreen(Canvas canvas)
+        {
+            if (Position.X - Ball.Radius < 0) Position.X = Radius;
+            if (Position.X + Ball.Radius > canvas.Width) Position.X = canvas.Width-Radius;
         }
         /// <summary>
         /// handles a hit with the wall by negating the velocity
@@ -49,6 +59,9 @@ namespace BrickBreaker
                 Velocity.X = -Velocity.X;
             }
         }
+        /// <summary>
+        /// makes sure the velocity isn't too fast or too slow. if it is it makes it the min or max velocity
+        /// </summary>
         public void KeepVelocity()
         {
             int sign = Velocity.X / Math.Abs(Velocity.X);
@@ -56,7 +69,9 @@ namespace BrickBreaker
             if (Math.Abs(this.Velocity.X) < Constants.BALL_MIN_VELOCITY.X) this.Velocity.X = sign * Constants.BALL_MIN_VELOCITY.X;
             if (Math.Abs(this.Velocity.X) > Constants.BALL_MAX_VELOCITY.X) this.Velocity.X = sign * Constants.BALL_MAX_VELOCITY.X;
         }
-
+        /// <summary>
+        /// changes the x velocity by a random number and makes sure it is not too fast or too slow
+        /// </summary>
         public void ChangeVelocity()
         {
             Random rand = new Random();

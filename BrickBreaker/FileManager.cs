@@ -17,8 +17,9 @@ namespace BrickBreaker
 {
     public sealed class FileManager
     {
+        //using a singelton method so that there is only one instance of audio manager
         private static readonly FileManager instance = new FileManager();
-        private FileManager()
+        private FileManager() //private constructor
         {
 
         }
@@ -29,6 +30,13 @@ namespace BrickBreaker
                 return instance;
             }
         }
+
+        /// <summary>
+        /// save the info to the file
+        /// </summary>
+        /// <param name="seperator">the separator</param>
+        /// <param name="info">the info</param>
+        /// <param name="context">the context</param>
         public void SaveInfo(char seperator, string[] info, Context context)
         {
             //save: score, highest score, name
@@ -61,7 +69,11 @@ namespace BrickBreaker
             }
         }
 
-
+        /// <summary>
+        /// load the info from the file
+        /// </summary>
+        /// <param name="context">the context</param>
+        /// <returns>an info array</returns>
         public string[] LoadInfo(Context context)
         {
             string[] seperators = new[] { "\n" };
