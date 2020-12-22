@@ -75,6 +75,7 @@
     <Compile Include="Difficulty.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="FireBaseData.cs" />
+    <Compile Include="FireStoreActivity.cs" />
     <Compile Include="Size.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="GameActivity.cs" />

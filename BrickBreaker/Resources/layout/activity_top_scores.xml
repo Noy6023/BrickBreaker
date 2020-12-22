@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color1">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Top Scores"
+        android:textColor="@android:color/black"
+        android:textSize="40dp"
+        android:layout_gravity="center" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your highest score is: "
+        android:textColor="@android:color/black"
+        android:textSize="20dp"
+        android:layout_gravity="center" />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lv" />
+    <Button
+        android:layout_marginTop="325dp"
+        android:id="@+id/btnUpload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload Yours"
+        android:background="@android:color/black"
+        android:padding="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="20dp"
+        android:layout_gravity="center" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="*Once you upload it,  it will update automatically.\n*You can remove yourself if you regret."
+        android:textColor="@android:color/black"
+        android:textSize="15dp"
+        />
+</LinearLayout>

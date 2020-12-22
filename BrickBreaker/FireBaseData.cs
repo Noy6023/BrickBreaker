@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Gms.Tasks;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -7,6 +8,7 @@ using Android.Widget;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Firestore;
+using Java.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +45,7 @@ namespace BrickBreaker
                     .Build();
         }
 
-        public Android.Gms.Tasks.Task CreateUser(string email, string password)
+        public Task CreateUser(string email, string password)
         {
             return auth.CreateUserWithEmailAndPassword(email, password);
         }
@@ -51,6 +53,15 @@ namespace BrickBreaker
         public Android.Gms.Tasks.Task SignIn(string email, string password)
         {
             return auth.SignInWithEmailAndPassword(email, password);
+        }
+        public Task AddDocumentToCollection(string cName, string dName, Hashtable hmFields)
+        {
+            DocumentReference cr;
+            if (dName is null)
+                cr = firestore.Collection(cName).Document();
+            else
+                cr = firestore.Collection(cName).Document(dName);
+            return cr.Set(hmFields);
         }
     }
 }
