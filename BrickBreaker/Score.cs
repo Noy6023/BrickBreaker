@@ -1,52 +1,79 @@
 ﻿using Android.App;
 using Android.Content;
-using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace BrickBreaker
 {
-    public class Score : Shape
+    class Score
     {
-        private int score;
-        public Score(Vector position, Color color) : base(position, color)
+        public string Name { get; set; }
+        public int LastValue { get; set; }
+        public int HighestValue { get; set; }
+        public int Key { get; set; }
+        public Score()
         {
-            base.Paint.TextSize = Constants.DEFULT_SCORE_SIZE;
-            this.score = 0;
+            Name = "Player";
+            LastValue = 0;
+            HighestValue = 0;
+            Key = new Random().Next(10000, 90000);
         }
-        public Score() : base()
+
+        public Score(string name, int lastValue, int highestValue, int key)
         {
-            base.Paint.TextSize = Constants.DEFULT_SCORE_SIZE;
-            this.score = 0;
-            Position = new Vector(0, (int)Paint.TextSize);
+            this.Name = name;
+            this.LastValue = lastValue;
+            this.HighestValue = highestValue;
+            this.Key = key;
         }
         /// <summary>
-        /// get score function
+        /// sets the init info from the info array that contains the info from previous runs
         /// </summary>
-        /// <returns></returns>
-        public int GetScore() { return score; }
-        
-        /// <summary>
-        /// increases the score
-        /// </summary>
-        public void IncreaseScore()
+        /// <param name="info"></param>
+        public void SetInfo(string[] info)
         {
-            score++;
+            if (info != null)
+            {
+                LastValue = Int32.Parse(info[0]);
+                HighestValue = Int32.Parse(info[1]);
+                Key = Int32.Parse(info[2]);
+                Name = info[3];
+            }
         }
 
         /// <summary>
-        /// draws the score on the canvas
+        /// gets the current info and places it in an info array the will be saved 
         /// </summary>
-        /// <param name="canvas">the canvas</param>
-        public override void Draw(Canvas canvas)
+        /// <returns></returns>
+        public string[] GetInfo()
         {
-            canvas.DrawText("Score: " + score.ToString(), Position.X, Position.Y, Paint);
+            string[] info = new string[4];
+            info[0] = LastValue.ToString();
+            info[1] = HighestValue.ToString();
+            info[2] = Key.ToString();
+            info[3] = Name;
+            return info;
+        }
+        public void ChangedScore()
+        {
+            if (LastValue > HighestValue)
+            {
+                HighestValue = LastValue;
+            }
+        }
+        public void SetScoreInIntent(Intent intent)
+        {
+            intent.PutExtra("Name", Name);
+            intent.PutExtra("LastValue", LastValue);
+            intent.PutExtra("HighestValue", HighestValue);
+            intent.PutExtra("Key", Key);
         }
     }
 }

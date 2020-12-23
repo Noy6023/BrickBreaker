@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "228142586969",
+    "firebase_url": "https://brickbreaker-6c644-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "brickbreaker-6c644",
+    "storage_bucket": "brickbreaker-6c644.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:228142586969:android:23b693e6112b712d46e548",
+        "android_client_info": {
+          "package_name": "com.companyname.brickbreaker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "228142586969-432e0hhpvbuk78d6j57gg7c912akph40.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABeKz9zLg-OTnfDK6mtyVkUVeIRJTatVM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "228142586969-432e0hhpvbuk78d6j57gg7c912akph40.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

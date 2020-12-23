@@ -74,6 +74,10 @@
     <Compile Include="CustomizeActivity.cs" />
     <Compile Include="Difficulty.cs" />
     <Compile Include="FileManager.cs" />
+    <Compile Include="FireBaseData.cs" />
+    <Compile Include="FireStoreActivity.cs" />
+    <Compile Include="Score.cs" />
+    <Compile Include="ScoreAdapter.cs" />
     <Compile Include="Size.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="GameActivity.cs" />
@@ -82,7 +86,7 @@
     <Compile Include="AudioManager.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Score.cs" />
+    <Compile Include="GameScore.cs" />
     <Compile Include="Shape.cs" />
     <Compile Include="Sound.cs" />
     <Compile Include="Vector.cs" />
@@ -200,6 +204,15 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\tilt_phone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_score.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_top_scores.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\top_scores_icon.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
