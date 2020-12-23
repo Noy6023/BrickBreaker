@@ -70,7 +70,8 @@ namespace BrickBreaker
             }
             if(HasHitBall(ball, Size))
             {
-                ball.Position.Y = this.Position.Y - Ball.Radius;
+                if(bat == 'b') ball.Position.Y = this.Position.Y - Ball.Radius;
+                else ball.Position.Y = this.Position.Y + Size.Y + Ball.Radius;
                 ball.ChangeVelocity();
                 ball.Velocity.Y = -ball.Velocity.Y;
                 if (ball.Position.X > this.Position.X + Size.X / 2)

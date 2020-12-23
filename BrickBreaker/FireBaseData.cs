@@ -16,12 +16,17 @@ using System.Text;
 
 namespace BrickBreaker
 {
+    /// <summary>
+    /// fire base data class
+    /// </summary>
     class FireBaseData
     {
-        public FirebaseFirestore firestore { get; set; }
+        private FirebaseFirestore firestore;
         private FirebaseAuth auth;
         private FirebaseApp app;
-
+        /// <summary>
+        /// constructor
+        /// </summary>
         public FireBaseData()
         {
             app = FirebaseApp.InitializeApp(Application.Context);
@@ -33,7 +38,10 @@ namespace BrickBreaker
             firestore = FirebaseFirestore.GetInstance(app);
             auth = FirebaseAuth.Instance;
         }
-
+        /// <summary>
+        /// links the project to the database
+        /// </summary>
+        /// <returns></returns>
         private FirebaseOptions GetMyOptions()
         {
             return new FirebaseOptions.Builder()
@@ -45,18 +53,13 @@ namespace BrickBreaker
                     .Build();
         }
 
-        public Task CreateUser(string email, string password)
-        {
-            return auth.CreateUserWithEmailAndPassword(email, password);
-        }
-
-        public Task SignIn(string email, string password)
-        {
-            return auth.SignInWithEmailAndPassword(email, password);
-        }
-
-        
-        public void AddDocumentToCollection(string cName, string dName, HashMap hmFields)
+        /// <summary>
+        /// adds a document to the given collection
+        /// </summary>
+        /// <param name="cName">the collection to add to</param>
+        /// <param name="dName">the name of the document to add</param>
+        /// <param name="hmFields">the fiels in the document</param>
+        public void AddDocumentToCollection(string cName, string dName, Hashtable hmFields)
         {
             DocumentReference cr;
             if (dName == null)
@@ -65,16 +68,24 @@ namespace BrickBreaker
                 cr = firestore.Collection(cName).Document(dName);
             cr.Set(hmFields);
         }
+        /// <summary>
+        /// deletes a document from a collection
+        /// </summary>
+        /// <param name="cName">the collection name</param>
+        /// <param name="dName">the document name</param>
         public void DeleteDocumentFromCollection(string cName, string dName)
         {
-            
             DocumentReference cr = firestore.Collection(cName).Document(dName);
             cr.Delete();
         }
-        public void FindDocumentCollection(string cName, Score score)
+        /// <summary>
+        /// gets the collection
+        /// </summary>
+        /// <param name="cName">the collection to get</param>
+        /// <returns>the task to listen to</returns>
+        public Task GetCollection(string cName)
         {
-            //DocumentReference cr = firestore.Collection(cName);
-            
+            return firestore.Collection(cName).Get();
         }
     }
 }

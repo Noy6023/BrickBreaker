@@ -18,6 +18,7 @@ namespace BrickBreaker
         //using a singelton method so that there is only one instance of color manager
         private static readonly ColorManager instance = new ColorManager();
         public Hashtable Colors;
+        private int length = Enum.GetNames(typeof(ColorKey)).Length;
         public static string[] Keys = { "ball", "bat", "brick", "background" };
         static ColorManager() //static constructor
         {
@@ -42,26 +43,10 @@ namespace BrickBreaker
         public void InitColors()
         {
             Colors = new Hashtable();
-            Colors.Add("ball", Constants.DEFULT_COLOR);
-            Colors.Add("bat", Constants.DEFULT_BAT_COLOR);
-            Colors.Add("brick", Constants.DEFULT_BRICK_COLOR);
-            Colors.Add("background", Constants.BACKGROUND_COLOR);
-        }
-
-        public void GetColorsFromIntent(Intent data)
-        {
-            Colors = new Hashtable();
-            foreach (string key in Keys)
-            {
-                Colors.Add(key, IntToColorConvertor(data.GetIntExtra(key, 0)));
-            }
-        }
-        public void PutColorsInIntent(Intent data)
-        {
-            foreach (string key in Keys)
-            {
-                data.PutExtra(key, ((Color)Colors[key]).ToArgb());
-            }
+            Colors.Add(ColorKey.Ball, Constants.DEFULT_COLOR);
+            Colors.Add(ColorKey.Bat, Constants.DEFULT_BAT_COLOR);
+            Colors.Add(ColorKey.Brick, Constants.DEFULT_BRICK_COLOR);
+            Colors.Add(ColorKey.Background, Constants.BACKGROUND_COLOR);
         }
 
         /// <summary>
@@ -69,7 +54,7 @@ namespace BrickBreaker
         /// </summary>
         /// <param name="key">the key of the color</param>
         /// <param name="color">the color int</param>
-        public void SetColor(string key, int color)
+        public void SetColor(ColorKey key, int color)
         {
             if(Colors.ContainsKey(key))
             {
@@ -82,7 +67,7 @@ namespace BrickBreaker
         /// </summary>
         /// <param name="key">the key of the color to get</param>
         /// <returns>the color or a defult color if there's no such key</returns>
-        public Color GetColor(string key)
+        public Color GetColor(ColorKey key)
         {
             if (Colors.ContainsKey(key))
             {
@@ -113,8 +98,9 @@ namespace BrickBreaker
         public void RandomColors()
         {
             Random rand = new Random();
-            foreach (string key in Keys)
+            for (int i = 0; i < length; i++)
             {
+                ColorKey key = (ColorKey)i;
                 Color color = new Color();
                 color.A = Convert.ToByte(255);
                 color.R = Convert.ToByte(rand.Next(255));

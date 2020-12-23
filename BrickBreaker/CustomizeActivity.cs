@@ -100,10 +100,10 @@ namespace BrickBreaker
         /// </summary>
         private void ChangeButtonsColors()
         {
-            ColorDrawable ball = new ColorDrawable(ColorManager.Instance.GetColor("ball"));
-            ColorDrawable brick = new ColorDrawable(ColorManager.Instance.GetColor("brick"));
-            ColorDrawable bat = new ColorDrawable(ColorManager.Instance.GetColor("bat"));
-            ColorDrawable background = new ColorDrawable(ColorManager.Instance.GetColor("background"));
+            ColorDrawable ball = new ColorDrawable(ColorManager.Instance.GetColor(ColorKey.Ball));
+            ColorDrawable brick = new ColorDrawable(ColorManager.Instance.GetColor(ColorKey.Brick));
+            ColorDrawable bat = new ColorDrawable(ColorManager.Instance.GetColor(ColorKey.Bat));
+            ColorDrawable background = new ColorDrawable(ColorManager.Instance.GetColor(ColorKey.Background));
             btnBallColor.Background = ball;
             btnBrickColor.Background = brick;
             btnBatColor.Background = bat;
@@ -128,7 +128,7 @@ namespace BrickBreaker
                         int color = data.GetIntExtra("color", 0); //get the color int that was chosen
                         ColorDrawable colorDrawable = new ColorDrawable(ColorManager.Instance.IntToColorConvertor(color));
                         btnBallColor.Background = colorDrawable; //set the button color to it
-                        ColorManager.Instance.SetColor("ball", color); //update the color in the color manager
+                        ColorManager.Instance.SetColor(ColorKey.Ball, color); //update the color in the color manager
                     }
                 }
             }
@@ -141,7 +141,7 @@ namespace BrickBreaker
                         int color = data.GetIntExtra("color", 0);
                         ColorDrawable colorDrawable = new ColorDrawable(ColorManager.Instance.IntToColorConvertor(color));
                         btnBatColor.Background = colorDrawable;
-                        ColorManager.Instance.SetColor("bat", color);
+                        ColorManager.Instance.SetColor(ColorKey.Bat, color);
                     }
                 }
             }
@@ -154,7 +154,7 @@ namespace BrickBreaker
                         int color = data.GetIntExtra("color", 0);
                         ColorDrawable colorDrawable = new ColorDrawable(ColorManager.Instance.IntToColorConvertor(color));
                         btnBrickColor.Background = colorDrawable;
-                        ColorManager.Instance.SetColor("brick", color);
+                        ColorManager.Instance.SetColor(ColorKey.Brick, color);
                     }
                 }
             }
@@ -168,7 +168,7 @@ namespace BrickBreaker
                         int color = data.GetIntExtra("color", 0);
                         ColorDrawable colorDrawable = new ColorDrawable(ColorManager.Instance.IntToColorConvertor(color));
                         btnBackgroundColor.Background = colorDrawable;
-                        ColorManager.Instance.SetColor("background", color);
+                        ColorManager.Instance.SetColor(ColorKey.Background, color);
                     }
                 }
             }

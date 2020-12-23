@@ -310,7 +310,7 @@ namespace BrickBreaker
         /// </summary>
         /// <param name="max">the max score to set</param>
         /// <param name="lastScore">the last score to set</param>
-        public void SetScoreInfo(/*int max, int lastScore*/)
+        public void SetScoreInfo()
         {
             btnName.Text = score.Name;
             tvLastScore.Text = "Last Score: " + score.LastValue.ToString();

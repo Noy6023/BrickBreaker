@@ -52,9 +52,9 @@ namespace BrickBreaker
             HasLost = false; //init the result
             
             //create the objects
-            ball = new Ball(ColorManager.Instance.GetColor("ball")); //create the ball
-            BottomBat = new Bat(ColorManager.Instance.GetColor("bat"));  //create the bottom bat
-            TopBat = new Bat(ColorManager.Instance.GetColor("bat")); //create the top bat
+            ball = new Ball(ColorManager.Instance.GetColor(ColorKey.Ball)); //create the ball
+            BottomBat = new Bat(ColorManager.Instance.GetColor(ColorKey.Bat));  //create the bottom bat
+            TopBat = new Bat(ColorManager.Instance.GetColor(ColorKey.Bat)); //create the top bat
             Score = new GameScore(); //create the score
             screenSize = new Vector(Constants.DEFULT_SCREEN_SIZE); //init the screen size to defult 
             
@@ -194,7 +194,7 @@ namespace BrickBreaker
         /// <param name="canvas">the canvas</param>
         private void InitBricks(Canvas canvas)
         {
-            Color brickColor = ColorManager.Instance.GetColor("brick");
+            Color brickColor = ColorManager.Instance.GetColor(ColorKey.Brick);
             int x = Constants.SPACE *2;
             int y = canvas.Height / 3;
             bricks = new Brick[(int)((canvas.Height / 3) / (Brick.Size.Y + Constants.SPACE)), (int)((canvas.Width - x) / (Brick.Size.X + Constants.SPACE))];
@@ -298,7 +298,7 @@ namespace BrickBreaker
         public new void Draw(Canvas canvas)
         {
             base.OnDraw(canvas); //set the canvas to be drawn on
-            canvas.DrawColor(ColorManager.Instance.GetColor("background")); //draws the background color
+            canvas.DrawColor(ColorManager.Instance.GetColor(ColorKey.Background)); //draws the background color
             Score.Draw(canvas); //draws the score
             pause.Draw(canvas); //draws the pause
             BottomBat.Draw(canvas); //draws the bottom bat
