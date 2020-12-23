@@ -18,7 +18,7 @@ namespace BrickBreaker
 {
     class FireBaseData
     {
-        private FirebaseFirestore firestore;
+        public FirebaseFirestore firestore { get; set; }
         private FirebaseAuth auth;
         private FirebaseApp app;
 
@@ -37,11 +37,11 @@ namespace BrickBreaker
         private FirebaseOptions GetMyOptions()
         {
             return new FirebaseOptions.Builder()
-                    .SetProjectId("brickbreaker-95b6c")
-                    .SetApplicationId("brickbreaker-95b6c")
-                    .SetApiKey("AIzaSyD3b1eF2D5MG7CPBNJ0ckzy0Jzb0XSvIxQ")
-                    .SetDatabaseUrl("https://console.firebase.google.com/u/0/project/brickbreaker-95b6c/firestore/data~2FPlayers~2F1bedyfhl3mdB5CfGRlhJ")
-                    .SetStorageBucket("https://console.firebase.google.com/u/0/project/brickbreaker-95b6c/storage/brickbreaker-95b6c.appspot.com/files")
+                    .SetProjectId("brickbreaker-6c644")
+                    .SetApplicationId("brickbreaker-6c644")
+                    .SetApiKey("AIzaSyABeKz9zLg-OTnfDK6mtyVkUVeIRJTatVM")
+                    .SetDatabaseUrl("https://brickbreaker-6c644-default-rtdb.europe-west1.firebasedatabase.app")
+                    .SetStorageBucket("brickbreaker-6c644.appspot.com")
                     .Build();
         }
 
@@ -50,18 +50,31 @@ namespace BrickBreaker
             return auth.CreateUserWithEmailAndPassword(email, password);
         }
 
-        public Android.Gms.Tasks.Task SignIn(string email, string password)
+        public Task SignIn(string email, string password)
         {
             return auth.SignInWithEmailAndPassword(email, password);
         }
-        public Task AddDocumentToCollection(string cName, string dName, Hashtable hmFields)
+
+        
+        public void AddDocumentToCollection(string cName, string dName, HashMap hmFields)
         {
             DocumentReference cr;
-            if (dName is null)
+            if (dName == null)
                 cr = firestore.Collection(cName).Document();
             else
                 cr = firestore.Collection(cName).Document(dName);
-            return cr.Set(hmFields);
+            cr.Set(hmFields);
+        }
+        public void DeleteDocumentFromCollection(string cName, string dName)
+        {
+            
+            DocumentReference cr = firestore.Collection(cName).Document(dName);
+            cr.Delete();
+        }
+        public void FindDocumentCollection(string cName, Score score)
+        {
+            //DocumentReference cr = firestore.Collection(cName);
+            
         }
     }
 }

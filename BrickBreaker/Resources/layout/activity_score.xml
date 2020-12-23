@@ -4,19 +4,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color1">
-    <TextView
+    <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="name"
+            android:padding="10dp"
+            android:textSize="25dp"
+            android:textColor="@android:color/black"
+            android:id="@+id/tvScoreName"/>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Noy"
-        android:textSize="25dp"
-        android:textColor="@android:color/black"
-        android:id="@+id/tvScoreName"/>
-    <TextView
-        android:layout_marginLeft="276dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="80"
-        android:textSize="25dp" 
-        android:textColor="@android:color/black"
-        android:id="@+id/tvScoreValue"/>
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:padding="10dp"
+            android:textSize="25dp" 
+            android:textColor="@android:color/black"
+            android:id="@+id/tvScoreValue"/>
+    </LinearLayout>
 </LinearLayout>

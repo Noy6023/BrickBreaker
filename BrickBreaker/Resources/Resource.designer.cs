@@ -3422,6 +3422,9 @@ namespace BrickBreaker
 			// aapt resource value: 0x7F070091
 			public const int tooltip_frame_light = 2131165329;
 			
+			// aapt resource value: 0x7F070092
+			public const int top_scores_icon = 2131165330;
+			
 			static Drawable()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -4118,61 +4121,67 @@ namespace BrickBreaker
 			public const int topPanel = 2131296477;
 			
 			// aapt resource value: 0x7F0900DE
-			public const int touch_outside = 2131296478;
+			public const int topScores = 2131296478;
 			
 			// aapt resource value: 0x7F0900DF
-			public const int transition_current_scene = 2131296479;
+			public const int touch_outside = 2131296479;
 			
 			// aapt resource value: 0x7F0900E0
-			public const int transition_layout_save = 2131296480;
+			public const int transition_current_scene = 2131296480;
 			
 			// aapt resource value: 0x7F0900E1
-			public const int transition_position = 2131296481;
+			public const int transition_layout_save = 2131296481;
 			
 			// aapt resource value: 0x7F0900E2
-			public const int transition_scene_layoutid_cache = 2131296482;
+			public const int transition_position = 2131296482;
 			
 			// aapt resource value: 0x7F0900E3
-			public const int transition_transform = 2131296483;
+			public const int transition_scene_layoutid_cache = 2131296483;
 			
 			// aapt resource value: 0x7F0900E4
-			public const int tvLastScore = 2131296484;
+			public const int transition_transform = 2131296484;
 			
 			// aapt resource value: 0x7F0900E5
-			public const int tvMaxScore = 2131296485;
+			public const int tvHighestScore = 2131296485;
 			
 			// aapt resource value: 0x7F0900E6
-			public const int tvScoreName = 2131296486;
+			public const int tvLastScore = 2131296486;
 			
 			// aapt resource value: 0x7F0900E7
-			public const int tvScoreValue = 2131296487;
+			public const int tvMaxScore = 2131296487;
 			
 			// aapt resource value: 0x7F0900E8
-			public const int uniform = 2131296488;
+			public const int tvScoreName = 2131296488;
 			
 			// aapt resource value: 0x7F0900E9
-			public const int unlabeled = 2131296489;
+			public const int tvScoreValue = 2131296489;
 			
 			// aapt resource value: 0x7F0900EA
-			public const int up = 2131296490;
+			public const int uniform = 2131296490;
 			
 			// aapt resource value: 0x7F0900EB
-			public const int useLogo = 2131296491;
+			public const int unlabeled = 2131296491;
 			
 			// aapt resource value: 0x7F0900EC
-			public const int view_offset_helper = 2131296492;
+			public const int up = 2131296492;
 			
 			// aapt resource value: 0x7F0900ED
-			public const int visible = 2131296493;
+			public const int useLogo = 2131296493;
 			
 			// aapt resource value: 0x7F0900EE
-			public const int wide = 2131296494;
+			public const int view_offset_helper = 2131296494;
 			
 			// aapt resource value: 0x7F0900EF
-			public const int withText = 2131296495;
+			public const int visible = 2131296495;
 			
 			// aapt resource value: 0x7F0900F0
-			public const int wrap_content = 2131296496;
+			public const int wide = 2131296496;
+			
+			// aapt resource value: 0x7F0900F1
+			public const int withText = 2131296497;
+			
+			// aapt resource value: 0x7F0900F2
+			public const int wrap_content = 2131296498;
 			
 			static Id()
 			{

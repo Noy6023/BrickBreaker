@@ -25,7 +25,7 @@ namespace BrickBreaker
         //the objects of the game
         Ball ball; // the ball
         Brick[,] bricks; //the bricks array
-        public Score Score { get; set; }//the score that is increased by hitting a brick
+        public GameScore Score { get; set; }//the score that is increased by hitting a brick
         public Bat TopBat { get; set; } //the top bat
         public Bat BottomBat { get; set; } //the bottom bat
         GameButton pause; //the pause button
@@ -55,7 +55,7 @@ namespace BrickBreaker
             ball = new Ball(ColorManager.Instance.GetColor("ball")); //create the ball
             BottomBat = new Bat(ColorManager.Instance.GetColor("bat"));  //create the bottom bat
             TopBat = new Bat(ColorManager.Instance.GetColor("bat")); //create the top bat
-            Score = new Score(); //create the score
+            Score = new GameScore(); //create the score
             screenSize = new Vector(Constants.DEFULT_SCREEN_SIZE); //init the screen size to defult 
             
             //create the pause button

@@ -27,7 +27,7 @@ namespace BrickBreaker
         CheckBox cbMuteSound, cbMuteMusic;
         TextView tvLastScore;
         TextView tvMaxScore;
-        int max, lastScore;
+        //int max, lastScore;
         Dialog settingsDialog, nameDialog, helpDialog;
         ISharedPreferences sp;
         RadioGroup rgBallSize, rgBrickSize, rgDifficulty;
@@ -36,6 +36,7 @@ namespace BrickBreaker
         RadioButton rbEasy, rbHard;
         Size lastBallChecked, lastBrickChecked;
         Difficulty lastDifficultyChecked;
+        Score score;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -55,8 +56,7 @@ namespace BrickBreaker
             btnName = FindViewById<Button>(Resource.Id.btnName);
             btnName.SetOnClickListener(this);
             btnStart.SetOnClickListener(this);
-            max = 0;
-            lastScore = 0;
+            score = new Score();
             AudioManager.IsSoundMuted = sp.GetBoolean("sound", false);
             AudioManager.IsMusicMuted = sp.GetBoolean("music", false);
             lastBallChecked = Size.Medium;
@@ -64,34 +64,8 @@ namespace BrickBreaker
             lastDifficultyChecked = Difficulty.Easy;
             SetSizes();
             SetDifficulty();
-            SetInfo(FileManager.Instance.LoadInfo(this));
-        }
-        /// <summary>
-        /// sets the init info from the info array that contains the info from previous runs
-        /// </summary>
-        /// <param name="info"></param>
-        private void SetInfo(string[] info)
-        {
-            if(info != null)
-            {
-                lastScore = Int32.Parse(info[0]);
-                max = Int32.Parse(info[1]);
-                btnName.Text = info[2];
-                SetScoreInfo(max, lastScore);
-            }
-        }
-
-        /// <summary>
-        /// gets the current info and places it in an info array the will be saved 
-        /// </summary>
-        /// <returns></returns>
-        private string[] GetInfo()
-        {
-            string[] info = new string[3];
-            info[0] = lastScore.ToString();
-            info[1] = max.ToString();
-            info[2] = btnName.Text;
-            return info;
+            score.SetInfo(FileManager.Instance.LoadInfo(this));
+            SetScoreInfo();
         }
 
         /// <summary>
@@ -173,6 +147,13 @@ namespace BrickBreaker
         /// <returns></returns>
         public override bool OnOptionsItemSelected(Android.Views.IMenuItem item)
         {
+            if(item.ItemId == Resource.Id.topScores)
+            {
+                Intent intent = new Intent(this, typeof(FireStoreActivity));
+                score.SetScoreInIntent(intent);
+                StartActivityForResult(intent, 0);
+                return true;
+            }
             if (item.ItemId == Resource.Id.settings)
             {
                 CreateSettingsDialog();
@@ -277,8 +258,9 @@ namespace BrickBreaker
             }
             if(v == btnSaveName)
             {
-                btnName.Text = etName.Text;
-                FileManager.Instance.SaveInfo('\n', GetInfo(), this);
+                score.Name = etName.Text;
+                btnName.Text = score.Name;
+                FileManager.Instance.SaveInfo('\n', score.GetInfo(), this);
                 nameDialog.Dismiss();
             }
             if(v == btnBackSettings)
@@ -313,10 +295,11 @@ namespace BrickBreaker
                 {
                     if (data.Extras != null)
                     {
-                        lastScore = data.GetIntExtra("score", 0);
-                        if (lastScore > max) max = lastScore;
-                        SetScoreInfo(max, lastScore);
-                        FileManager.Instance.SaveInfo('\n', GetInfo(), this);
+                        score.LastValue = data.GetIntExtra("score", 0);
+                        //if (lastScore > max) max = lastScore;
+                        score.ChangedScore();
+                        SetScoreInfo(/*max, lastScore*/);
+                        FileManager.Instance.SaveInfo('\n', score.GetInfo(), this);
                     }
                 }
             }
@@ -327,10 +310,11 @@ namespace BrickBreaker
         /// </summary>
         /// <param name="max">the max score to set</param>
         /// <param name="lastScore">the last score to set</param>
-        public void SetScoreInfo(int max, int lastScore)
+        public void SetScoreInfo(/*int max, int lastScore*/)
         {
-            tvLastScore.Text = "Last Score: " + lastScore.ToString();
-            tvMaxScore.Text = "Highest Score: " + max.ToString();
+            btnName.Text = score.Name;
+            tvLastScore.Text = "Last Score: " + score.LastValue.ToString();
+            tvMaxScore.Text = "Highest Score: " + score.HighestValue.ToString();
         }
 
         /// <summary>
