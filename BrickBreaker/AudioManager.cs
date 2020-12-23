@@ -18,6 +18,7 @@ namespace BrickBreaker
         //using a singelton method so that there is only one instance of audio manager
         private static readonly AudioManager instance = new AudioManager();
         public static string[] sounds = { "brick_hit", "bat_hit", "music", "finished_bricks", "lost" };
+        private int length = Enum.GetNames(typeof(Sound)).Length;
         public static Context context { get; set; }
         private Hashtable players;
         public static bool IsSoundMuted;
@@ -46,20 +47,28 @@ namespace BrickBreaker
         {
             context = ctx;
             players = new Hashtable();
-            foreach(string sound in sounds)
+            for(int i =0; i < length; i++)
+            {
+                Sound sound = (Sound)i;
+                players.Add(sound, new MediaPlayer());
+                MediaPlayer player = (MediaPlayer)players[sound];
+                player.Reset();
+                players[sound] = MediaPlayer.Create(context, context.Resources.GetIdentifier(sound.ToString(), "raw", context.PackageName));
+            }
+            /*foreach(string sound in sounds)
             {
                 players.Add(sound, new MediaPlayer());
                 MediaPlayer player = (MediaPlayer)players[sound];
                 player.Reset();
                 players[sound] = MediaPlayer.Create(context, context.Resources.GetIdentifier(sound, "raw", context.PackageName));
-            }
+            }*/
         }
 
         /// <summary>
         /// play a sound
         /// </summary>
         /// <param name="sound">the name of the sound to play</param>
-        public void PlaySound(string sound)
+        public void PlaySound(Sound sound)
         {
             if (players.ContainsKey(sound) && !IsSoundMuted)
             {
@@ -71,7 +80,7 @@ namespace BrickBreaker
         /// play a sound in a loop - the music
         /// </summary>
         /// <param name="sound">the sound to play</param>
-        public void PlayMusicLoop(string sound)
+        public void PlayMusicLoop(Sound sound)
         {
             if (players.ContainsKey(sound) && !IsMusicMuted)
             {
@@ -85,7 +94,7 @@ namespace BrickBreaker
         /// pause a sound
         /// </summary>
         /// <param name="sound">the sound to pause</param>
-        public void Pause(string sound)
+        public void Pause(Sound sound)
         {
             if (players.ContainsKey(sound))
             {
@@ -97,7 +106,7 @@ namespace BrickBreaker
         /// resume a sound
         /// </summary>
         /// <param name="sound">the sound to resume</param>
-        public void ResumeSound(string sound)
+        public void ResumeSound(Sound sound)
         {
             if(players.ContainsKey(sound) && !IsMusicMuted)
             {
@@ -109,7 +118,7 @@ namespace BrickBreaker
         /// stop a sound
         /// </summary>
         /// <param name="sound">the sound to stop</param>
-        public void Stop(string sound)
+        public void Stop(Sound sound)
         {
             if (players.ContainsKey(sound))
             {
@@ -122,10 +131,16 @@ namespace BrickBreaker
         /// </summary>
         public void Release()
         {
-            foreach (string sound in sounds)
+            for(int i = 0; i < length; i++)
+            {
+                Sound sound = (Sound)i;
+                ((MediaPlayer)players[sound]).Release();
+
+            }
+            /*foreach (string sound in sounds)
             {
                 ((MediaPlayer)players[sound]).Release();
-            }
+            }*/
         }
     }
 }

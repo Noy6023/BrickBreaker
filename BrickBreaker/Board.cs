@@ -94,7 +94,7 @@ namespace BrickBreaker
         {
             IsRunning = false;
             if(!HasLost)
-                AudioManager.Instance.Pause("music");
+                AudioManager.Instance.Pause(Sound.music);
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace BrickBreaker
         public void Resume()
         {
             IsRunning = true;
-            AudioManager.Instance.ResumeSound("music");
+            AudioManager.Instance.ResumeSound(Sound.music);
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace BrickBreaker
         public void StartGame()
         {
             IsRunning = true;
-            AudioManager.Instance.PlayMusicLoop("music");
+            AudioManager.Instance.PlayMusicLoop(Sound.music);
         }
 
         /// <summary>
@@ -155,8 +155,8 @@ namespace BrickBreaker
                         if (HasLost)
                         {
                             //if the game had ended and the player lost
-                            AudioManager.Instance.Stop("music"); //stop the music
-                            AudioManager.Instance.PlaySound("lost"); //play lost sound
+                            AudioManager.Instance.Stop(Sound.music); //stop the music
+                            AudioManager.Instance.PlaySound(Sound.lost); //play lost sound
                             Thread.Sleep(1000);
                             AudioManager.Instance.Release(); //release the sound
                         }
@@ -339,7 +339,7 @@ namespace BrickBreaker
                         if (bricks[i, j].IsHit(ball))
                         {
                             //if there was a hit - play hit sound and increase score
-                            AudioManager.Instance.PlaySound("brick_hit");
+                            AudioManager.Instance.PlaySound(Sound.brick_hit);
                             Score.IncreaseScore();
                         }
                     }
@@ -348,7 +348,7 @@ namespace BrickBreaker
             if (CountVisible(bricks) == 0)
             {
                 //if there aren't any bricks left - play sound and refill the bricks
-                AudioManager.Instance.PlaySound("finished_bricks");
+                AudioManager.Instance.PlaySound(Sound.finished_bricks);
                 Thread.Sleep(1000);
                 MakeVisible(bricks);
             }
@@ -362,7 +362,7 @@ namespace BrickBreaker
             if (BottomBat.IsBallHit(ball, canvas, 'b') == 1 || TopBat.IsBallHit(ball, canvas, 't') == 1)
             {
                 // if the bat hit the ball - play sound
-                AudioManager.Instance.PlaySound("bat_hit");
+                AudioManager.Instance.PlaySound(Sound.bat_hit);
             }
             else if (BottomBat.IsBallHit(ball, canvas, 'b') == -1 || TopBat.IsBallHit(ball, canvas, 't') == -1)
             {
