@@ -17,7 +17,6 @@ namespace BrickBreaker
     {
         //using a singelton method so that there is only one instance of audio manager
         private static readonly AudioManager instance = new AudioManager();
-        public static string[] sounds = { "brick_hit", "bat_hit", "music", "finished_bricks", "lost" };
         private int length = Enum.GetNames(typeof(Sound)).Length;
         public static Context context { get; set; }
         private Hashtable players;

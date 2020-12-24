@@ -7,6 +7,7 @@
       <item name="colorPrimaryDark">@color/colorDark1</item>
       <item name="colorAccent">@color/colorDark1</item>
       <item name="fontFamily">@font/fredokaone</item>
+      <item name="android:textColorPrimary">#ffffff</item>
     </style>
 
 

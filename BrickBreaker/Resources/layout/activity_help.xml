@@ -7,12 +7,13 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tilt your phone sideways to move the bat"
-        android:textSize="30dp"
+        android:text="@string/helpText"
+        android:textSize="18dp"
         android:gravity="center"
         android:textColor="@android:color/black"/>
     <ImageView
+        android:contentDescription=""
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@drawable/tilt_phone"/>
 </LinearLayout>

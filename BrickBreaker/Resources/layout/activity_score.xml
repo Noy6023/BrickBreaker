@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/color1">
     <LinearLayout
-        android:layout_width="275dp"
+        android:layout_width="245dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView

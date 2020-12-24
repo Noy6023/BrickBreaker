@@ -33,11 +33,19 @@ namespace BrickBreaker
         public int GetScore() { return score; }
         
         /// <summary>
-        /// increases the score
+        /// increases the score according to the difficulty
         /// </summary>
-        public void IncreaseScore()
+        /// <param name="difficulty">the difficulty</param>
+        public void IncreaseScore(Difficulty difficulty)
         {
-            score++;
+            if (difficulty == Difficulty.Easy)
+            {
+                score++;
+            }
+            else
+            {
+                score += 2;
+            }
         }
 
         /// <summary>

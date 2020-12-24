@@ -15,7 +15,7 @@ using System.Text;
 
 namespace BrickBreaker
 {
-    [Activity(Label = "FireStoreActivity")]
+    [Activity(Label = "Top Scores")]
     public class FireStoreActivity : AppCompatActivity, View.IOnClickListener, IOnSuccessListener
     {
         List<Score> scoreList;
@@ -23,9 +23,11 @@ namespace BrickBreaker
         ListView lv;
         Button btnUpload;
         Score currentScore;
+        TextView tvName;
         TextView tvHighestScore;
         FireBaseData fd = new FireBaseData();
-
+        string uploadText;
+        string removeText;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -44,6 +46,10 @@ namespace BrickBreaker
             scoreAdapter = new ScoreAdapter(this, 0, 0, scoreList);
             lv.Adapter = scoreAdapter;
             currentScore = GetScore();
+            uploadText = "Upload Yours";
+            removeText = "Remove Yours";
+            tvName = FindViewById<TextView>(Resource.Id.tvName);
+            tvName.Text = "Your nickname is: " + currentScore.Name;
             tvHighestScore = FindViewById<TextView>(Resource.Id.tvHighestScore);
             tvHighestScore.Text = "Your highest score is: " + currentScore.HighestValue.ToString();
             btnUpload = FindViewById<Button>(Resource.Id.btnUpload);
@@ -137,7 +143,7 @@ namespace BrickBreaker
                 data.Put("Key", score.Key);
                 fd.AddDocumentToCollection("Players", score.Key.ToString(), data);
                 AddToList(score);
-                btnUpload.Text = "Remove Yours";
+                btnUpload.Text = removeText;
             }
         }
 
@@ -160,7 +166,7 @@ namespace BrickBreaker
         {
             if(v == btnUpload)
             {
-                if(btnUpload.Text == "Upload Yours")
+                if(btnUpload.Text == uploadText)
                 {
                     AddDocument(currentScore);
                 }
@@ -170,7 +176,7 @@ namespace BrickBreaker
                     fd.DeleteDocumentFromCollection("Players", currentScore.Key.ToString());
                     scoreList.RemoveAt(GetIndexOf(currentScore));
                     scoreAdapter.NotifyDataSetChanged();
-                    btnUpload.Text = "Upload Yours";
+                    btnUpload.Text = uploadText;
                 }
             }
         }
@@ -213,7 +219,7 @@ namespace BrickBreaker
                     AddToList(score);
 
                 }
-                if (GetIndexOf(currentScore) >= 0) btnUpload.Text = "Remove Yours";
+                if (GetIndexOf(currentScore) >= 0) btnUpload.Text = removeText;
             }
         }
     }

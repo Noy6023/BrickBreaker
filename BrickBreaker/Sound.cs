@@ -11,9 +11,11 @@ using System.Text;
 
 namespace BrickBreaker
 {
+    /// <summary>
+    /// an enum for the sounds.
+    /// </summary>
     public enum Sound
     {
-        //public static string[] sounds = { "brick_hit", "bat_hit", "music", "finished_bricks", "lost" };
         brick_hit,
         bat_hit,
         music,

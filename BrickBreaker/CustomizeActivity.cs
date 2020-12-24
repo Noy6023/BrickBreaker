@@ -15,7 +15,7 @@ using System.Text;
 
 namespace BrickBreaker
 {
-    [Activity(Label = "CustomizeActivity")]
+    [Activity(Label = "Customize")]
     public class CustomizeActivity : AppCompatActivity, Android.Views.View.IOnClickListener
     {
         Button btnBallColor;

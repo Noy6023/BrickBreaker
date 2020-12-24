@@ -19,7 +19,6 @@ namespace BrickBreaker
         private static readonly ColorManager instance = new ColorManager();
         public Hashtable Colors;
         private int length = Enum.GetNames(typeof(ColorKey)).Length;
-        public static string[] Keys = { "ball", "bat", "brick", "background" };
         static ColorManager() //static constructor
         {
 

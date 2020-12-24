@@ -11,12 +11,19 @@ using Java.IO;
 using System.IO;
 using System.Text;
 using System.Collections;
+using System.Collections.Generic;
+using Android;
+using Android.Support.V4.Content;
+using Android.Content.PM;
+using Android.Support.V4.App;
 
 namespace BrickBreaker
 {
-    [Activity(Label = "", Theme = "@style/AppTheme", MainLauncher = true)]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity, Android.Views.View.IOnClickListener, RadioGroup.IOnCheckedChangeListener
     {
+        const int PERMISSION_REQUEST_CODE = 1;
+
         Button btnStart;
         Button btnSaveSettings;
         Button btnBackSettings;
@@ -27,7 +34,6 @@ namespace BrickBreaker
         CheckBox cbMuteSound, cbMuteMusic;
         TextView tvLastScore;
         TextView tvMaxScore;
-        //int max, lastScore;
         Dialog settingsDialog, nameDialog, helpDialog;
         ISharedPreferences sp;
         RadioGroup rgBallSize, rgBrickSize, rgDifficulty;
@@ -37,17 +43,20 @@ namespace BrickBreaker
         Size lastBallChecked, lastBrickChecked;
         Difficulty lastDifficultyChecked;
         Score score;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
-            InitView();
+            HandlePermissions();
+            InitViews();
         }
+
         /// <summary>
         /// inits the views in the main screen and loads the info from the previous runs
         /// </summary>
-        private void InitView()
+        private void InitViews()
         {
             sp = this.GetSharedPreferences("Settings", FileCreationMode.Private);
             btnStart = FindViewById<Button>(Resource.Id.btnStart);
@@ -66,6 +75,68 @@ namespace BrickBreaker
             SetDifficulty();
             score.SetInfo(FileManager.Instance.LoadInfo(this));
             SetScoreInfo();
+        }
+
+        /// <summary>
+        /// handles permissons
+        /// </summary>
+        private void HandlePermissions()
+        {
+            List<string> lstAppPermissions = new List<string>();
+            lstAppPermissions.Add(Manifest.Permission.WakeLock);
+            RequestPermissions(lstAppPermissions);
+        }
+        /// <summary>
+        /// requests the permissions
+        /// </summary>
+        /// <param name="permissions">the nedded permissions</param>
+        private void RequestPermissions(List<string> permissions)
+        {
+            List<string> lstMissingPermissions = new List<string>();
+            for (int i = 0; i < permissions.Count; i++)
+            {
+                if (ContextCompat.CheckSelfPermission(this, permissions[i]) != Permission.Granted)
+                    lstMissingPermissions.Add(permissions[i]);
+            }
+            if (lstMissingPermissions.Count > 0)
+            {
+                String[] arrPermissions = lstMissingPermissions.ToArray();
+                ActivityCompat.RequestPermissions(this, arrPermissions, PERMISSION_REQUEST_CODE);
+            }
+        }
+        /// <summary>
+        /// prints the missing permissions
+        /// </summary>
+        /// <param name="requestCode"></param>
+        /// <param name="permissions"></param>
+        /// <param name="grantResults"></param>
+        public void RequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
+        {
+            List<string> lstMissingPermissions = new List<string>();
+            string missingPremissions = string.Empty;
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            if (requestCode == PERMISSION_REQUEST_CODE)
+            {
+                for (int i = 0; i < grantResults.Length; i++)
+                {
+                    if (grantResults[i] != Permission.Granted)
+                    {
+                        lstMissingPermissions.Add(permissions[i]);
+                        missingPremissions += permissions[i] + "\n";
+                    }
+                }
+                if (lstMissingPermissions.Count > 0)
+                {
+                    Toast.MakeText(this, "Missing permissions:\n" + missingPremissions, ToastLength.Long).Show();
+                    RequestPermissions(lstMissingPermissions);
+                }
+            }
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+        {
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
         /// <summary>
@@ -128,12 +199,6 @@ namespace BrickBreaker
             }
         }
 
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
-        {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
         public override bool OnCreateOptionsMenu(Android.Views.IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.activity_menu, menu);

@@ -31,7 +31,7 @@ namespace BrickBreaker
         GameButton pause; //the pause button
         GameButton resume; //the resume button
         Vector screenSize; //holds the screen size
-
+        Difficulty difficulty;
         //flags
         public bool HasLost { get; set; } //keeps the result whether the bat ha missed and lost or not
         bool isFirstCall = true; //check if its the first time running to init the game
@@ -46,7 +46,7 @@ namespace BrickBreaker
         /// the constructor of the board class
         /// </summary>
         /// <param name="context">the context of the game</param>
-        public Board(Context context) : base(context)
+        public Board(Context context, Difficulty difficulty) : base(context)
         {
             this.context = context; //set this context to the given context
             HasLost = false; //init the result
@@ -57,16 +57,17 @@ namespace BrickBreaker
             TopBat = new Bat(ColorManager.Instance.GetColor(ColorKey.Bat)); //create the top bat
             Score = new GameScore(); //create the score
             screenSize = new Vector(Constants.DEFULT_SCREEN_SIZE); //init the screen size to defult 
-            
+            this.difficulty = difficulty;
+
             //create the pause button
             pause = new GameButton(Constants.DEFULT_VECTOR, 
                 BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pausebutton),
-                new Vector(Constants.PAUSE_BUTTON_SIZE, Constants.PAUSE_BUTTON_SIZE));
+                new Vector(Constants.PAUSE_BUTTON_SIZE, Constants.PAUSE_BUTTON_SIZE), true);
             
             //create the resume button
             resume = new GameButton(Constants.DEFULT_VECTOR,
                BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.resumebtn),
-               new Vector(Constants.RESUME_BUTTON_SIZE, Constants.RESUME_BUTTON_SIZE));
+               new Vector(Constants.RESUME_BUTTON_SIZE, Constants.RESUME_BUTTON_SIZE), false);
 
             //init the players
             AudioManager.Instance.InitPlayers(context);
@@ -92,9 +93,12 @@ namespace BrickBreaker
         /// </summary>
         public void Pause()
         {
+            resume.Show = true;
             IsRunning = false;
             if(!HasLost)
+            {
                 AudioManager.Instance.Pause(Sound.music);
+            }
         }
 
         /// <summary>
@@ -103,6 +107,7 @@ namespace BrickBreaker
         /// </summary>
         public void Resume()
         {
+            resume.Show = false;
             IsRunning = true;
             AudioManager.Instance.ResumeSound(Sound.music);
         }
@@ -141,7 +146,7 @@ namespace BrickBreaker
                             pause.Position = new Vector(screenSize.X - pause.Size.X, 0);
                             resume.Position = new Vector(screenSize.X/2 - resume.Size.X, screenSize.Y / 2 - resume.Size.Y);
                             BottomBat.Position = new Vector(BatStartPositionGenerator(canvas));
-                            TopBat.Position = new Vector(BottomBat.Position.X, (int)(Score.Paint.TextSize) + Bat.Size.Y);
+                            TopBat.Position = new Vector(BottomBat.Position.X, (int)(Score.Paint.TextSize) + 2 * Bat.Size.Y);
                             ball.Position = new Vector(BottomBat.Position.X + Bat.Size.X / 2, BottomBat.Position.Y - 2*Ball.Radius);
                             isFirstCall = false;
                         }
@@ -223,7 +228,6 @@ namespace BrickBreaker
                 Pause();
             if (HasTouchedButton(resume, position))
                 Resume();
-            Invalidate();
             return true;
         }
 
@@ -249,7 +253,7 @@ namespace BrickBreaker
         /// handles movement of the bat.
         /// </summary>
         /// <param name="newVelocity">the new velocity</param>
-        public void MoveBatBySensor(int newVelocity, Difficulty difficulty)
+        public void MoveBatBySensor(int newVelocity)
         {
             BottomBat.Velocity.X = newVelocity;
             if(difficulty == Difficulty.Easy)
@@ -300,6 +304,7 @@ namespace BrickBreaker
             base.OnDraw(canvas); //set the canvas to be drawn on
             canvas.DrawColor(ColorManager.Instance.GetColor(ColorKey.Background)); //draws the background color
             Score.Draw(canvas); //draws the score
+            //pause.Position = new Vector(0, 0);
             pause.Draw(canvas); //draws the pause
             BottomBat.Draw(canvas); //draws the bottom bat
             TopBat.Draw(canvas); //draws the top bat
@@ -318,9 +323,9 @@ namespace BrickBreaker
             ball.Draw(canvas);
             if(!IsRunning)
             {
-                //if the game is paused - draw the resume button
-                resume.Draw(canvas);
+                resume.Show = true;
             }
+            resume.Draw(canvas); //draw the resume button
         }
 
         /// <summary>
@@ -340,7 +345,7 @@ namespace BrickBreaker
                         {
                             //if there was a hit - play hit sound and increase score
                             AudioManager.Instance.PlaySound(Sound.brick_hit);
-                            Score.IncreaseScore();
+                            Score.IncreaseScore(difficulty);
                         }
                     }
                 }
@@ -349,8 +354,8 @@ namespace BrickBreaker
             {
                 //if there aren't any bricks left - play sound and refill the bricks
                 AudioManager.Instance.PlaySound(Sound.finished_bricks);
-                Thread.Sleep(1000);
                 MakeVisible(bricks);
+                Pause();
             }
             BottomBat.UpdateMovement(); //update the bottom bat movement
             TopBat.UpdateMovement(); //update the bottom bat movement

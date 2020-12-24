@@ -16,11 +16,13 @@ namespace BrickBreaker
     {
         public Bitmap Bitmap { get; set; }
         public Vector Size { get; set; }
+        public bool Show { get; set; }
         //ctor
-        public GameButton(Vector position, Bitmap bitmap, Vector size) : base(position)
+        public GameButton(Vector position, Bitmap bitmap, Vector size, bool show) : base(position)
         {
             this.Bitmap = bitmap;
             this.Size = size;
+            this.Show = show;
         }
         /// <summary>
         /// draw function
@@ -28,7 +30,8 @@ namespace BrickBreaker
         /// <param name="canvas"></param>
         public override void Draw(Canvas canvas)
         {
-            canvas.DrawBitmap(Bitmap, Position.X, Position.Y, Paint);
+            if(Show)
+                canvas.DrawBitmap(Bitmap, Position.X, Position.Y, Paint);
         }
     }
 }

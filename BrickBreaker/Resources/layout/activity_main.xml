@@ -5,50 +5,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:keepScreenOn="true"
     android:background="@color/color1"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp"
+        android:paddingTop="15dp"
         android:gravity="center">
       <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="Brick Breaker"
+        android:text="@string/app_name"
         android:textSize="75sp"
         android:textColor="@color/colorDark1"/>  
     </LinearLayout>      
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="45dp"
+        android:padding="30dp"
         android:orientation="vertical">
+        android:layout_gravity="center" />
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Player"
+            android:text="@string/defultName"
             android:textAllCaps="false"
             android:gravity="center"
+            android:padding="10dp"
             android:textSize="40sp"
             android:id="@+id/btnName"
-            android:fontFamily="sans-serif"
             android:background="@color/colorDark1"
             android:textColor="@android:color/white"
-            android:stateListAnimator="@null"
         />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="15dp">
+            android:paddingTop="20dp">
            <TextView
             android:id="@+id/tvLastScore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="35sp"
-            android:text="Last Score : 564"
+            android:text="@string/lastScoreText"
             android:textColor="@color/colorDark1"
             android:gravity="center"/>
             <TextView
@@ -56,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="25sp"
-            android:text="Highest Score : 564"
+            android:text="@string/highestScoreText"
             android:textColor="@color/colorDark1"
             android:gravity="center"/>
         </LinearLayout>
@@ -75,10 +77,9 @@
         android:layout_gravity="center"
         android:textSize="50sp"
         android:background="@color/colorDark1"
-        android:text="Play"
+        android:text="@string/play"
         android:id="@+id/btnStart"
         android:textColor="@android:color/white"
-        android:stateListAnimator="@null"
         android:padding="20dp"/>
     
     </LinearLayout>

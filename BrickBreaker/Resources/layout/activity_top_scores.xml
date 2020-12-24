@@ -3,18 +3,27 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:keepScreenOn="true"
     android:background="@color/color1">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Top Scores"
+        android:text="@string/topScores"
         android:textColor="@android:color/black"
         android:textSize="40dp"
         android:layout_gravity="center" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Your highest score is: "
+        android:text="@string/nicknameInfo"
+        android:textColor="@android:color/black"
+        android:textSize="20dp"
+        android:id="@+id/tvName"
+        android:layout_gravity="center" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/scoreInfo"
         android:textColor="@android:color/black"
         android:textSize="20dp"
         android:id="@+id/tvHighestScore"
@@ -24,14 +33,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <LinearLayout
-            android:layout_width="270dp"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Name"
-                android:paddingVertical="15dp"
+                android:text="@string/nickname"
+                android:paddingTop="15dp"
                 android:paddingHorizontal="25dp"
                 android:textColor="@android:color/black"
                 android:textSize="30dp"/>
@@ -39,21 +48,22 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Score"
-            android:paddingVertical="15dp"
+            android:text="@string/score"
+            android:paddingTop="15dp"
             android:paddingHorizontal="25dp"
             android:textColor="@android:color/black"
             android:textSize="30dp"/>
     </LinearLayout>
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/lv" />
+        android:layout_height="300dp"
+        android:paddingVertical="10dp"
+        android:id="@+id/lv"/>
     <Button
         android:id="@+id/btnUpload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Upload Yours"
+        android:text="@string/upload"
         android:background="@android:color/black"
         android:paddingVertical="20dp"
         android:paddingHorizontal="10dp"
@@ -65,7 +75,7 @@
         android:layout_height="wrap_content"
         android:paddingVertical="20dp"
         android:paddingHorizontal="10dp"
-        android:text="*Once you upload it,  it will update automatically.\n*You can remove yourself if you regret."
+        android:text="@string/uploadInfo"
         android:textColor="@android:color/black"
         android:textSize="15dp"
         />
