@@ -4851,61 +4851,64 @@ namespace BrickBreaker
 			public const int muteSound = 2131755096;
 			
 			// aapt resource value: 0x7F100059
-			public const int nickname = 2131755097;
+			public const int name = 2131755097;
 			
 			// aapt resource value: 0x7F10005A
-			public const int nicknameInfo = 2131755098;
+			public const int nickname = 2131755098;
 			
 			// aapt resource value: 0x7F10005B
-			public const int password_toggle_content_description = 2131755099;
+			public const int nicknameInfo = 2131755099;
 			
 			// aapt resource value: 0x7F10005C
-			public const int path_password_eye = 2131755100;
+			public const int password_toggle_content_description = 2131755100;
 			
 			// aapt resource value: 0x7F10005D
-			public const int path_password_eye_mask_strike_through = 2131755101;
+			public const int path_password_eye = 2131755101;
 			
 			// aapt resource value: 0x7F10005E
-			public const int path_password_eye_mask_visible = 2131755102;
+			public const int path_password_eye_mask_strike_through = 2131755102;
 			
 			// aapt resource value: 0x7F10005F
-			public const int path_password_strike_through = 2131755103;
+			public const int path_password_eye_mask_visible = 2131755103;
 			
 			// aapt resource value: 0x7F100060
-			public const int play = 2131755104;
+			public const int path_password_strike_through = 2131755104;
 			
 			// aapt resource value: 0x7F100061
-			public const int random = 2131755105;
+			public const int play = 2131755105;
 			
 			// aapt resource value: 0x7F100062
-			public const int remove = 2131755106;
+			public const int random = 2131755106;
 			
 			// aapt resource value: 0x7F100063
-			public const int save = 2131755107;
+			public const int remove = 2131755107;
 			
 			// aapt resource value: 0x7F100064
-			public const int score = 2131755108;
+			public const int save = 2131755108;
 			
 			// aapt resource value: 0x7F100065
-			public const int scoreInfo = 2131755109;
+			public const int score = 2131755109;
 			
 			// aapt resource value: 0x7F100066
-			public const int search_menu_title = 2131755110;
+			public const int scoreInfo = 2131755110;
 			
 			// aapt resource value: 0x7F100067
-			public const int small = 2131755111;
+			public const int search_menu_title = 2131755111;
 			
 			// aapt resource value: 0x7F100068
-			public const int status_bar_notification_info_overflow = 2131755112;
+			public const int small = 2131755112;
 			
 			// aapt resource value: 0x7F100069
-			public const int topScores = 2131755113;
+			public const int status_bar_notification_info_overflow = 2131755113;
 			
 			// aapt resource value: 0x7F10006A
-			public const int upload = 2131755114;
+			public const int topScores = 2131755114;
 			
 			// aapt resource value: 0x7F10006B
-			public const int uploadInfo = 2131755115;
+			public const int upload = 2131755115;
+			
+			// aapt resource value: 0x7F10006C
+			public const int uploadInfo = 2131755116;
 			
 			static String()
 			{

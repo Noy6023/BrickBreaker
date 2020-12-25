@@ -24,6 +24,7 @@
   <string name="random">random</string>
   <string name="brickBreaker">BRICK BREAKER</string>
   <string name="nickname">Nickname</string>
+  <string name="name">Name</string>
   <string name="defultName">Player</string>
   <string name="lastScoreText">Last Score:  </string>
   <string name="highestScoreText">Highest Score: </string>
