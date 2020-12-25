@@ -54,6 +54,7 @@ namespace BrickBreaker
             tvHighestScore.Text = "Your highest score is: " + currentScore.HighestValue.ToString();
             btnUpload = FindViewById<Button>(Resource.Id.btnUpload);
             btnUpload.SetOnClickListener(this);
+
         }
         /// <summary>
         /// gets the index of the score in the score list

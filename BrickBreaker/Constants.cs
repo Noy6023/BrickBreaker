@@ -35,13 +35,13 @@ namespace BrickBreaker
         public static Color DEFULT_BRICK_COLOR = Color.Black;
 
         //ball constants
-        public static Vector BALL_START_VELOCITY = new Vector(7, 15);
+        public static Vector BALL_START_VELOCITY = new Vector(7, 13);
         public const int MEDIUM_BALL_RADIUS = 25;
         public const int SMALL_BALL_RADIUS = 20;
         public const int BIG_BALL_RADIUS = 35;
         public const int EDGE = 50;
-        public static Vector BALL_MIN_VELOCITY = new Vector(3, 15);
-        public static Vector BALL_MAX_VELOCITY = new Vector(15, 15);
+        public static Vector BALL_MIN_VELOCITY = new Vector(3, 13);
+        public static Vector BALL_MAX_VELOCITY = new Vector(15, 13);
 
         //Player manager constants
         public const int NUM_OF_PLAYERS = 5;

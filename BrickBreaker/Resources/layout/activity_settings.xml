@@ -126,7 +126,7 @@
 
         <CheckBox
             android:id="@+id/cbMuteSound"
-            android:layout_width="121.0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/muteSound"
             android:buttonTint="@color/colorDark1"
@@ -135,9 +135,9 @@
             />
         <CheckBox
             android:id="@+id/cbMuteMusic"
-            android:layout_width="112.5dp"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
-            android:layout_marginRight="4.2dp"
             android:text="@string/muteMusic"
             android:textColor="@color/colorDark1"
             android:buttonTint="@color/colorDark1"

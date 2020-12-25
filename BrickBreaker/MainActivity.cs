@@ -51,6 +51,7 @@ namespace BrickBreaker
             SetContentView(Resource.Layout.activity_main);
             HandlePermissions();
             InitViews();
+
         }
 
         /// <summary>

@@ -35,7 +35,7 @@ namespace BrickBreaker
         //flags
         public bool HasLost { get; set; } //keeps the result whether the bat ha missed and lost or not
         bool isFirstCall = true; //check if its the first time running to init the game
-
+        bool flagClick;
         //the threads
         public bool ThreadRunning = true; //a flag that holds whether the thread is running or not
         public bool IsRunning = true; //a flag that holds whether the game is running or not
@@ -50,7 +50,8 @@ namespace BrickBreaker
         {
             this.context = context; //set this context to the given context
             HasLost = false; //init the result
-            
+            flagClick = false;
+
             //create the objects
             ball = new Ball(ColorManager.Instance.GetColor(ColorKey.Ball)); //create the ball
             BottomBat = new Bat(ColorManager.Instance.GetColor(ColorKey.Bat));  //create the bottom bat
@@ -147,7 +148,7 @@ namespace BrickBreaker
                             resume.Position = new Vector(screenSize.X/2 - resume.Size.X, screenSize.Y / 2 - resume.Size.Y);
                             BottomBat.Position = new Vector(BatStartPositionGenerator(canvas));
                             TopBat.Position = new Vector(BottomBat.Position.X, (int)(Score.Paint.TextSize) + 2 * Bat.Size.Y);
-                            ball.Position = new Vector(BottomBat.Position.X + Bat.Size.X / 2, BottomBat.Position.Y - 2*Ball.Radius);
+                            ball.Position = new Vector(BottomBat.Position.X + Bat.Size.X / 2, BottomBat.Position.Y - Ball.Radius-1);
                             isFirstCall = false;
                         }
 
@@ -223,6 +224,7 @@ namespace BrickBreaker
         /// <returns>true</returns>
         public override bool OnTouchEvent(MotionEvent e)
         {
+            flagClick = true;
             Vector position = new Vector((int)e.GetX(), (int)e.GetY());
             if(HasTouchedButton(pause, position))
                 Pause();
@@ -359,7 +361,8 @@ namespace BrickBreaker
             }
             BottomBat.UpdateMovement(); //update the bottom bat movement
             TopBat.UpdateMovement(); //update the bottom bat movement
-            ball.UpdateMovement(canvas); //update the ball movement
+            if (flagClick) ball.UpdateMovement(canvas); //update the ball movement
+            else ball.Position = new Vector(BottomBat.Position.X + Bat.Size.X / 2, ball.Position.Y);
             BottomBat.UpdateBounds(canvas); //check bounds of the bat
             TopBat.UpdateBounds(canvas); //check bounds of the bat
             ball.UpdateWallHit(new Vector(canvas.Width, canvas.Height)); //check bounds of the ball - walls
