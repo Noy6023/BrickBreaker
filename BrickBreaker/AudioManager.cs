@@ -54,13 +54,6 @@ namespace BrickBreaker
                 player.Reset();
                 players[sound] = MediaPlayer.Create(context, context.Resources.GetIdentifier(sound.ToString(), "raw", context.PackageName));
             }
-            /*foreach(string sound in sounds)
-            {
-                players.Add(sound, new MediaPlayer());
-                MediaPlayer player = (MediaPlayer)players[sound];
-                player.Reset();
-                players[sound] = MediaPlayer.Create(context, context.Resources.GetIdentifier(sound, "raw", context.PackageName));
-            }*/
         }
 
         /// <summary>
@@ -136,10 +129,6 @@ namespace BrickBreaker
                 ((MediaPlayer)players[sound]).Release();
 
             }
-            /*foreach (string sound in sounds)
-            {
-                ((MediaPlayer)players[sound]).Release();
-            }*/
         }
     }
 }

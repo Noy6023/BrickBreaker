@@ -21,7 +21,7 @@ namespace BrickBreaker
         public GameButton(Vector position, Bitmap bitmap, Vector size, bool show) : base(position)
         {
             this.Bitmap = bitmap;
-            this.Size = size;
+            this.Size = new Vector(size.X, size.Y);
             this.Show = show;
         }
         /// <summary>
@@ -32,6 +32,23 @@ namespace BrickBreaker
         {
             if(Show)
                 canvas.DrawBitmap(Bitmap, Position.X, Position.Y, Paint);
+        }
+
+        /// <summary>
+        /// checks if the button was clicked
+        /// </summary>
+        /// <param name="position">the position of the touch</param>
+        /// <returns></returns>
+        public bool IsClicked(Vector position)
+        {
+            int left = Position.X;
+            int top = Position.Y;
+            int right = Position.X + Size.X;
+            int bottom = Position.Y + Size.Y;
+            int x = position.X;
+            int y = position.Y;
+            if (x >= left && x <= right && y >= top && y <= bottom) return true;
+            return false;
         }
     }
 }

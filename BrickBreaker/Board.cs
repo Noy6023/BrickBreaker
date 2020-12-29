@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,6 @@ namespace BrickBreaker
     {
         //the context of the game
         Context context; //the context of the game
-
         //the objects of the game
         Ball ball; // the ball
         Brick[,] bricks; //the bricks array
@@ -30,12 +30,14 @@ namespace BrickBreaker
         public Bat BottomBat { get; set; } //the bottom bat
         GameButton pause; //the pause button
         GameButton resume; //the resume button
+        GameButton start;
         Vector screenSize; //holds the screen size
         Difficulty difficulty;
         //flags
         public bool HasLost { get; set; } //keeps the result whether the bat ha missed and lost or not
         bool isFirstCall = true; //check if its the first time running to init the game
         bool flagClick;
+        bool isPaused = false;
         //the threads
         public bool ThreadRunning = true; //a flag that holds whether the thread is running or not
         public bool IsRunning = true; //a flag that holds whether the game is running or not
@@ -70,6 +72,9 @@ namespace BrickBreaker
                BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.resumebtn),
                new Vector(Constants.RESUME_BUTTON_SIZE, Constants.RESUME_BUTTON_SIZE), false);
 
+            start = new GameButton(Constants.DEFULT_VECTOR,
+               BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.starttext),
+               new Vector(Constants.START_TEXT_SIZE.X, Constants.START_TEXT_SIZE.Y), true);
             //init the players
             AudioManager.Instance.InitPlayers(context);
             
@@ -94,6 +99,7 @@ namespace BrickBreaker
         /// </summary>
         public void Pause()
         {
+            isPaused = true;
             resume.Show = true;
             IsRunning = false;
             if(!HasLost)
@@ -108,9 +114,10 @@ namespace BrickBreaker
         /// </summary>
         public void Resume()
         {
+            isPaused = false;
             resume.Show = false;
             IsRunning = true;
-            AudioManager.Instance.ResumeSound(Sound.music);
+            if(flagClick) AudioManager.Instance.ResumeSound(Sound.music);
         }
 
         /// <summary>
@@ -120,7 +127,7 @@ namespace BrickBreaker
         public void StartGame()
         {
             IsRunning = true;
-            AudioManager.Instance.PlayMusicLoop(Sound.music);
+            //AudioManager.Instance.PlayMusicLoop(Sound.music);
         }
 
         /// <summary>
@@ -142,6 +149,7 @@ namespace BrickBreaker
                         if (isFirstCall)
                         {
                             //init the game objects positions and sizes according to the specific phone screen size - canvas
+
                             InitBricks(canvas);
                             screenSize = new Vector(canvas.Width, canvas.Height);
                             pause.Position = new Vector(screenSize.X - pause.Size.X, 0);
@@ -149,6 +157,8 @@ namespace BrickBreaker
                             BottomBat.Position = new Vector(BatStartPositionGenerator(canvas));
                             TopBat.Position = new Vector(BottomBat.Position.X, (int)(Score.Paint.TextSize) + 2 * Bat.Size.Y);
                             ball.Position = new Vector(BottomBat.Position.X + Bat.Size.X / 2, BottomBat.Position.Y - Ball.Radius-1);
+                            ball.Velocity.Y = (screenSize.Y / 3) / 57;
+                            start.Position = new Vector(10, 120);
                             isFirstCall = false;
                         }
 
@@ -165,6 +175,11 @@ namespace BrickBreaker
                             AudioManager.Instance.PlaySound(Sound.lost); //play lost sound
                             Thread.Sleep(1000);
                             AudioManager.Instance.Release(); //release the sound
+                        }
+                        if (isPaused)
+                        {
+                            resume.Show = true;
+                            resume.Draw(canvas);
                         }
                     }
                     catch (Exception e)
@@ -221,34 +236,25 @@ namespace BrickBreaker
         /// handles touch events - button clicks
         /// </summary>
         /// <param name="e">the touch event</param>
-        /// <returns>true</returns>
+        /// <returns></returns>
         public override bool OnTouchEvent(MotionEvent e)
         {
-            flagClick = true;
             Vector position = new Vector((int)e.GetX(), (int)e.GetY());
-            if(HasTouchedButton(pause, position))
+            if (!flagClick)
+            {
+                start.Show = false;
+                flagClick = true;
+                AudioManager.Instance.PlayMusicLoop(Sound.music);
+            }
+            else if (pause.IsClicked(position))
+            {
                 Pause();
-            if (HasTouchedButton(resume, position))
+            }
+            else if (resume.IsClicked(position))
+            {
                 Resume();
-            return true;
-        }
-
-        /// <summary>
-        /// checks if the touch was on a button
-        /// </summary>
-        /// <param name="btn">the button to check</param>
-        /// <param name="position">the position of the touch</param>
-        /// <returns></returns>
-        private bool HasTouchedButton(GameButton btn, Vector position)
-        {
-            int left = btn.Position.X;
-            int top = btn.Position.Y;
-            int right = btn.Position.X + btn.Size.X;
-            int bottom = btn.Position.Y + btn.Size.Y;
-            int x = position.X;
-            int y = position.Y;
-            if (x > left && x < right && y > top && y < bottom) return true;
-            return false;
+            }
+            return base.OnTouchEvent(e);
         }
 
         /// <summary>
@@ -323,7 +329,8 @@ namespace BrickBreaker
             }
             //draw the ball 
             ball.Draw(canvas);
-            if(!IsRunning)
+            start.Draw(canvas);
+            if(isPaused)
             {
                 resume.Show = true;
             }
@@ -361,7 +368,10 @@ namespace BrickBreaker
             }
             BottomBat.UpdateMovement(); //update the bottom bat movement
             TopBat.UpdateMovement(); //update the bottom bat movement
-            if (flagClick) ball.UpdateMovement(canvas); //update the ball movement
+            if (flagClick)
+            {
+                ball.UpdateMovement(canvas); //update the ball movement
+            }
             else ball.Position = new Vector(BottomBat.Position.X + Bat.Size.X / 2, ball.Position.Y);
             BottomBat.UpdateBounds(canvas); //check bounds of the bat
             TopBat.UpdateBounds(canvas); //check bounds of the bat

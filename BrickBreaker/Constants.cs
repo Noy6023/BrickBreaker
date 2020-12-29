@@ -21,7 +21,7 @@ namespace BrickBreaker
         public static Color BACKGROUND_COLOR = Color.Argb(255, 181, 245, 255);
         public const int PAUSE_BUTTON_SIZE = 100;
         public const int RESUME_BUTTON_SIZE = 200;
-
+        public static Vector START_TEXT_SIZE = new Vector(400, 50);
         //bat constants
         public static Vector BAT_SIZE = new Vector(300, 20);
         public static Color DEFULT_BAT_COLOR = Color.Black;
