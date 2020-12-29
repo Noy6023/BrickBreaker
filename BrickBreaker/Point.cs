@@ -11,16 +11,16 @@ using System.Text;
 
 namespace BrickBreaker
 {
-    public class Vector
+    public class Point
     {
-        public int X { get; set; } //the x coordinate
-        public int Y { get; set; } //the y coordinate
-        public Vector(int x, int y) //constructor
+        public float X { get; set; } //the x coordinate
+        public float Y { get; set; } //the y coordinate
+        public Point(float x, float y) //constructor
         {
             this.X = x;
             this.Y = y;
         }
-        public Vector(Vector other) //copy constructor
+        public Point(Point other) //copy constructor
         {
             this.X = other.X;
             this.Y = other.Y;
@@ -31,7 +31,7 @@ namespace BrickBreaker
         /// </summary>
         /// <param name="other">the other vector</param>
         /// <returns>the distance</returns>
-        public double Distance(Vector other)
+        public double Distance(Point other)
         {
             return Math.Sqrt(Math.Pow((double)(this.X - other.X), 2.0) + Math.Pow((double)(this.Y - other.Y), 2.0));
         }

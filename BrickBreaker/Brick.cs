@@ -16,14 +16,14 @@ namespace BrickBreaker
     public class Brick : Shape
     {
         public bool IsVisible { get; set; } //true if the brick is visable and can be hit. else false
-        public static Vector Size { get; set; } //the size of the brick
-        public Brick(Vector position, Color color) : base(position, color) //constructor
+        public static Point Size { get; set; } //the size of the brick
+        public Brick(Point position, Color color) : base(position, color) //constructor
         {
             this.IsVisible = true;
         }
         public Brick(Brick other):base()
         {
-            base.Position = new Vector(other.Position);
+            base.Position = new Point(other.Position);
             base.Paint = new Paint(other.Paint);
             Paint.Color = other.Paint.Color;
             IsVisible = other.IsVisible;

@@ -15,19 +15,19 @@ namespace BrickBreaker
 {
     public class Bat : Shape
     {
-        public static Vector Size { get; set; } //the size of the bat
-        public Vector Velocity { get; set; } //the velocity of the bat
-        public Bat(Vector position, Color color, Vector velocity) : base(position, color) //costructor
+        public static Point Size { get; set; } //the size of the bat
+        public Point Velocity { get; set; } //the velocity of the bat
+        public Bat(Point position, Color color, Point velocity) : base(position, color) //costructor
         {
-            this.Velocity = new Vector(velocity);
+            this.Velocity = new Point(velocity);
         }
         public Bat(Color color):base(color) //defult constructor
         {
-            base.Position = new Vector(0, Constants.DEFULT_SCREEN_SIZE.Y - (Constants.DEFULT_SCREEN_SIZE.Y / 10));
-            Size = new Vector(Constants.BAT_SIZE.X, Constants.BAT_SIZE.Y);
+            base.Position = new Point(0, Constants.DEFULT_SCREEN_SIZE.Y - (Constants.DEFULT_SCREEN_SIZE.Y / 10));
+            Size = new Point(Constants.BAT_SIZE.X, Constants.BAT_SIZE.Y);
             base.Paint = new Paint();
             Paint.Color = color;
-            Velocity = new Vector(Constants.DEFULT_VECTOR);
+            Velocity = new Point(Constants.DEFULT_VECTOR);
         }
         /// <summary>
         /// handle the bats bounds

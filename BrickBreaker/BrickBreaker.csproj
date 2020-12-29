@@ -90,7 +90,7 @@
     <Compile Include="GameScore.cs" />
     <Compile Include="Shape.cs" />
     <Compile Include="Sound.cs" />
-    <Compile Include="Vector.cs" />
+    <Compile Include="Point.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="google-services.json" />

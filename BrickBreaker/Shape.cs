@@ -14,23 +14,23 @@ namespace BrickBreaker
 {
     public abstract class Shape
     {
-        public Vector Position { get; set; } //the current positon of the shape
+        public Point Position { get; set; } //the current positon of the shape
         public Paint Paint { get; set; } //the paint of the shape
         ///ctors
-        public Shape(Vector position, Color color)
+        public Shape(Point position, Color color)
         {
-            this.Position = new Vector(position);
+            this.Position = new Point(position);
             this.Paint = new Paint();
             Paint.Color = color;
         }
-        public Shape(Vector position)
+        public Shape(Point position)
         {
-            this.Position = new Vector(position);
+            this.Position = new Point(position);
             this.Paint = new Paint();
         }
         public Shape(Color color)
         {
-            Position = new Vector(Constants.DEFULT_VECTOR);
+            Position = new Point(Constants.DEFULT_VECTOR);
             this.Paint = new Paint();
             Paint.Color = color;
         }
@@ -38,7 +38,7 @@ namespace BrickBreaker
         {
             Paint = new Paint();
             Paint.Color = Constants.DEFULT_COLOR;
-            Position = new Vector(Constants.DEFULT_VECTOR);
+            Position = new Point(Constants.DEFULT_VECTOR);
         }
         /// <summary>
         /// an abstract draw function that will be different in every sub class
@@ -52,7 +52,7 @@ namespace BrickBreaker
         /// <param name="ball">the ball to check</param>
         /// <param name="size">the size of the shape</param>
         /// <returns>true - there was a hit. else - false.</returns>
-        public bool HasHitBall(Ball ball, Vector size)
+        public bool HasHitBall(Ball ball, Point size)
         {
             float testX = ball.Position.X;
             float testY = ball.Position.Y;

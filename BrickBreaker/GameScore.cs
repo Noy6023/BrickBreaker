@@ -15,7 +15,7 @@ namespace BrickBreaker
     public class GameScore : Shape
     {
         private int score;
-        public GameScore(Vector position, Color color) : base(position, color)
+        public GameScore(Point position, Color color) : base(position, color)
         {
             base.Paint.TextSize = Constants.DEFULT_SCORE_SIZE;
             this.score = 0;
@@ -24,7 +24,7 @@ namespace BrickBreaker
         {
             base.Paint.TextSize = Constants.DEFULT_SCORE_SIZE;
             this.score = 0;
-            Position = new Vector(0, (int)Paint.TextSize);
+            Position = new Point(0, (int)Paint.TextSize);
         }
         /// <summary>
         /// get score function
