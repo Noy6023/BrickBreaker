@@ -13,7 +13,7 @@ using System.Text;
 namespace BrickBreaker
 {
     /// <summary>
-    /// a score class that holds the name of the player, lst score, highest score and special key
+    /// a score class that holds the name of the player, last score, highest score and special key
     /// </summary>
     class Score
     {

@@ -15,6 +15,9 @@ using System.Collections;
 
 namespace BrickBreaker
 {
+    /// <summary>
+    /// manages the file data
+    /// </summary>
     public sealed class FileManager
     {
         //using a singelton method so that there is only one instance of audio manager

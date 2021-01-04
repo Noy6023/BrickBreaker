@@ -13,6 +13,9 @@ using System.Text;
 
 namespace BrickBreaker
 {
+    /// <summary>
+    /// the bat class
+    /// </summary>
     public class Bat : Shape
     {
         public static Point Size { get; set; } //the size of the bat

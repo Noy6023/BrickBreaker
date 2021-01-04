@@ -11,6 +11,9 @@ using System.Text;
 
 namespace BrickBreaker
 {
+    /// <summary>
+    /// the adapter of the score list view
+    /// </summary>
     class ScoreAdapter : ArrayAdapter<Score>
     {
         readonly Android.Content.Context context;

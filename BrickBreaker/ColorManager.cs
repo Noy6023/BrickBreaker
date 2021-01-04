@@ -13,6 +13,9 @@ using System.Text;
 
 namespace BrickBreaker
 {
+    /// <summary>
+    /// manages the colors of the objects in the game
+    /// </summary>
     public sealed class ColorManager
     {
         //using a singelton method so that there is only one instance of color manager

@@ -15,6 +15,9 @@ using static Android.OS.PowerManager;
 
 namespace BrickBreaker
 {
+    /// <summary>
+    /// the game screen activity
+    /// </summary>
     [Activity(Label = "GameActivity")]
     public class GameActivity : Activity, Android.Hardware.ISensorEventListener
     {

@@ -12,6 +12,9 @@ using System.Text;
 
 namespace BrickBreaker
 {
+    /// <summary>
+    /// the score of the game class
+    /// </summary>
     public class GameScore : Shape
     {
         private int score;

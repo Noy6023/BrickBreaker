@@ -13,6 +13,9 @@ using System.Text;
 
 namespace BrickBreaker
 {
+    /// <summary>
+    /// the ball class
+    /// </summary>
     public class Ball : Shape
     {
         public static int Radius { get; set; } //the radius of the ball

@@ -17,6 +17,9 @@ using static Android.Drm.DrmManagerClient;
 
 namespace BrickBreaker
 {
+    /// <summary>
+    /// the firestore activity - top scores screen
+    /// </summary>
     [Activity(Label = "Top Scores")]
     public class FireStoreActivity : AppCompatActivity, View.IOnClickListener, IOnSuccessListener
     {

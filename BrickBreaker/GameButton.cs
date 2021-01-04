@@ -12,6 +12,9 @@ using System.Text;
 
 namespace BrickBreaker
 {
+    /// <summary>
+    /// a game button class
+    /// </summary>
     class GameButton : Shape
     {
         public Bitmap Bitmap { get; set; }

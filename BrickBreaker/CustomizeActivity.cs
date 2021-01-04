@@ -15,6 +15,9 @@ using System.Text;
 
 namespace BrickBreaker
 {
+    /// <summary>
+    /// the customize screen activity
+    /// </summary>
     [Activity(Label = "Customize")]
     public class CustomizeActivity : AppCompatActivity, Android.Views.View.IOnClickListener
     {

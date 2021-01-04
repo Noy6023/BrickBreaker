@@ -12,6 +12,9 @@ using System.Text;
 
 namespace BrickBreaker
 {
+    /// <summary>
+    /// an abstract shape class of everything that can be drawn on the game screen
+    /// </summary>
     public abstract class Shape
     {
         public Point Position { get; set; } //the current positon of the shape

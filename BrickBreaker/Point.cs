@@ -11,6 +11,9 @@ using System.Text;
 
 namespace BrickBreaker
 {
+    /// <summary>
+    /// a point representation with an x and y
+    /// </summary>
     public class Point
     {
         public float X { get; set; } //the x coordinate

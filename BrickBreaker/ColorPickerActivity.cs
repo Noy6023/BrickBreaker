@@ -12,6 +12,9 @@ using System.Text;
 
 namespace BrickBreaker
 {
+    /// <summary>
+    /// the color picker screen activity
+    /// </summary>
     [Activity(Label = "ColorPicker")]
     public class ColorPickerActivity : Activity, Android.Views.View.IOnClickListener
     {

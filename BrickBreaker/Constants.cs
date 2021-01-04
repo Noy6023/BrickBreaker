@@ -12,6 +12,9 @@ using System.Text;
 
 namespace BrickBreaker
 {
+    /// <summary>
+    /// a constants class
+    /// </summary>
     static class Constants
     {
         //general constants

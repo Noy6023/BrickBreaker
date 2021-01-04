@@ -18,6 +18,9 @@ using Org.Apache.Http.Impl.Client;
 
 namespace BrickBreaker
 {
+    /// <summary>
+    /// the board class - game screen
+    /// </summary>
     public class Board : SurfaceView
     {
         //the context of the game

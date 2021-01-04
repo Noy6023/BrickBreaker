@@ -19,6 +19,9 @@ using Android.Support.V4.App;
 
 namespace BrickBreaker
 {
+    /// <summary>
+    /// the main screen activity - home screen
+    /// </summary>
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity, Android.Views.View.IOnClickListener, RadioGroup.IOnCheckedChangeListener
     {

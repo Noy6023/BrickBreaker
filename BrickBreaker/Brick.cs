@@ -13,6 +13,9 @@ using Android.Widget;
 
 namespace BrickBreaker
 {
+    /// <summary>
+    /// a brick in the game
+    /// </summary>
     public class Brick : Shape
     {
         public bool IsVisible { get; set; } //true if the brick is visable and can be hit. else false
