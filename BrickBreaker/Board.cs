@@ -159,7 +159,7 @@ namespace BrickBreaker
                             BottomBat.Position = new Point(BatStartPositionGenerator(canvas));
                             TopBat.Position = new Point(BottomBat.Position.X, (Score.Paint.TextSize) + 2 * Bat.Size.Y);
                             ball.Position = new Point(BottomBat.Position.X + Bat.Size.X / 2, BottomBat.Position.Y - Ball.Radius-1);
-                            ball.Velocity.Y = (screenSize.Y / 3) / 57;
+                            ball.Velocity.Y = (screenSize.Y / 3) / 65;
                             start.Position = new Point(screenSize.X /2 - start.Size.X / 2, 150);
                             isFirstCall = false;
                         }

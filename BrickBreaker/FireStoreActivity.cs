@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Drm;
 using Android.Gms.Tasks;
 using Android.OS;
 using Android.Runtime;
@@ -12,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static Android.Drm.DrmManagerClient;
 
 namespace BrickBreaker
 {
@@ -174,10 +176,11 @@ namespace BrickBreaker
                 else
                 {
                     int index = GetIndexOf(currentScore);
-                    fd.DeleteDocumentFromCollection("Players", currentScore.Key.ToString());
-                    scoreList.RemoveAt(GetIndexOf(currentScore));
+                    if(index >= 0)
+                        scoreList.RemoveAt(index);
                     scoreAdapter.NotifyDataSetChanged();
                     btnUpload.Text = uploadText;
+                    fd.DeleteDocumentFromCollection("Players", currentScore.Key.ToString());
                 }
             }
         }
@@ -207,6 +210,7 @@ namespace BrickBreaker
             if(!snapshot.IsEmpty)
             {
                 var documents = snapshot.Documents;
+                scoreList.Clear();
                 foreach(DocumentSnapshot item in documents)
                 {
                     Score score = new Score();

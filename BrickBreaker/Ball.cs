@@ -33,6 +33,9 @@ namespace BrickBreaker
         /// </summary>
         public void UpdateMovement(Canvas canvas)
         {
+            int signY = (int)(Velocity.Y / Math.Abs(Velocity.Y));
+            if(signY > 0)
+                Velocity.Y += 0.005f;
             KeepVelocity();
             KeepInScreen(canvas);
             Position.X += Velocity.X;
@@ -64,10 +67,12 @@ namespace BrickBreaker
         /// </summary>
         public void KeepVelocity()
         {
-            int sign = (int)(Velocity.X / Math.Abs(Velocity.X));
+            int signY = (int)(Velocity.Y / Math.Abs(Velocity.Y));
+            int signX = (int)(Velocity.X / Math.Abs(Velocity.X));
             //if velocity gets too slow or too fast - normalize it
-            if (Math.Abs(this.Velocity.X) < Constants.BALL_MIN_VELOCITY.X) this.Velocity.X = sign * Constants.BALL_MIN_VELOCITY.X;
-            if (Math.Abs(this.Velocity.X) > Constants.BALL_MAX_VELOCITY.X) this.Velocity.X = sign * Constants.BALL_MAX_VELOCITY.X;
+            if (Math.Abs(this.Velocity.Y) > Constants.BALL_MAX_VELOCITY.Y) this.Velocity.Y = signY * Constants.BALL_MAX_VELOCITY.Y;
+            if (Math.Abs(this.Velocity.X) < Constants.BALL_MIN_VELOCITY.X) this.Velocity.X = signX * Constants.BALL_MIN_VELOCITY.X;
+            if (Math.Abs(this.Velocity.X) > Constants.BALL_MAX_VELOCITY.X) this.Velocity.X = signX * Constants.BALL_MAX_VELOCITY.X;
         }
         /// <summary>
         /// changes the x velocity by a random number and makes sure it is not too fast or too slow
