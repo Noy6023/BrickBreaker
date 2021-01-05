@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using static Android.Drm.DrmManagerClient;
 
 namespace BrickBreaker
 {
@@ -21,7 +20,7 @@ namespace BrickBreaker
     /// the firestore activity - top scores screen
     /// </summary>
     [Activity(Label = "Top Scores")]
-    public class FireStoreActivity : AppCompatActivity, View.IOnClickListener, IOnSuccessListener
+    public class FireStoreActivity : AppCompatActivity, View.IOnClickListener, Firebase.Firestore.IEventListener
     {
         List<Score> scoreList;
         ScoreAdapter scoreAdapter;
@@ -59,6 +58,7 @@ namespace BrickBreaker
             tvHighestScore.Text = "Your highest score is: " + currentScore.HighestValue.ToString();
             btnUpload = FindViewById<Button>(Resource.Id.btnUpload);
             btnUpload.SetOnClickListener(this);
+            
 
         }
         /// <summary>
@@ -100,7 +100,9 @@ namespace BrickBreaker
         /// <param name="cName"></param>
         private void FetchData(string cName)
         {
-            fd.GetCollection(cName).AddOnSuccessListener(this);
+            //fd.GetCollection(cName).AddOnSuccessListener(this);
+            fd.AddSnapshotListener("Players", this);
+            
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
@@ -189,45 +191,26 @@ namespace BrickBreaker
         }
 
         /// <summary>
-        /// updates the existing score if it already exists in the list
-        /// </summary>
-        /// <param name="score"></param>
-        private void UpdateScore(Score score, Score s)
-        {
-            s.HighestValue = score.HighestValue;
-            s.Name = score.Name;
-            fd.DeleteDocumentFromCollection("Players", score.Key.ToString());
-            AddDocument(score);
-            scoreList.RemoveAt(GetIndexOf(currentScore));
-            scoreAdapter.NotifyDataSetChanged();
-            return;
-        }
-
-        /// <summary>
         /// gets the collection and placed the documents data in the score list
         /// </summary>
-        /// <param name="result">the snapshot result</param>
-        public void OnSuccess(Java.Lang.Object result)
+        /// <param name="value">the snapshot</param>
+        /// <param name="error">an error</param>
+        public void OnEvent(Java.Lang.Object value, FirebaseFirestoreException error)
         {
-            var snapshot = (QuerySnapshot)result;
-            if(!snapshot.IsEmpty)
+            var snapshot = (QuerySnapshot)value;
+            if (!snapshot.IsEmpty)
             {
                 var documents = snapshot.Documents;
                 scoreList.Clear();
-                foreach(DocumentSnapshot item in documents)
+                foreach (DocumentSnapshot item in documents)
                 {
                     Score score = new Score();
                     score.Name = item.Get("Name").ToString();
                     score.HighestValue = int.Parse(item.Get("Score").ToString());
                     score.Key = int.Parse(item.Get("Key").ToString());
-                    if(score.Key == currentScore.Key)
-                    {
-                        UpdateScore(currentScore, score);
-                    }
+                    if (score.Key == currentScore.Key) btnUpload.Text = removeText;
                     AddToList(score);
-
                 }
-                if (GetIndexOf(currentScore) >= 0) btnUpload.Text = removeText;
             }
         }
     }

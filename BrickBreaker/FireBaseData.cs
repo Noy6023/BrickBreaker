@@ -118,5 +118,10 @@ namespace BrickBreaker
         {
             return firestore.Collection(cName).Document(dName).Get();
         }
+
+        public void AddSnapshotListener(string cName, FireStoreActivity activity)
+        {
+            firestore.Collection(cName).AddSnapshotListener(activity);
+        }
     }
 }

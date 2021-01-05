@@ -475,10 +475,10 @@ namespace BrickBreaker
         public void OnSuccess(Java.Lang.Object result)
         {
             var snapshot = (DocumentSnapshot)result;
-            string name = snapshot.Get("Name").ToString();
-            int highestScore = int.Parse(snapshot.Get("Score").ToString());
-            int key = int.Parse(snapshot.Get("Key").ToString());
-            score = new Score(name, score.LastValue, highestScore, key);
+            string name = snapshot.Exists() ? snapshot.Get("Name").ToString() : score.Name;
+            int highestScore = snapshot.Exists() ? int.Parse(snapshot.Get("Score").ToString()) : score.HighestValue;
+            //int key = int.Parse(snapshot.Get("Key").ToString());
+            score = new Score(name, score.LastValue, highestScore, score.Key);
             SetScoreInfo();
         }
 
