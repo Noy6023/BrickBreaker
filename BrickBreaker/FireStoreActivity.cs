@@ -30,7 +30,7 @@ namespace BrickBreaker
         Score currentScore;
         TextView tvName;
         TextView tvHighestScore;
-        FireBaseData fd = new FireBaseData();
+        FireBaseData fd = FireBaseData.Instance;
         string uploadText;
         string removeText;
         protected override void OnCreate(Bundle savedInstanceState)

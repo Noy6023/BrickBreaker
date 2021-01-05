@@ -15,7 +15,7 @@ namespace BrickBreaker
     /// <summary>
     /// a score class that holds the name of the player, last score, highest score and special key
     /// </summary>
-    class Score
+    public class Score
     {
         public string Name { get; set; }
         public int LastValue { get; set; }

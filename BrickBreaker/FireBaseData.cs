@@ -19,15 +19,27 @@ namespace BrickBreaker
     /// <summary>
     /// fire base data class
     /// </summary>
-    class FireBaseData
+    public sealed class FireBaseData
     {
+        private static readonly FireBaseData instance = new FireBaseData();
         private FirebaseFirestore firestore;
         private FirebaseAuth auth;
         private FirebaseApp app;
+        static FireBaseData() //static constructor
+        {
+
+        }
+        public static FireBaseData Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
         /// <summary>
         /// constructor
         /// </summary>
-        public FireBaseData()
+        private FireBaseData()
         {
             app = FirebaseApp.InitializeApp(Application.Context);
             if (app is null)
@@ -86,6 +98,19 @@ namespace BrickBreaker
         public Task GetCollection(string cName)
         {
             return firestore.Collection(cName).Get();
+        }
+        public void SaveScoreToCollection(string cName, Score score)
+        {
+            Hashtable data = new Hashtable();
+            data.Put("Name", score.Name);
+            data.Put("Score", score.HighestValue);
+            data.Put("Key", score.Key);
+            DocumentReference cr = firestore.Collection(cName).Document(score.Key.ToString());
+            cr.Set(data);
+        }
+        public Task GetDocument(string cName, string dName)
+        {
+            return firestore.Collection(cName).Document(dName).Get();
         }
     }
 }

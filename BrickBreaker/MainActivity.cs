@@ -16,6 +16,8 @@ using Android;
 using Android.Support.V4.Content;
 using Android.Content.PM;
 using Android.Support.V4.App;
+using Android.Gms.Tasks;
+using Firebase.Firestore;
 
 namespace BrickBreaker
 {
@@ -23,7 +25,7 @@ namespace BrickBreaker
     /// the main screen activity - home screen
     /// </summary>
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
-    public class MainActivity : AppCompatActivity, Android.Views.View.IOnClickListener, RadioGroup.IOnCheckedChangeListener
+    public class MainActivity : AppCompatActivity, Android.Views.View.IOnClickListener, RadioGroup.IOnCheckedChangeListener, IOnSuccessListener, IOnFailureListener
     {
         const int PERMISSION_REQUEST_CODE = 1;
 
@@ -70,6 +72,7 @@ namespace BrickBreaker
             btnName.SetOnClickListener(this);
             btnStart.SetOnClickListener(this);
             score = new Score();
+            score.SetInfo(FileManager.Instance.LoadInfo(this));
             AudioManager.IsSoundMuted = sp.GetBoolean("sound", false);
             AudioManager.IsMusicMuted = sp.GetBoolean("music", false);
             lastBallChecked = Size.Medium;
@@ -77,8 +80,7 @@ namespace BrickBreaker
             lastDifficultyChecked = Difficulty.Easy;
             SetSizes();
             SetDifficulty();
-            score.SetInfo(FileManager.Instance.LoadInfo(this));
-            SetScoreInfo();
+            GetInfoFromFirestore();
         }
 
         /// <summary>
@@ -329,7 +331,8 @@ namespace BrickBreaker
             {
                 score.Name = etName.Text;
                 btnName.Text = score.Name;
-                FileManager.Instance.SaveInfo('\n', score.GetInfo(), this);
+                FireBaseData.Instance.SaveScoreToCollection("Players", score);
+                //FileManager.Instance.SaveInfo('\n', score.GetInfo(), this);
                 nameDialog.Dismiss();
             }
             if(v == btnBackSettings)
@@ -365,9 +368,9 @@ namespace BrickBreaker
                     if (data.Extras != null)
                     {
                         score.LastValue = data.GetIntExtra("score", 0);
-                        //if (lastScore > max) max = lastScore;
                         score.ChangedScore();
-                        SetScoreInfo(/*max, lastScore*/);
+                        SetScoreInfo();
+                        FireBaseData.Instance.SaveScoreToCollection("Players", score);
                         FileManager.Instance.SaveInfo('\n', score.GetInfo(), this);
                     }
                 }
@@ -455,6 +458,26 @@ namespace BrickBreaker
             editor.Commit();
             SetSizes();
             SetDifficulty();
+        }
+
+        private void GetInfoFromFirestore()
+        {
+            FireBaseData.Instance.GetDocument("Players", score.Key.ToString()).AddOnSuccessListener(this).AddOnFailureListener(this);
+        }
+
+        public void OnSuccess(Java.Lang.Object result)
+        {
+            var snapshot = (DocumentSnapshot)result;
+            string name = snapshot.Get("Name").ToString();
+            int highestScore = int.Parse(snapshot.Get("Score").ToString());
+            int key = int.Parse(snapshot.Get("Key").ToString());
+            score = new Score(name, score.LastValue, highestScore, key);
+            SetScoreInfo();
+        }
+
+        public void OnFailure(Java.Lang.Exception e)
+        {
+            SetScoreInfo();
         }
     }
 }
