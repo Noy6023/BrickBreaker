@@ -460,11 +460,18 @@ namespace BrickBreaker
             SetDifficulty();
         }
 
+        /// <summary>
+        /// gets the score info from firestore
+        /// </summary>
         private void GetInfoFromFirestore()
         {
             FireBaseData.Instance.GetDocument("Players", score.Key.ToString()).AddOnSuccessListener(this).AddOnFailureListener(this);
         }
 
+        /// <summary>
+        /// sets the score if the document was found
+        /// </summary>
+        /// <param name="result">the result document that was found</param>
         public void OnSuccess(Java.Lang.Object result)
         {
             var snapshot = (DocumentSnapshot)result;
@@ -475,6 +482,10 @@ namespace BrickBreaker
             SetScoreInfo();
         }
 
+        /// <summary>
+        /// handles a case when the document wasn't found
+        /// </summary>
+        /// <param name="e">the exception</param>
         public void OnFailure(Java.Lang.Exception e)
         {
             SetScoreInfo();

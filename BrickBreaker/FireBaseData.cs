@@ -108,6 +108,12 @@ namespace BrickBreaker
             DocumentReference cr = firestore.Collection(cName).Document(score.Key.ToString());
             cr.Set(data);
         }
+        /// <summary>
+        /// gets a document from the collection
+        /// </summary>
+        /// <param name="cName">the collection name</param>
+        /// <param name="dName">the document name</param>
+        /// <returns>a task</returns>
         public Task GetDocument(string cName, string dName)
         {
             return firestore.Collection(cName).Document(dName).Get();
