@@ -28,9 +28,12 @@ namespace BrickBreaker
         Button btnRandom;
         Button btnDefult;
         Button btnBack;
+        TableLayout tlCustomize;
+        Color background;
         //Hashtable colors;
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            ChangeTheme();
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.activity_customize);
             // Create your application here
@@ -42,6 +45,9 @@ namespace BrickBreaker
         /// </summary>
         private void InitViews()
         {
+            tlCustomize = FindViewById<TableLayout>(Resource.Id.tlCustomize);
+            ColorDrawable backgroundDrawable = new ColorDrawable(ColorManager.Instance.IntToColorConvertor(background));
+            tlCustomize.Background = backgroundDrawable;
             btnBallColor = FindViewById<Button>(Resource.Id.btnBallColor);
             btnBatColor = FindViewById<Button>(Resource.Id.btnBatColor);
             btnBrickColor = FindViewById<Button>(Resource.Id.btnBrickColor);
@@ -57,6 +63,20 @@ namespace BrickBreaker
             btnDefult.SetOnClickListener(this);
             btnRandom.SetOnClickListener(this);
             btnBack.SetOnClickListener(this);
+        }
+
+        public void ChangeTheme()
+        {
+            background = (Color)ColorManager.Instance.Colors[ColorKey.Background];
+
+            if (ColorManager.Instance.IsColorLight(background))
+            {
+                SetTheme(Resource.Style.AppTheme);
+            }
+            else
+            {
+                SetTheme(Resource.Style.AppThemeDark);
+            }
         }
 
         /// <summary>
@@ -86,12 +106,12 @@ namespace BrickBreaker
             if(v == btnDefult)
             {
                 ColorManager.Instance.InitColors();
-                ChangeButtonsColors();
+                Recreate();
             }
-            if(v == btnRandom)
+            if (v == btnRandom)
             {
                 ColorManager.Instance.RandomColors();
-                ChangeButtonsColors();
+                Recreate();
             }
             if(v == btnBack)
             {
@@ -172,10 +192,10 @@ namespace BrickBreaker
                         ColorDrawable colorDrawable = new ColorDrawable(ColorManager.Instance.IntToColorConvertor(color));
                         btnBackgroundColor.Background = colorDrawable;
                         ColorManager.Instance.SetColor(ColorKey.Background, color);
+                        Recreate();
                     }
                 }
             }
         }
-
     }
 }

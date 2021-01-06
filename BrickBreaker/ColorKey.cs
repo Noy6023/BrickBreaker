@@ -20,6 +20,7 @@ namespace BrickBreaker
         Ball,
         Bat,
         Brick,
-        Background
+        Background,
+        Text
     }
 }

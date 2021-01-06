@@ -49,6 +49,7 @@ namespace BrickBreaker
             Colors.Add(ColorKey.Bat, Constants.DEFULT_BAT_COLOR);
             Colors.Add(ColorKey.Brick, Constants.DEFULT_BRICK_COLOR);
             Colors.Add(ColorKey.Background, Constants.BACKGROUND_COLOR);
+            Colors.Add(ColorKey.Text, Constants.DEFULT_COLOR);
         }
 
         /// <summary>
@@ -131,6 +132,12 @@ namespace BrickBreaker
                 current = sp.GetInt(key.ToString(), ((Color)Colors[key]).ToArgb());
                 Colors[key] = IntToColorConvertor(current);
             }
+        }
+
+        public bool IsColorLight(Color color)
+        {
+            if (color.R * 0.2126 + color.G * 0.7152 + color.B * 0.0722 > 255 / 2) return true;
+            return false;
         }
     }
 }

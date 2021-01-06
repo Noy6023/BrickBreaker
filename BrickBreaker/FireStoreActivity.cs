@@ -2,6 +2,8 @@
 using Android.Content;
 using Android.Drm;
 using Android.Gms.Tasks;
+using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.App;
@@ -29,11 +31,15 @@ namespace BrickBreaker
         Score currentScore;
         TextView tvName;
         TextView tvHighestScore;
+        LinearLayout llTopScores;
+        Color background;
+        ColorDrawable backgroundDrawable;
         FireBaseData fd = FireBaseData.Instance;
         string uploadText;
         string removeText;
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            ChangeTheme();
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_top_scores);
@@ -46,8 +52,12 @@ namespace BrickBreaker
         /// </summary>
         private void InitViews()
         {
+            llTopScores = FindViewById<LinearLayout>(Resource.Id.llTopScores);
             lv = FindViewById<ListView>(Resource.Id.lv);
-            scoreAdapter = new ScoreAdapter(this, 0, 0, scoreList);
+            backgroundDrawable = new ColorDrawable(ColorManager.Instance.IntToColorConvertor(background));
+            llTopScores.Background = backgroundDrawable;
+            
+            scoreAdapter = new ScoreAdapter(this, 0, 0, scoreList, backgroundDrawable);
             lv.Adapter = scoreAdapter;
             currentScore = GetScore();
             uploadText = "Upload Yours";
@@ -58,9 +68,25 @@ namespace BrickBreaker
             tvHighestScore.Text = "Your highest score is: " + currentScore.HighestValue.ToString();
             btnUpload = FindViewById<Button>(Resource.Id.btnUpload);
             btnUpload.SetOnClickListener(this);
-            
+            //btnUpload.SetLayerType(View., null);
 
         }
+
+        public void ChangeTheme()
+        {
+            background = (Color)ColorManager.Instance.Colors[ColorKey.Background];
+
+            if (ColorManager.Instance.IsColorLight(background))
+            {
+                SetTheme(Resource.Style.AppTheme);
+            }
+            else
+            {
+                SetTheme(Resource.Style.AppThemeDark);
+            }
+        }
+
+
         /// <summary>
         /// gets the index of the score in the score list
         /// </summary>
@@ -187,6 +213,8 @@ namespace BrickBreaker
                     btnUpload.Text = uploadText;
                     fd.DeleteDocumentFromCollection("Players", currentScore.Key.ToString());
                 }
+                llTopScores.Background = backgroundDrawable;
+                //Recreate();
             }
         }
 
@@ -210,6 +238,7 @@ namespace BrickBreaker
                     score.Key = int.Parse(item.Get("Key").ToString());
                     if (score.Key == currentScore.Key) btnUpload.Text = removeText;
                     AddToList(score);
+                    llTopScores.Background = backgroundDrawable;
                 }
             }
         }

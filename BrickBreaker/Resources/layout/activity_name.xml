@@ -3,13 +3,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/llName"
     android:background="@color/color1">
     <TextView
         android:padding="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Please enter the new name: "
-        android:textColor="@color/colorDark1"
+        android:textColor="?android:attr/colorAccent"
         android:gravity="center"
         android:textSize="20sp"/>
     <EditText
@@ -18,7 +19,7 @@
         android:layout_height="wrap_content"
         android:inputType="text"
         android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-        android:textColor="@color/colorDark1"/>
+        android:textColor="?android:attr/colorAccent"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,8 +33,8 @@
             android:textSize="18sp"
             android:textAllCaps="false"
             android:layout_margin="15dp"
-            android:textColor="@android:color/white"
-            android:background="@color/colorDark1"
+            android:background="?android:attr/textColorSecondary"
+            android:textColor="?android:attr/textColorPrimary"
             />
         <Button
             android:layout_width="wrap_content"
@@ -42,8 +43,8 @@
             android:text="@string/back"
             android:textAllCaps="false"
             android:textSize="18sp"
-            android:textColor="@android:color/white"
-            android:background="@color/colorDark1"
+            android:background="?android:attr/textColorSecondary"
+            android:textColor="?android:attr/textColorPrimary"
             />
     </LinearLayout>
 </LinearLayout>

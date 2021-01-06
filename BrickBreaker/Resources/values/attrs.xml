@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+
+  <!-- background color keys -->
+  <attr name="basePrimaryBackgroundColour" format="reference|color"/>
+  <attr name="baseSecondaryBackgroundColour" format="reference|color"/>
+
+</resources>

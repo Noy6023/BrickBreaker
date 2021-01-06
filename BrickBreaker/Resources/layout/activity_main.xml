@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,7 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true"
-    android:background="@color/color1"
+    android:id="@+id/llMain"
+    android:background="?android:attr/colorBackground"
     android:orientation="vertical">
 
     <LinearLayout
@@ -20,14 +22,13 @@
         android:gravity="center"
         android:text="@string/app_name"
         android:textSize="75sp"
-        android:textColor="@color/colorDark1"/>  
+        android:textColor="?android:attr/colorAccent"/>  
     </LinearLayout>      
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="30dp"
         android:orientation="vertical">
-        android:layout_gravity="center" />
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,8 +38,8 @@
             android:padding="10dp"
             android:textSize="40sp"
             android:id="@+id/btnName"
-            android:background="@color/colorDark1"
-            android:textColor="@android:color/white"
+            android:background="?android:attr/colorAccent"
+            android:textColor="?android:attr/textColorPrimary"
         />
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,7 +52,7 @@
             android:layout_height="wrap_content"
             android:textSize="35sp"
             android:text="@string/lastScoreText"
-            android:textColor="@color/colorDark1"
+            android:textColor="?android:attr/colorAccent"
             android:gravity="center"/>
             <TextView
             android:id="@+id/tvMaxScore"
@@ -59,7 +60,7 @@
             android:layout_height="wrap_content"
             android:textSize="25sp"
             android:text="@string/highestScoreText"
-            android:textColor="@color/colorDark1"
+            android:textColor="?android:attr/colorAccent"
             android:gravity="center"/>
         </LinearLayout>
 
@@ -76,10 +77,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="50sp"
-        android:background="@color/colorDark1"
+        android:background="?android:attr/textColorSecondary"
         android:text="@string/play"
         android:id="@+id/btnStart"
-        android:textColor="@android:color/white"
+        android:textColor="?android:attr/textColorPrimary"
         android:padding="20dp"/>
     
     </LinearLayout>

@@ -18,6 +18,7 @@ using Android.Content.PM;
 using Android.Support.V4.App;
 using Android.Gms.Tasks;
 using Firebase.Firestore;
+using Android.Graphics.Drawables;
 
 namespace BrickBreaker
 {
@@ -35,10 +36,13 @@ namespace BrickBreaker
         Button btnSaveName;
         Button btnBackName;
         Button btnName;
+        LinearLayout llMain, llSettings, llHelp, llName;
         EditText etName;
         CheckBox cbMuteSound, cbMuteMusic;
         TextView tvLastScore;
         TextView tvMaxScore;
+        Color background;
+        ColorDrawable backgroundDrawable;
         Dialog settingsDialog, nameDialog, helpDialog;
         ISharedPreferences sp;
         RadioGroup rgBallSize, rgBrickSize, rgDifficulty;
@@ -51,6 +55,8 @@ namespace BrickBreaker
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            sp = this.GetSharedPreferences("Settings", FileCreationMode.Private);
+            ChangeTheme();
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
@@ -64,7 +70,8 @@ namespace BrickBreaker
         /// </summary>
         private void InitViews()
         {
-            sp = this.GetSharedPreferences("Settings", FileCreationMode.Private);
+
+            llMain = FindViewById<LinearLayout>(Resource.Id.llMain);
             btnStart = FindViewById<Button>(Resource.Id.btnStart);
             tvLastScore = FindViewById<TextView>(Resource.Id.tvLastScore);
             tvMaxScore = FindViewById<TextView>(Resource.Id.tvMaxScore);
@@ -72,7 +79,8 @@ namespace BrickBreaker
             btnName.SetOnClickListener(this);
             btnStart.SetOnClickListener(this);
             score = new Score();
-            ColorManager.Instance.LoadColors(sp);
+            backgroundDrawable = new ColorDrawable(ColorManager.Instance.IntToColorConvertor(background));
+            llMain.Background = backgroundDrawable;
             score.SetInfo(FileManager.Instance.LoadInfo(this));
             AudioManager.IsSoundMuted = sp.GetBoolean("sound", false);
             AudioManager.IsMusicMuted = sp.GetBoolean("music", false);
@@ -82,6 +90,21 @@ namespace BrickBreaker
             SetSizes();
             SetDifficulty();
             GetInfoFromFirestore();
+        }
+
+        private void ChangeTheme()
+        {
+            ColorManager.Instance.LoadColors(sp);
+            background = (Color)ColorManager.Instance.Colors[ColorKey.Background];
+
+            if (ColorManager.Instance.IsColorLight(background))
+            {
+                SetTheme(Resource.Style.AppTheme);
+            }
+            else
+            {
+                SetTheme(Resource.Style.AppThemeDark);
+            }
         }
 
         /// <summary>
@@ -254,6 +277,8 @@ namespace BrickBreaker
             settingsDialog.SetContentView(Resource.Layout.activity_settings);
             settingsDialog.SetTitle("Settings");
             settingsDialog.SetCancelable(true);
+            llSettings = settingsDialog.FindViewById<LinearLayout>(Resource.Id.llSettings);
+            llSettings.Background = backgroundDrawable;
             cbMuteSound = settingsDialog.FindViewById<CheckBox>(Resource.Id.cbMuteSound);
             cbMuteMusic = settingsDialog.FindViewById<CheckBox>(Resource.Id.cbMuteMusic);
             cbMuteSound.Checked = AudioManager.IsSoundMuted;
@@ -289,6 +314,8 @@ namespace BrickBreaker
             helpDialog = new Dialog(this);
             helpDialog.SetContentView(Resource.Layout.activity_help);
             helpDialog.SetCancelable(true);
+            llHelp = helpDialog.FindViewById<LinearLayout>(Resource.Id.llHelp);
+            llHelp.Background = backgroundDrawable;
             helpDialog.Show();
         }
 
@@ -300,6 +327,8 @@ namespace BrickBreaker
             nameDialog = new Dialog(this);
             nameDialog.SetContentView(Resource.Layout.activity_name);
             nameDialog.SetCancelable(true);
+            llName = nameDialog.FindViewById<LinearLayout>(Resource.Id.llName);
+            llName.Background = backgroundDrawable;
             etName = nameDialog.FindViewById<EditText>(Resource.Id.etName);
             btnSaveName = nameDialog.FindViewById<Button>(Resource.Id.btnSave);
             btnBackName = nameDialog.FindViewById<Button>(Resource.Id.btnBack);
@@ -327,16 +356,18 @@ namespace BrickBreaker
             if(v == btnBackName)
             {
                 nameDialog.Dismiss();
+                Recreate();
             }
             if(v == btnSaveName)
-            {
+            {   
                 score.Name = etName.Text;
                 btnName.Text = score.Name;
                 FireBaseData.Instance.SaveScoreToCollection("Players", score);
-                //FileManager.Instance.SaveInfo('\n', score.GetInfo(), this);
+                FileManager.Instance.SaveInfo('\n', score.GetInfo(), this);
                 nameDialog.Dismiss();
+                Recreate();
             }
-            if(v == btnBackSettings)
+            if (v == btnBackSettings)
             {
                 if (btnBackSettings != null) settingsDialog.Dismiss();
             }
@@ -379,6 +410,7 @@ namespace BrickBreaker
             if(requestCode == 1)
             {
                 ColorManager.Instance.SaveColors(sp);
+                Recreate();
             }
         }
 

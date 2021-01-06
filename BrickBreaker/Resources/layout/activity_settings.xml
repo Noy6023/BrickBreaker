@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/llSettings"
     android:background="@color/color1">
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +16,7 @@
             android:layout_height="70.5dp"
             android:textSize="40sp"
             android:text="@string/action_settings"
-            android:textColor="@color/colorDark1"
+            android:textColor="?android:attr/colorAccent"
             android:gravity="center"
             android:id="@+id/textView1" />
     </LinearLayout>
@@ -30,7 +31,7 @@
             android:layout_height="wrap_content"
             android:text="@string/ballSize"
             android:layout_gravity="center"
-            android:textColor="@color/colorDark1"/>
+            android:textColor="?android:attr/colorAccent"/>
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,15 +42,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/big"
+                android:textColor="?android:attr/colorAccent"
                 android:id="@+id/rbBallBig"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="?android:attr/colorAccent"
                 android:text="@string/medium"
                 android:id="@+id/rbBallMedium"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="?android:attr/colorAccent"
                 android:text="@string/small"
                 android:id="@+id/rbBallSmall"/>
         </RadioGroup>
@@ -63,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/brickSize"
-            android:textColor="@color/colorDark1"
+            android:textColor="?android:attr/colorAccent"
             />
         <RadioGroup
             android:layout_width="wrap_content"
@@ -75,15 +79,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/big"
+                android:textColor="?android:attr/colorAccent"
                 android:id="@+id/rbBrickBig"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="?android:attr/colorAccent"
                 android:text="@string/medium"
                 android:id="@+id/rbBrickMedium"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="?android:attr/colorAccent"
                 android:text="@string/small"
                 android:id="@+id/rbBrickSmall"/>
         </RadioGroup>
@@ -97,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/difficulty"
-            android:textColor="@color/colorDark1"
+            android:textColor="?android:attr/colorAccent"
             />
         <RadioGroup
             android:layout_width="wrap_content"
@@ -108,11 +115,13 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="?android:attr/colorAccent"
                 android:text="@string/easy"
                 android:id="@+id/rbEasy"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="?android:attr/colorAccent"
                 android:text="@string/hard"
                 android:id="@+id/rbHard"/>
         </RadioGroup>
@@ -123,14 +132,13 @@
         android:padding="10dp"
         android:orientation="vertical"
         android:gravity="center">
-
         <CheckBox
             android:id="@+id/cbMuteSound"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/muteSound"
-            android:buttonTint="@color/colorDark1"
-            android:textColor="@color/colorDark1"
+            android:buttonTint="?android:attr/colorAccent"
+            android:textColor="?android:attr/colorAccent"
             android:layout_marginLeft="0.0dp" 
             />
         <CheckBox
@@ -139,8 +147,8 @@
             android:layout_gravity="center"
             android:layout_height="wrap_content"
             android:text="@string/muteMusic"
-            android:textColor="@color/colorDark1"
-            android:buttonTint="@color/colorDark1"
+            android:textColor="?android:attr/colorAccent"
+            android:buttonTint="?android:attr/colorAccent"
             />
 
     </LinearLayout>
@@ -158,8 +166,8 @@
             android:textSize="18sp"
             android:textAllCaps="false"
             android:layout_marginEnd="5dp"
-            android:textColor="@android:color/white"
-            android:background="@color/colorDark1"
+            android:background="?android:attr/textColorSecondary"
+            android:textColor="?android:attr/textColorPrimary"
             />
         <Button
             android:layout_width="wrap_content"
@@ -168,8 +176,8 @@
             android:text="@string/back"
             android:textAllCaps="false"
             android:textSize="18sp"
-            android:textColor="@android:color/white"
-            android:background="@color/colorDark1"
+            android:background="?android:attr/textColorSecondary"
+            android:textColor="?android:attr/textColorPrimary"
             />
     </LinearLayout>
 </LinearLayout>
