@@ -111,5 +111,26 @@ namespace BrickBreaker
                 Colors[key] = color;
             }
         }
+
+        public void SaveColors(ISharedPreferences sp)
+        {
+            var editor = sp.Edit();
+            for (int i = 0; i < length; i++)
+            {
+                ColorKey key = (ColorKey)i;
+                editor.PutInt(key.ToString(), ((Color)Colors[key]).ToArgb());
+            }
+            editor.Commit();
+        }
+        public void LoadColors(ISharedPreferences sp)
+        {
+            int current = 0;
+            for (int i = 0; i < length; i++)
+            {
+                ColorKey key = (ColorKey)i;
+                current = sp.GetInt(key.ToString(), ((Color)Colors[key]).ToArgb());
+                Colors[key] = IntToColorConvertor(current);
+            }
+        }
     }
 }

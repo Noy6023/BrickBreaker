@@ -72,6 +72,7 @@ namespace BrickBreaker
             btnName.SetOnClickListener(this);
             btnStart.SetOnClickListener(this);
             score = new Score();
+            ColorManager.Instance.LoadColors(sp);
             score.SetInfo(FileManager.Instance.LoadInfo(this));
             AudioManager.IsSoundMuted = sp.GetBoolean("sound", false);
             AudioManager.IsMusicMuted = sp.GetBoolean("music", false);
@@ -374,6 +375,10 @@ namespace BrickBreaker
                         FileManager.Instance.SaveInfo('\n', score.GetInfo(), this);
                     }
                 }
+            }
+            if(requestCode == 1)
+            {
+                ColorManager.Instance.SaveColors(sp);
             }
         }
 
