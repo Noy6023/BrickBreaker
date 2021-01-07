@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Runtime;
@@ -19,9 +20,9 @@ namespace BrickBreaker
     {
         readonly Android.Content.Context context;
         readonly List<Score> objects;
-        ColorDrawable background; 
+        Color background; 
 
-        public ScoreAdapter(Context context, int resorce, int textViewRecourceId, List<Score> objects, ColorDrawable background) : base(context, resorce, textViewRecourceId, objects)
+        public ScoreAdapter(Context context, int resorce, int textViewRecourceId, List<Score> objects, Color background) : base(context, resorce, textViewRecourceId, objects)
         {
             this.context = context;
             this.objects = objects;
@@ -53,7 +54,7 @@ namespace BrickBreaker
             View view = layoutInflater.Inflate(Resource.Layout.activity_score, parent, false);
             TextView tvName = view.FindViewById<TextView>(Resource.Id.tvScoreName);
             TextView tvValue = view.FindViewById<TextView>(Resource.Id.tvScoreValue);
-            view.Background = background;
+            view.SetBackgroundColor(background);
             Score temp = objects[position];
             if (temp != null)
             {

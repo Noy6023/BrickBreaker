@@ -46,8 +46,7 @@ namespace BrickBreaker
         private void InitViews()
         {
             tlCustomize = FindViewById<TableLayout>(Resource.Id.tlCustomize);
-            ColorDrawable backgroundDrawable = new ColorDrawable(ColorManager.Instance.IntToColorConvertor(background));
-            tlCustomize.Background = backgroundDrawable;
+            tlCustomize.SetBackgroundColor(background);
             btnBallColor = FindViewById<Button>(Resource.Id.btnBallColor);
             btnBatColor = FindViewById<Button>(Resource.Id.btnBatColor);
             btnBrickColor = FindViewById<Button>(Resource.Id.btnBrickColor);
