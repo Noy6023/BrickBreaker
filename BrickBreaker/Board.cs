@@ -160,7 +160,10 @@ namespace BrickBreaker
                             pause.Position = new Point(screenSize.X - pause.Size.X, 0);
                             resume.Position = new Point(screenSize.X / 2 - resume.Size.X / 2, screenSize.Y / 2 - resume.Size.Y/2);
                             BottomBat.Position = new Point(BatStartPositionGenerator(canvas));
-                            TopBat.Position = new Point(BottomBat.Position.X, (Score.Paint.TextSize) + 2 * Bat.Size.Y);
+                            if(difficulty == Difficulty.Easy)
+                                TopBat.Position = new Point(BottomBat.Position.X, (Score.Paint.TextSize) + 2 * Bat.Size.Y);
+                            else
+                                TopBat.Position = new Point(screenSize.X - Bat.Size.X - BottomBat.Position.X, (Score.Paint.TextSize) + 2 * Bat.Size.Y);
                             ball.Position = new Point(BottomBat.Position.X + Bat.Size.X / 2, BottomBat.Position.Y - Ball.Radius-1);
                             ball.Velocity.Y = (screenSize.Y / 3) / 65;
                             start.Position = new Point(screenSize.X /2 - start.Size.X / 2, 150);

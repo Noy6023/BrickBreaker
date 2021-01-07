@@ -20,7 +20,7 @@ namespace BrickBreaker
         //general constants
         public static Point DEFULT_SCREEN_SIZE = new Point(1000, 2000);
         public static Point DEFULT_VECTOR = new Point(0, 0);
-        public static Color DEFULT_COLOR = Color.Argb(255, 23, 30, 31);
+        public static Color DEFULT_COLOR = Color.Argb(255, 0, 0, 0);
         public static Color BACKGROUND_COLOR = Color.Argb(255, 181, 245, 255);
         public const int PAUSE_BUTTON_SIZE = 100;
         public const int RESUME_BUTTON_SIZE = 150;

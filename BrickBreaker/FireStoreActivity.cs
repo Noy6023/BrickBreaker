@@ -65,7 +65,6 @@ namespace BrickBreaker
             tvHighestScore.Text = "Your highest score is: " + currentScore.HighestValue.ToString();
             btnUpload = FindViewById<Button>(Resource.Id.btnUpload);
             btnUpload.SetOnClickListener(this);
-            //btnUpload.SetLayerType(View., null);
         }
 
         public void ChangeTheme()
