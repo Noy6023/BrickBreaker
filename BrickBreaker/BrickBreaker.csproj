@@ -176,12 +176,6 @@
     <AndroidResource Include="Resources\layout\activity_main.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\pausebutton.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\resumebtn.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\settings_icon_white.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -218,13 +212,17 @@
     <AndroidResource Include="Resources\drawable\startbutton.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\starttext.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\values\attrs.xml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\AndroidManifest.xml" />
+    <AndroidResource Include="Resources\drawable\white_tilt_phone.png" />
+    <AndroidResource Include="Resources\drawable\pause_button.png" />
+    <AndroidResource Include="Resources\drawable\resume_button.png" />
+    <AndroidResource Include="Resources\drawable\start_text.png" />
+    <AndroidResource Include="Resources\drawable\white_pause_button.png" />
+    <AndroidResource Include="Resources\drawable\white_resume_button.png" />
+    <AndroidResource Include="Resources\drawable\white_start_text.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

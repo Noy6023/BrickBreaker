@@ -36,6 +36,18 @@ namespace BrickBreaker
         public int GetScore() { return score; }
         
         /// <summary>
+        /// changes the paint's color so it would match the theme
+        /// </summary>
+        /// <param name="isLightTheme">the theme</param>
+        public void ChangeColor(bool isLightTheme)
+        {
+            if (isLightTheme)
+            {
+                Paint.Color = Color.Black;
+            }
+            else Paint.Color = Color.White;
+        }
+        /// <summary>
         /// increases the score according to the difficulty
         /// </summary>
         /// <param name="difficulty">the difficulty</param>

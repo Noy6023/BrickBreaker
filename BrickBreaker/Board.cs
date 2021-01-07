@@ -40,6 +40,7 @@ namespace BrickBreaker
         public bool HasLost { get; set; } //keeps the result whether the bat ha missed and lost or not
         bool isFirstCall = true; //check if its the first time running to init the game
         bool flagClick;
+        bool isLightTheme = true;
         bool isPaused = false;
         //the threads
         public bool ThreadRunning = true; //a flag that holds whether the thread is running or not
@@ -65,25 +66,58 @@ namespace BrickBreaker
             screenSize = new Point(Constants.DEFULT_SCREEN_SIZE); //init the screen size to defult 
             this.difficulty = difficulty;
 
-            //create the pause button
-            pause = new GameButton(Constants.DEFULT_VECTOR, 
-                BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pausebutton),
-                new Point(Constants.PAUSE_BUTTON_SIZE, Constants.PAUSE_BUTTON_SIZE), true);
-            
-            //create the resume button
-            resume = new GameButton(Constants.DEFULT_VECTOR,
-               BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.resumebtn),
-               new Point(Constants.RESUME_BUTTON_SIZE, Constants.RESUME_BUTTON_SIZE), false);
-
-            start = new GameButton(Constants.DEFULT_VECTOR,
-               BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.starttext),
-               new Point(Constants.START_TEXT_SIZE.X, Constants.START_TEXT_SIZE.Y), true);
+            //Set the theme - dark or light
+            SetIsThemeLight();
+            //Create the buttons
+            SetButtons();
+            //change the color of the score to match the theme
+            Score.ChangeColor(isLightTheme);
             //init the players
             AudioManager.Instance.InitPlayers(context);
             
             //start the thread - game
             ts = new ThreadStart(Run);
             T = new Thread(ts);
+        }
+
+        /// <summary>
+        /// Sets the bool is theme light
+        /// </summary>
+        private void SetIsThemeLight()
+        {
+            if (ColorManager.Instance.IsColorLight(ColorManager.Instance.GetColor(ColorKey.Background)))
+                isLightTheme = true;
+            else isLightTheme = false;
+        }
+
+        /// <summary>
+        /// sets the buttons with the matching bitmap to the theme
+        /// </summary>
+        private void SetButtons()
+        {
+            Bitmap pauseBmp, resumebmp, startbmp;
+            if (isLightTheme)
+            {
+                pauseBmp = BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.pause_button);
+                resumebmp = BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.resume_button);
+                startbmp = BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.start_text);
+            }
+            else
+            {
+                pauseBmp = BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.white_pause_button);
+                resumebmp = BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.white_resume_button);
+                startbmp = BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.white_start_text);
+            }
+            //create the pause button
+            pause = new GameButton(Constants.DEFULT_VECTOR, pauseBmp,
+                new Point(Constants.PAUSE_BUTTON_SIZE, Constants.PAUSE_BUTTON_SIZE), true);
+
+            //create the resume button
+            resume = new GameButton(Constants.DEFULT_VECTOR, resumebmp,
+               new Point(Constants.RESUME_BUTTON_SIZE, Constants.RESUME_BUTTON_SIZE), false);
+
+            start = new GameButton(Constants.DEFULT_VECTOR, startbmp,
+                new Point(Constants.START_TEXT_SIZE.X, Constants.START_TEXT_SIZE.Y), true);
         }
 
         /// <summary>

@@ -64,6 +64,9 @@ namespace BrickBreaker
             btnBack.SetOnClickListener(this);
         }
 
+        /// <summary>
+        /// changes the theme according to the background color
+        /// </summary>
         public void ChangeTheme()
         {
             background = (Color)ColorManager.Instance.Colors[ColorKey.Background];

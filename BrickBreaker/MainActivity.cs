@@ -41,6 +41,7 @@ namespace BrickBreaker
         CheckBox cbMuteSound, cbMuteMusic;
         TextView tvLastScore;
         TextView tvMaxScore;
+        ImageView ivTiltPhone;
         Color background;
         Dialog settingsDialog, nameDialog, helpDialog;
         ISharedPreferences sp;
@@ -51,7 +52,7 @@ namespace BrickBreaker
         Size lastBallChecked, lastBrickChecked;
         Difficulty lastDifficultyChecked;
         Score score;
-
+        bool isLightTheme;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             sp = this.GetSharedPreferences("Settings", FileCreationMode.Private);
@@ -90,6 +91,9 @@ namespace BrickBreaker
             GetInfoFromFirestore();
         }
 
+        /// <summary>
+        /// changes the theme according to the background color
+        /// </summary>
         private void ChangeTheme()
         {
             ColorManager.Instance.LoadColors(sp);
@@ -97,10 +101,12 @@ namespace BrickBreaker
 
             if (ColorManager.Instance.IsColorLight(background))
             {
+                isLightTheme = true;
                 SetTheme(Resource.Style.AppTheme);
             }
             else
             {
+                isLightTheme = false;
                 SetTheme(Resource.Style.AppThemeDark);
             }
         }
@@ -227,6 +233,11 @@ namespace BrickBreaker
             }
         }
 
+        /// <summary>
+        /// creats a menu
+        /// </summary>
+        /// <param name="menu">the menu</param>
+        /// <returns>true</returns>
         public override bool OnCreateOptionsMenu(Android.Views.IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.activity_menu, menu);
@@ -313,7 +324,16 @@ namespace BrickBreaker
             helpDialog.SetContentView(Resource.Layout.activity_help);
             helpDialog.SetCancelable(true);
             llHelp = helpDialog.FindViewById<LinearLayout>(Resource.Id.llHelp);
+            ivTiltPhone = helpDialog.FindViewById<ImageView>(Resource.Id.ivTiltPhone);
             llHelp.SetBackgroundColor(background);
+            if(isLightTheme)
+            {
+                ivTiltPhone.SetBackgroundResource(Resource.Drawable.tilt_phone);
+            }
+            else
+            {
+                ivTiltPhone.SetBackgroundResource(Resource.Drawable.white_tilt_phone);
+            }
             helpDialog.Show();
         }
 
