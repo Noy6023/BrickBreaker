@@ -70,7 +70,6 @@ namespace BrickBreaker
         /// </summary>
         private void InitViews()
         {
-
             llMain = FindViewById<LinearLayout>(Resource.Id.llMain);
             btnStart = FindViewById<Button>(Resource.Id.btnStart);
             tvLastScore = FindViewById<TextView>(Resource.Id.tvLastScore);
@@ -81,6 +80,7 @@ namespace BrickBreaker
             score = new Score();
             llMain.SetBackgroundColor(background);
             score.SetInfo(FileManager.Instance.LoadInfo(this));
+            SetScoreInfo();
             AudioManager.IsSoundMuted = sp.GetBoolean("sound", false);
             AudioManager.IsMusicMuted = sp.GetBoolean("music", false);
             lastBallChecked = Size.Medium;
@@ -98,7 +98,6 @@ namespace BrickBreaker
         {
             ColorManager.Instance.LoadColors(sp);
             background = (Color)ColorManager.Instance.Colors[ColorKey.Background];
-
             if (ColorManager.Instance.IsColorLight(background))
             {
                 isLightTheme = true;
