@@ -38,7 +38,6 @@ namespace BrickBreaker
         /// <param name="space">the space that comes after the brick</param>
         public override void Draw(Canvas canvas)
         {
-            SetSize(canvas);
             canvas.DrawRect(Position.X,
                 Position.Y,
                 Position.X + Size.X,
@@ -67,7 +66,12 @@ namespace BrickBreaker
 
             return false;
         }
-        private void SetSize(Canvas canvas)
+
+        /// <summary>
+        /// Sets the size of the bricks according to the canvas size
+        /// </summary>
+        /// <param name="canvas">the canvas</param>
+        public static void SetSize(Canvas canvas)
         {
             if (Size == Constants.BRICK_SMALL_SIZE)
             {

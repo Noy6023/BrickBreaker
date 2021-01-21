@@ -90,7 +90,11 @@ namespace BrickBreaker
             return 0;
         }
 
-        private void SetSize(Canvas canvas)
+        /// <summary>
+        /// sets the size of the bat according to the canvas size
+        /// </summary>
+        /// <param name="canvas">the canvas</param>
+        public void SetSize(Canvas canvas)
         {
             Size.X = canvas.Width / 3.5f;
             Size.Y = Size.X / 20;
@@ -102,7 +106,6 @@ namespace BrickBreaker
         /// <param name="canvas">the canvas</param>
         public override void Draw(Canvas canvas)
         {
-            SetSize(canvas);
             canvas.DrawRect(Position.X, Position.Y, Position.X + Size.X, Position.Y + Size.Y, Paint);
         }
     }

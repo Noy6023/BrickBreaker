@@ -164,7 +164,6 @@ namespace BrickBreaker
         public void StartGame()
         {
             IsRunning = true;
-            //AudioManager.Instance.PlayMusicLoop(Sound.music);
         }
 
         /// <summary>
@@ -185,22 +184,7 @@ namespace BrickBreaker
                         canvas = this.Holder.LockCanvas();
                         if (isFirstCall)
                         {
-                            //init the game objects positions and sizes according to the specific phone screen size - canvas
-                            resume.UpdateSize(canvas);
-                            pause.UpdateSize(canvas);
-                            start.UpdateSize(canvas);
-                            InitBricks(canvas);
-                            screenSize = new Vector(canvas.Width, canvas.Height);
-                            pause.Position = new Vector(screenSize.X - pause.Size.X, 0);
-                            resume.Position = new Vector(screenSize.X / 2 - resume.Size.X / 2, screenSize.Y / 2 - resume.Size.Y/2);
-                            BottomBat.Position = new Vector(BatStartPositionGenerator(canvas));
-                            if(difficulty == Difficulty.Easy)
-                                TopBat.Position = new Vector(BottomBat.Position.X, (Score.Paint.TextSize) + 2 * Bat.Size.Y);
-                            else
-                                TopBat.Position = new Vector(screenSize.X - Bat.Size.X - BottomBat.Position.X, (Score.Paint.TextSize) + 2 * Bat.Size.Y);
-                            ball.Position = new Vector(BottomBat.Position.X + Bat.Size.X / 2, BottomBat.Position.Y - Ball.Radius-2);
-                            ball.Velocity.Y = (screenSize.Y / 3) / 65;
-                            start.Position = new Vector(screenSize.X /2 - start.Size.X / 2, 150);
+                            InitGame(canvas);
                             isFirstCall = false;
                         }
 
@@ -240,6 +224,49 @@ namespace BrickBreaker
         }
 
         /// <summary>
+        /// init the game objects positions and sizes according to the specific phone screen size - canvas
+        /// </summary>
+        /// <param name="canvas">the canvas</param>
+        private void InitGame(Canvas canvas)
+        {
+            InitBricks(canvas);
+            InitSizes(canvas);
+            InitPositions(canvas);
+        }
+
+        /// <summary>
+        /// init the start positions of the objects according to the screen size
+        /// </summary>
+        /// <param name="canvas"></param>
+        private void InitPositions(Canvas canvas)
+        {
+            screenSize = new Vector(canvas.Width, canvas.Height);
+            pause.Position = new Vector(screenSize.X - pause.Size.X, 0);
+            resume.Position = new Vector(screenSize.X / 2 - resume.Size.X / 2, screenSize.Y / 2 - resume.Size.Y / 2);
+            BottomBat.Position = new Vector(BatStartPositionGenerator(canvas));
+            if (difficulty == Difficulty.Easy)
+                TopBat.Position = new Vector(BottomBat.Position.X, (Score.Paint.TextSize) + 2 * Bat.Size.Y);
+            else
+                TopBat.Position = new Vector(screenSize.X - Bat.Size.X - BottomBat.Position.X, (Score.Paint.TextSize) + 2 * Bat.Size.Y);
+            ball.Position = new Vector(BottomBat.Position.X + Bat.Size.X / 2, BottomBat.Position.Y - Ball.Radius - 2);
+            ball.Velocity.Y = (screenSize.Y / 3) / 65;
+            start.Position = new Vector(screenSize.X / 2 - start.Size.X / 2, 150);
+        }
+
+        /// <summary>
+        /// sets the right sizes of the objects according to the screen size
+        /// </summary>
+        /// <param name="canvas"></param>
+        private void InitSizes(Canvas canvas)
+        {
+            resume.UpdateSize(canvas);
+            pause.UpdateSize(canvas);
+            start.UpdateSize(canvas);
+            ball.SetRadius(canvas);
+            TopBat.SetSize(canvas);
+            BottomBat.SetSize(canvas);
+        }
+        /// <summary>
         /// generates a start position for the bottom bat
         /// </summary>
         /// <param name="canvas">the canvas</param>
@@ -259,8 +286,9 @@ namespace BrickBreaker
         {
             Color brickColor = ColorManager.Instance.GetColor(ColorKey.Brick);
             float space = canvas.Width / 20 ;
-            float x = space * 2;
+            float x = space * 1.5f;
             float y = canvas.Height / 3;
+            Brick.SetSize(canvas);
             bricks = new Brick[(int)((canvas.Height / 3) / (Brick.Size.Y + space)), (int)((canvas.Width - x) / (Brick.Size.X + space))];
 
             for(int i = 0; i < bricks.GetLength(0); i++)
@@ -271,7 +299,7 @@ namespace BrickBreaker
                     x += Brick.Size.X + space;
                 }
                 y += Brick.Size.Y + space;
-                x = space * 2;
+                x = space * 1.5f;
             }
         }
 

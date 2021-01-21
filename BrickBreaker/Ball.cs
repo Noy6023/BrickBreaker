@@ -86,7 +86,12 @@ namespace BrickBreaker
             Velocity.X += rand.Next(-2, 2);
             KeepVelocity(); //make sure the velocity isn't too fast or to slow
         }
-        private void SetRadius(Canvas canvas)
+
+        /// <summary>
+        /// sets the radius of the bal according to the canvas size
+        /// </summary>
+        /// <param name="canvas">the canvas</param>
+        public void SetRadius(Canvas canvas)
         {
             if(Radius == Constants.SMALL_BALL_RADIUS)
             {
@@ -107,7 +112,6 @@ namespace BrickBreaker
         /// <param name="canvas"></param>
         public override void Draw(Canvas canvas) //draw the ball in the correct position
         {
-            SetRadius(canvas);
             canvas.DrawCircle(Position.X, Position.Y, Radius, Paint); 
         }
     }
