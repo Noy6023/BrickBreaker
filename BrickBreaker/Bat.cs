@@ -18,19 +18,19 @@ namespace BrickBreaker
     /// </summary>
     public class Bat : Shape
     {
-        public static Point Size { get; set; } //the size of the bat
-        public Point Velocity { get; set; } //the velocity of the bat
-        public Bat(Point position, Color color, Point velocity) : base(position, color) //costructor
+        public static Vector Size { get; set; } //the size of the bat
+        public Vector Velocity { get; set; } //the velocity of the bat
+        public Bat(Vector position, Color color, Vector velocity) : base(position, color) //costructor
         {
-            this.Velocity = new Point(velocity);
+            this.Velocity = new Vector(velocity);
         }
         public Bat(Color color):base(color) //defult constructor
         {
-            base.Position = new Point(0, Constants.DEFULT_SCREEN_SIZE.Y - (Constants.DEFULT_SCREEN_SIZE.Y / 10));
-            Size = new Point(Constants.BAT_SIZE.X, Constants.BAT_SIZE.Y);
+            base.Position = new Vector(0, Constants.DEFULT_SCREEN_SIZE.Y - (Constants.DEFULT_SCREEN_SIZE.Y / 10));
+            Size = new Vector(Constants.BAT_SIZE.X, Constants.BAT_SIZE.Y);
             base.Paint = new Paint();
             Paint.Color = color;
-            Velocity = new Point(Constants.DEFULT_VECTOR);
+            Velocity = new Vector(Constants.DEFULT_VECTOR);
         }
         /// <summary>
         /// handle the bats bounds
@@ -90,12 +90,19 @@ namespace BrickBreaker
             return 0;
         }
 
+        private void SetSize(Canvas canvas)
+        {
+            Size.X = canvas.Width / 3.5f;
+            Size.Y = Size.X / 20;
+        }
+
         /// <summary>
         /// draws the bat on the canvas
         /// </summary>
         /// <param name="canvas">the canvas</param>
         public override void Draw(Canvas canvas)
         {
+            SetSize(canvas);
             canvas.DrawRect(Position.X, Position.Y, Position.X + Size.X, Position.Y + Size.Y, Paint);
         }
     }

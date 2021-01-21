@@ -19,17 +19,17 @@ namespace BrickBreaker
     public class Ball : Shape
     {
         public static int Radius { get; set; } //the radius of the ball
-        public Point Velocity { get; set; } //the velocity of the ball
-        public Ball(Point position, Color color, Point velocity) : base(position, color) //constructor
+        public Vector Velocity { get; set; } //the velocity of the ball
+        public Ball(Vector position, Color color, Vector velocity) : base(position, color) //constructor
         {
-            this.Velocity = new Point(velocity);
+            this.Velocity = new Vector(velocity);
         }
         public Ball(Color color) : base(color) //defult constructor
         {
-            base.Position = new Point(Constants.DEFULT_VECTOR);
+            base.Position = new Vector(Constants.DEFULT_VECTOR);
             base.Paint = new Paint();
             Paint.Color = color;
-            this.Velocity = new Point(Constants.BALL_START_VELOCITY);
+            this.Velocity = new Vector(Constants.BALL_START_VELOCITY);
         }
         /// <summary>
         /// updates the movement of the ball by adding the velocity to the position
@@ -57,7 +57,7 @@ namespace BrickBreaker
         /// handles a hit with the wall by negating the velocity
         /// </summary>
         /// <param name="screenSize">the screen size</param>
-        public void UpdateWallHit(Point screenSize) //handle hits with the ball
+        public void UpdateWallHit(Vector screenSize) //handle hits with the ball
         {
             if (Position.X - Radius <= 0 || Position.X >= screenSize.X - Radius)
             {
@@ -86,13 +86,28 @@ namespace BrickBreaker
             Velocity.X += rand.Next(-2, 2);
             KeepVelocity(); //make sure the velocity isn't too fast or to slow
         }
-
+        private void SetRadius(Canvas canvas)
+        {
+            if(Radius == Constants.SMALL_BALL_RADIUS)
+            {
+                Radius = canvas.Width / 50;
+            }
+            if (Radius == Constants.MEDIUM_BALL_RADIUS)
+            {
+                Radius = canvas.Width / 35;
+            }
+            if (Radius == Constants.BIG_BALL_RADIUS)
+            {
+                Radius = canvas.Width / 30;
+            }
+        }
         /// <summary>
         /// draws the ball on the canvas
         /// </summary>
         /// <param name="canvas"></param>
         public override void Draw(Canvas canvas) //draw the ball in the correct position
         {
+            SetRadius(canvas);
             canvas.DrawCircle(Position.X, Position.Y, Radius, Paint); 
         }
     }

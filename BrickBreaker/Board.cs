@@ -34,7 +34,7 @@ namespace BrickBreaker
         GameButton pause; //the pause button
         GameButton resume; //the resume button
         GameButton start;
-        Point screenSize; //holds the screen size
+        Vector screenSize; //holds the screen size
         Difficulty difficulty;
         //flags
         public bool HasLost { get; set; } //keeps the result whether the bat ha missed and lost or not
@@ -63,7 +63,7 @@ namespace BrickBreaker
             BottomBat = new Bat(ColorManager.Instance.GetColor(ColorKey.Bat));  //create the bottom bat
             TopBat = new Bat(ColorManager.Instance.GetColor(ColorKey.Bat)); //create the top bat
             Score = new GameScore(); //create the score
-            screenSize = new Point(Constants.DEFULT_SCREEN_SIZE); //init the screen size to defult 
+            screenSize = new Vector(Constants.DEFULT_SCREEN_SIZE); //init the screen size to defult 
             this.difficulty = difficulty;
 
             //Set the theme - dark or light
@@ -110,14 +110,14 @@ namespace BrickBreaker
             }
             //create the pause button
             pause = new GameButton(Constants.DEFULT_VECTOR, pauseBmp,
-                new Point(Constants.PAUSE_BUTTON_SIZE, Constants.PAUSE_BUTTON_SIZE), true);
+                new Vector(Constants.PAUSE_BUTTON_SIZE, Constants.PAUSE_BUTTON_SIZE), true);
 
             //create the resume button
             resume = new GameButton(Constants.DEFULT_VECTOR, resumebmp,
-               new Point(Constants.RESUME_BUTTON_SIZE, Constants.RESUME_BUTTON_SIZE), false);
+               new Vector(Constants.RESUME_BUTTON_SIZE, Constants.RESUME_BUTTON_SIZE), false);
 
             start = new GameButton(Constants.DEFULT_VECTOR, startbmp,
-                new Point(Constants.START_TEXT_SIZE.X, Constants.START_TEXT_SIZE.Y), true);
+                new Vector(Constants.START_TEXT_SIZE.X, Constants.START_TEXT_SIZE.Y), true);
         }
 
         /// <summary>
@@ -190,17 +190,17 @@ namespace BrickBreaker
                             pause.UpdateSize(canvas);
                             start.UpdateSize(canvas);
                             InitBricks(canvas);
-                            screenSize = new Point(canvas.Width, canvas.Height);
-                            pause.Position = new Point(screenSize.X - pause.Size.X, 0);
-                            resume.Position = new Point(screenSize.X / 2 - resume.Size.X / 2, screenSize.Y / 2 - resume.Size.Y/2);
-                            BottomBat.Position = new Point(BatStartPositionGenerator(canvas));
+                            screenSize = new Vector(canvas.Width, canvas.Height);
+                            pause.Position = new Vector(screenSize.X - pause.Size.X, 0);
+                            resume.Position = new Vector(screenSize.X / 2 - resume.Size.X / 2, screenSize.Y / 2 - resume.Size.Y/2);
+                            BottomBat.Position = new Vector(BatStartPositionGenerator(canvas));
                             if(difficulty == Difficulty.Easy)
-                                TopBat.Position = new Point(BottomBat.Position.X, (Score.Paint.TextSize) + 2 * Bat.Size.Y);
+                                TopBat.Position = new Vector(BottomBat.Position.X, (Score.Paint.TextSize) + 2 * Bat.Size.Y);
                             else
-                                TopBat.Position = new Point(screenSize.X - Bat.Size.X - BottomBat.Position.X, (Score.Paint.TextSize) + 2 * Bat.Size.Y);
-                            ball.Position = new Point(BottomBat.Position.X + Bat.Size.X / 2, BottomBat.Position.Y - Ball.Radius-1);
+                                TopBat.Position = new Vector(screenSize.X - Bat.Size.X - BottomBat.Position.X, (Score.Paint.TextSize) + 2 * Bat.Size.Y);
+                            ball.Position = new Vector(BottomBat.Position.X + Bat.Size.X / 2, BottomBat.Position.Y - Ball.Radius-2);
                             ball.Velocity.Y = (screenSize.Y / 3) / 65;
-                            start.Position = new Point(screenSize.X /2 - start.Size.X / 2, 150);
+                            start.Position = new Vector(screenSize.X /2 - start.Size.X / 2, 150);
                             isFirstCall = false;
                         }
 
@@ -244,10 +244,10 @@ namespace BrickBreaker
         /// </summary>
         /// <param name="canvas">the canvas</param>
         /// <returns>the random vector position</returns>
-        private Point BatStartPositionGenerator(Canvas canvas)
+        private Vector BatStartPositionGenerator(Canvas canvas)
         {
             Random r = new Random();
-            Point randPos = new Point(r.Next((int)(canvas.Width - Bat.Size.X)),canvas.Height- 2*Bat.Size.Y);
+            Vector randPos = new Vector(r.Next((int)(canvas.Width - Bat.Size.X)),canvas.Height- 2*Bat.Size.Y);
             return randPos;
         }
 
@@ -258,19 +258,20 @@ namespace BrickBreaker
         private void InitBricks(Canvas canvas)
         {
             Color brickColor = ColorManager.Instance.GetColor(ColorKey.Brick);
-            float x = Constants.SPACE *2;
+            float space = canvas.Width / 20 ;
+            float x = space * 2;
             float y = canvas.Height / 3;
-            bricks = new Brick[(int)((canvas.Height / 3) / (Brick.Size.Y + Constants.SPACE)), (int)((canvas.Width - x) / (Brick.Size.X + Constants.SPACE))];
+            bricks = new Brick[(int)((canvas.Height / 3) / (Brick.Size.Y + space)), (int)((canvas.Width - x) / (Brick.Size.X + space))];
 
             for(int i = 0; i < bricks.GetLength(0); i++)
             {
                 for(int j = 0; j < bricks.GetLength(1); j++)
                 {
-                    bricks[i, j] = new Brick(new Point(x, y), brickColor);
-                    x += Brick.Size.X + Constants.SPACE;
+                    bricks[i, j] = new Brick(new Vector(x, y), brickColor);
+                    x += Brick.Size.X + space;
                 }
-                y += Brick.Size.Y + Constants.SPACE;
-                x = Constants.SPACE*2;
+                y += Brick.Size.Y + space;
+                x = space * 2;
             }
         }
 
@@ -281,7 +282,7 @@ namespace BrickBreaker
         /// <returns></returns>
         public override bool OnTouchEvent(MotionEvent e)
         {
-            Point position = new Point(e.GetX(), e.GetY());
+            Vector position = new Vector(e.GetX(), e.GetY());
             if (!flagClick)
             {
                 start.Show = false;
@@ -414,10 +415,10 @@ namespace BrickBreaker
             {
                 ball.UpdateMovement(canvas); //update the ball movement
             }
-            else ball.Position = new Point(BottomBat.Position.X + Bat.Size.X / 2, ball.Position.Y);
+            else ball.Position = new Vector(BottomBat.Position.X + Bat.Size.X / 2, ball.Position.Y);
             BottomBat.UpdateBounds(canvas); //check bounds of the bat
             TopBat.UpdateBounds(canvas); //check bounds of the bat
-            ball.UpdateWallHit(new Point(canvas.Width, canvas.Height)); //check bounds of the ball - walls
+            ball.UpdateWallHit(new Vector(canvas.Width, canvas.Height)); //check bounds of the ball - walls
             
             if (BottomBat.IsBallHit(ball, canvas, 'b') == 1 || TopBat.IsBallHit(ball, canvas, 't') == 1)
             {

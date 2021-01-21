@@ -18,14 +18,14 @@ namespace BrickBreaker
     class GameButton : Shape
     {
         public Bitmap Bitmap { get; set; }
-        public Point Size { get; set; }
+        public Vector Size { get; set; }
         public bool Show { get; set; }
         //ctor
-        public GameButton(Point position, Bitmap bitmap, Point size, bool show) : base(position)
+        public GameButton(Vector position, Bitmap bitmap, Vector size, bool show) : base(position)
         {
-            this.Position = new Point(position);
+            this.Position = new Vector(position);
             this.Bitmap = bitmap;
-            this.Size = new Point(size.X, size.Y);
+            this.Size = new Vector(size.X, size.Y);
             this.Show = show;
         }
         /// <summary>
@@ -39,14 +39,14 @@ namespace BrickBreaker
         }
         public void UpdateSize(Canvas canvas)
         {
-            Size = new Point(Bitmap.GetScaledWidth(canvas), Bitmap.GetScaledHeight(canvas));
+            Size = new Vector(Bitmap.GetScaledWidth(canvas), Bitmap.GetScaledHeight(canvas));
         }
         /// <summary>
         /// checks if the button was clicked
         /// </summary>
         /// <param name="position">the position of the touch</param>
         /// <returns></returns>
-        public bool IsClicked(Point position)
+        public bool IsClicked(Vector position)
         {
             float left = Position.X;
             float top = Position.Y;

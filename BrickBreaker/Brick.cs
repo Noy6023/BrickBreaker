@@ -19,14 +19,14 @@ namespace BrickBreaker
     public class Brick : Shape
     {
         public bool IsVisible { get; set; } //true if the brick is visable and can be hit. else false
-        public static Point Size { get; set; } //the size of the brick
-        public Brick(Point position, Color color) : base(position, color) //constructor
+        public static Vector Size { get; set; } //the size of the brick
+        public Brick(Vector position, Color color) : base(position, color) //constructor
         {
             this.IsVisible = true;
         }
         public Brick(Brick other):base()
         {
-            base.Position = new Point(other.Position);
+            base.Position = new Vector(other.Position);
             base.Paint = new Paint(other.Paint);
             Paint.Color = other.Paint.Color;
             IsVisible = other.IsVisible;
@@ -38,6 +38,7 @@ namespace BrickBreaker
         /// <param name="space">the space that comes after the brick</param>
         public override void Draw(Canvas canvas)
         {
+            SetSize(canvas);
             canvas.DrawRect(Position.X,
                 Position.Y,
                 Position.X + Size.X,
@@ -66,6 +67,20 @@ namespace BrickBreaker
 
             return false;
         }
-
+        private void SetSize(Canvas canvas)
+        {
+            if (Size == Constants.BRICK_SMALL_SIZE)
+            {
+                Size = new Vector(canvas.Width / 30, (canvas.Width / 30) / 1.5f);
+            }
+            if (Size == Constants.BRICK_MEDIUM_SIZE)
+            {
+                Size = new Vector(canvas.Width / 25, (canvas.Width / 25) / 1.5f);
+            }
+            if (Size == Constants.BRICK_BIG_SIZE)
+            {
+                Size = new Vector(canvas.Width / 20, (canvas.Width / 20) / 1.5f);
+            }
+        }
     }
 }
