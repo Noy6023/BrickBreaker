@@ -72,7 +72,6 @@ namespace BrickBreaker
 
             if (distance <= Ball.Radius)
             {
-                
                 return true;
             }
             return false;

@@ -30,17 +30,11 @@ namespace BrickBreaker
     {
         const int PERMISSION_REQUEST_CODE = 1;
 
-        Button btnStart;
-        Button btnSaveSettings;
-        Button btnBackSettings;
-        Button btnSaveName;
-        Button btnBackName;
-        Button btnName;
+        Button btnStart, btnSaveSettings,btnBackSettings, btnSaveName, btnBackName, btnName;
         LinearLayout llMain, llSettings, llHelp, llName;
         EditText etName;
         CheckBox cbMuteSound, cbMuteMusic;
-        TextView tvLastScore;
-        TextView tvMaxScore;
+        TextView tvLastScore, tvMaxScore;
         ImageView ivTiltPhone;
         Color background;
         Dialog settingsDialog, nameDialog, helpDialog;

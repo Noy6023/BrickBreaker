@@ -113,6 +113,10 @@ namespace BrickBreaker
             }
         }
 
+        /// <summary>
+        /// saves the colors of the game to the shared preference
+        /// </summary>
+        /// <param name="sp">the shared preference</param>
         public void SaveColors(ISharedPreferences sp)
         {
             var editor = sp.Edit();
@@ -123,6 +127,10 @@ namespace BrickBreaker
             }
             editor.Commit();
         }
+        /// <summary>
+        /// loads the colors of the game from the shared preference
+        /// </summary>
+        /// <param name="sp">the shared preference</param>
         public void LoadColors(ISharedPreferences sp)
         {
             int current = 0;
@@ -134,6 +142,12 @@ namespace BrickBreaker
             }
         }
 
+        /// <summary>
+        /// checks if the color is light or not
+        /// </summary>
+        /// <param name="color">the color to check</param>
+        /// <returns>true- the color is light.
+        ///          false - the color is dark.</returns>
         public bool IsColorLight(Color color)
         {
             if (color.R * 0.2126 + color.G * 0.7152 + color.B * 0.0722 > 255 / 2) return true;

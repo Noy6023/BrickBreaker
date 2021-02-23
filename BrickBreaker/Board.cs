@@ -31,15 +31,15 @@ namespace BrickBreaker
         public GameScore Score { get; set; }//the score that is increased by hitting a brick
         public Bat TopBat { get; set; } //the top bat
         public Bat BottomBat { get; set; } //the bottom bat
-        GameButton pause; //the pause button
-        GameButton resume; //the resume button
-        GameButton start;
+
+        /// the buttons
+        GameButton pause, resume, start;
         Vector screenSize; //holds the screen size
         Difficulty difficulty;
         //flags
         public bool HasLost { get; set; } //keeps the result whether the bat ha missed and lost or not
         bool isFirstCall = true; //check if its the first time running to init the game
-        bool flagClick;
+        bool flagClick = false;
         bool isLightTheme = true;
         bool isPaused = false;
         //the threads
@@ -56,7 +56,6 @@ namespace BrickBreaker
         {
             this.context = context; //set this context to the given context
             HasLost = false; //init the result
-            flagClick = false;
 
             //create the objects
             ball = new Ball(ColorManager.Instance.GetColor(ColorKey.Ball)); //create the ball

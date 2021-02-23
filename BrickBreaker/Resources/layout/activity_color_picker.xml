@@ -30,6 +30,8 @@
 
     <Button
             android:id="@+id/btnApply"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/apply"/>
