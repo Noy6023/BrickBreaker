@@ -31,17 +31,17 @@ namespace BrickBreaker
 
 
         //brick constants
-        public static Vector BRICK_SMALL_SIZE = new Vector(30, 20);
-        public static Vector BRICK_BIG_SIZE = new Vector(70, 40);
-        public static Vector BRICK_MEDIUM_SIZE = new Vector(50, 30);
+        public static Vector BRICK_SMALL_SIZE = new Vector(30, 30);
+        public static Vector BRICK_BIG_SIZE = new Vector(20, 20);
+        public static Vector BRICK_MEDIUM_SIZE = new Vector(25, 25);
         public const int SPACE = 60;
         public static Color DEFULT_BRICK_COLOR = Color.Black;
 
         //ball constants
         public static Vector BALL_START_VELOCITY = new Vector(7, 13);
-        public const int MEDIUM_BALL_RADIUS = 25;
-        public const int SMALL_BALL_RADIUS = 20;
-        public const int BIG_BALL_RADIUS = 35;
+        public const int MEDIUM_BALL_RADIUS = 40;
+        public const int SMALL_BALL_RADIUS = 50;
+        public const int BIG_BALL_RADIUS = 30;
         public const int EDGE = 50;
         public static Vector BALL_MIN_VELOCITY = new Vector(3, 13);
         public static Vector BALL_MAX_VELOCITY = new Vector(15, 13);

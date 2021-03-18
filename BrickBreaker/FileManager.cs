@@ -22,10 +22,18 @@ namespace BrickBreaker
     {
         //using a singelton method so that there is only one instance of audio manager
         private static readonly FileManager instance = new FileManager();
+
+        /// <summary>
+        /// constructor
+        /// </summary>
         private FileManager() //private constructor
         {
 
         }
+
+        /// <summary>
+        /// gets the instance
+        /// </summary>
         public static FileManager Instance
         {
             get

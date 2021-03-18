@@ -22,12 +22,16 @@ namespace BrickBreaker
         private SVBar svBar;
         private OpacityBar opacityBar;
         private Button btnApply;
+
+        /// <summary>
+        /// The on create function
+        /// </summary>
+        /// <param name="savedInstanceState"></param>
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.activity_color_picker);
             InitViews();
-            // Create your application here
         }
 
         /// <summary>
@@ -53,6 +57,7 @@ namespace BrickBreaker
             if(btnApply == v)
             {
                 picker.OldCenterColor = picker.Color;
+                picker.SetNewCenterColor(picker.Color);
                 Intent intent = new Intent();
                 intent.PutExtra("color", picker.Color);
                 SetResult(Result.Ok, intent);

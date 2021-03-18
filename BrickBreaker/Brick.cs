@@ -20,10 +20,21 @@ namespace BrickBreaker
     {
         public bool IsVisible { get; set; } //true if the brick is visable and can be hit. else false
         public static Vector Size { get; set; } //the size of the brick
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="position">the position</param>
+        /// <param name="color">the color</param>
         public Brick(Vector position, Color color) : base(position, color) //constructor
         {
             this.IsVisible = true;
         }
+
+        /// <summary>
+        /// copy constructor
+        /// </summary>
+        /// <param name="other">the other brick to copy</param>
         public Brick(Brick other):base()
         {
             base.Position = new Vector(other.Position);
@@ -31,6 +42,7 @@ namespace BrickBreaker
             Paint.Color = other.Paint.Color;
             IsVisible = other.IsVisible;
         }
+
         /// <summary>
         /// draws the brick
         /// </summary>
@@ -53,9 +65,7 @@ namespace BrickBreaker
         public bool IsHit(Ball ball)
         {
             if (!this.IsVisible)
-            {
                 return false;
-            }
             if(this.HasHitBall(ball, Size))
             {
                 this.IsVisible = false;
@@ -63,7 +73,6 @@ namespace BrickBreaker
                 ball.ChangeVelocity();
                 return true;
             }
-
             return false;
         }
 
@@ -74,17 +83,11 @@ namespace BrickBreaker
         public static void SetSize(Canvas canvas)
         {
             if (Size == Constants.BRICK_SMALL_SIZE)
-            {
-                Size = new Vector(canvas.Width / 30, (canvas.Width / 30) / 1.5f);
-            }
+                Size = new Vector(canvas.Width / Constants.BRICK_SMALL_SIZE.X, (canvas.Width / Constants.BRICK_SMALL_SIZE.Y) / 1.5f);
             if (Size == Constants.BRICK_MEDIUM_SIZE)
-            {
-                Size = new Vector(canvas.Width / 25, (canvas.Width / 25) / 1.5f);
-            }
+                Size = new Vector(canvas.Width / Constants.BRICK_MEDIUM_SIZE.X, (canvas.Width / Constants.BRICK_MEDIUM_SIZE.Y) / 1.5f);
             if (Size == Constants.BRICK_BIG_SIZE)
-            {
-                Size = new Vector(canvas.Width / 20, (canvas.Width / 20) / 1.5f);
-            }
+                Size = new Vector(canvas.Width / Constants.BRICK_BIG_SIZE.X, (canvas.Width / Constants.BRICK_BIG_SIZE.Y) / 1.5f);
         }
     }
 }

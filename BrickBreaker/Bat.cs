@@ -20,11 +20,23 @@ namespace BrickBreaker
     {
         public static Vector Size { get; set; } //the size of the bat
         public Vector Velocity { get; set; } //the velocity of the bat
-        public Bat(Vector position, Color color, Vector velocity) : base(position, color) //costructor
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="position">the position</param>
+        /// <param name="color">the color</param>
+        /// <param name="velocity">the velocity</param>
+        public Bat(Vector position, Color color, Vector velocity) : base(position, color)
         {
             this.Velocity = new Vector(velocity);
         }
-        public Bat(Color color):base(color) //defult constructor
+
+        /// <summary>
+        /// defult constructor
+        /// </summary>
+        /// <param name="color">the color</param>
+        public Bat(Color color):base(color)
         {
             base.Position = new Vector(0, Constants.DEFULT_SCREEN_SIZE.Y - (Constants.DEFULT_SCREEN_SIZE.Y / 10));
             Size = new Vector(Constants.BAT_SIZE.X, Constants.BAT_SIZE.Y);
@@ -78,13 +90,9 @@ namespace BrickBreaker
                 ball.ChangeVelocity();
                 ball.Velocity.Y = -ball.Velocity.Y;
                 if (ball.Position.X > this.Position.X + Size.X / 2)
-                {
                     ball.Velocity.X = Math.Abs(ball.Velocity.X);
-                }
                 else
-                {
                     ball.Velocity.X = -1 * Math.Abs(ball.Velocity.X);
-                }
                 return 1;
             }
             return 0;
@@ -97,7 +105,7 @@ namespace BrickBreaker
         public void SetSize(Canvas canvas)
         {
             Size.X = canvas.Width / 3.5f;
-            Size.Y = Size.X / 20;
+            Size.Y = Size.X / Constants.BAT_SIZE.Y;
         }
 
         /// <summary>

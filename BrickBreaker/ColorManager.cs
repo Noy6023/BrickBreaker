@@ -22,15 +22,26 @@ namespace BrickBreaker
         private static readonly ColorManager instance = new ColorManager();
         public Hashtable Colors;
         private int length = Enum.GetNames(typeof(ColorKey)).Length;
+
+        /// <summary>
+        /// static constructor
+        /// </summary>
         static ColorManager() //static constructor
         {
 
         }
+
+        /// <summary>
+        /// private constructor that inits the colors hashtable
+        /// </summary>
         private ColorManager() //private constructor
         {
             InitColors();
         }
 
+        /// <summary>
+        /// gets the instance
+        /// </summary>
         public static ColorManager Instance
         {
             get
@@ -60,9 +71,7 @@ namespace BrickBreaker
         public void SetColor(ColorKey key, int color)
         {
             if(Colors.ContainsKey(key))
-            {
                 Colors[key] = IntToColorConvertor(color);
-            }
         }
 
         /// <summary>
@@ -73,9 +82,7 @@ namespace BrickBreaker
         public Color GetColor(ColorKey key)
         {
             if (Colors.ContainsKey(key))
-            {
                 return (Color)(Colors[key]);
-            }
             return Constants.DEFULT_COLOR;
         }
 
@@ -92,7 +99,6 @@ namespace BrickBreaker
             result.G = Convert.ToByte(0xff & color >> 8);
             result.B = Convert.ToByte(0xff & color);
             return result;
-
         }
 
         /// <summary>

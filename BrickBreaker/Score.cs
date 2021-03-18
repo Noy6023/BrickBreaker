@@ -29,7 +29,7 @@ namespace BrickBreaker
             Name = "Player";
             LastValue = 0;
             HighestValue = 0;
-            Key = new Random().Next(10000, 90000);
+            Key = new Random().Next(10000, 100000);
         }
 
         /// <summary>
@@ -82,9 +82,7 @@ namespace BrickBreaker
         public void ChangedScore()
         {
             if (LastValue > HighestValue)
-            {
                 HighestValue = LastValue;
-            }
         }
 
         /// <summary>

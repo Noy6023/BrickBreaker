@@ -21,6 +21,7 @@ namespace BrickBreaker
     [Activity(Label = "Customize")]
     public class CustomizeActivity : AppCompatActivity, Android.Views.View.IOnClickListener
     {
+        const int BALL_REQUEST_CODE = 0, BAT_REQUEST_CODE = 1, BRICK_REQUEST_CODE = 2, BACKGROUND_REQUEST_CODE = 3;
         Button btnBallColor;
         Button btnBatColor;
         Button btnBrickColor;
@@ -31,6 +32,11 @@ namespace BrickBreaker
         TableLayout tlCustomize;
         Color background;
         //Hashtable colors;
+
+        /// <summary>
+        /// the on create function
+        /// </summary>
+        /// <param name="savedInstanceState"></param>
         protected override void OnCreate(Bundle savedInstanceState)
         {
             ChangeTheme();
@@ -72,13 +78,9 @@ namespace BrickBreaker
             background = (Color)ColorManager.Instance.Colors[ColorKey.Background];
 
             if (ColorManager.Instance.IsColorLight(background))
-            {
                 SetTheme(Resource.Style.AppTheme);
-            }
             else
-            {
                 SetTheme(Resource.Style.AppThemeDark);
-            }
         }
 
         /// <summary>
@@ -90,21 +92,13 @@ namespace BrickBreaker
             Intent intent = new Intent(this, typeof(ColorPickerActivity));
 
             if (v == btnBallColor)
-            {
-                StartActivityForResult(intent, 0);
-            }
+                StartActivityForResult(intent, BALL_REQUEST_CODE);
             if (v == btnBatColor)
-            {
-                StartActivityForResult(intent, 1);
-            }
+                StartActivityForResult(intent, BAT_REQUEST_CODE);
             if (v == btnBrickColor)
-            {
-                StartActivityForResult(intent, 2);
-            }
+                StartActivityForResult(intent, BRICK_REQUEST_CODE);
             if (v == btnBackgroundColor)
-            {
-                StartActivityForResult(intent, 3);
-            }
+                StartActivityForResult(intent, BACKGROUND_REQUEST_CODE);
             if(v == btnDefult)
             {
                 ColorManager.Instance.InitColors();
@@ -116,10 +110,9 @@ namespace BrickBreaker
                 Recreate();
             }
             if(v == btnBack)
-            {
                 Finish();
-            }
         }
+
         /// <summary>
         /// changes the color of the buttons
         /// </summary>
@@ -144,7 +137,7 @@ namespace BrickBreaker
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
-            if (requestCode == 0)
+            if (requestCode == BALL_REQUEST_CODE)
             {
                 if (resultCode == Result.Ok)
                 {
@@ -157,7 +150,7 @@ namespace BrickBreaker
                     }
                 }
             }
-            if (requestCode == 1)
+            if (requestCode == BAT_REQUEST_CODE)
             {
                 if (resultCode == Result.Ok)
                 {
@@ -170,7 +163,7 @@ namespace BrickBreaker
                     }
                 }
             }
-            if (requestCode == 2)
+            if (requestCode == BRICK_REQUEST_CODE)
             {
                 if (resultCode == Result.Ok)
                 {
@@ -184,7 +177,7 @@ namespace BrickBreaker
                 }
             }
 
-            if (requestCode == 3)
+            if (requestCode == BACKGROUND_REQUEST_CODE)
             {
                 if (resultCode == Result.Ok)
                 {

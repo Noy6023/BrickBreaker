@@ -22,15 +22,26 @@ namespace BrickBreaker
         private Hashtable players;
         public static bool IsSoundMuted;
         public static bool IsMusicMuted;
-        static AudioManager() //static constructor
+        /// <summary>
+        /// static constructor
+        /// </summary>
+        static AudioManager()
         {
             IsSoundMuted = false;
             IsMusicMuted = false;
         }
+
+        /// <summary>
+        /// private constructor that creats the players hashtable
+        /// </summary>
         private AudioManager() //private constructor
         {
             players = new Hashtable();
         }
+
+        /// <summary>
+        /// get the instance
+        /// </summary>
         public static AudioManager Instance
         {
             get
@@ -38,6 +49,7 @@ namespace BrickBreaker
                 return instance;
             }
         }
+
         /// <summary>
         /// init the players
         /// </summary>
@@ -63,9 +75,7 @@ namespace BrickBreaker
         public void PlaySound(Sound sound)
         {
             if (players.ContainsKey(sound) && !IsSoundMuted)
-            {
                 ((MediaPlayer)players[sound]).Start();
-            }
         }
 
         /// <summary>
@@ -89,9 +99,7 @@ namespace BrickBreaker
         public void Pause(Sound sound)
         {
             if (players.ContainsKey(sound))
-            {
                 ((MediaPlayer)players[sound]).Pause();
-            }
         }
 
         /// <summary>
@@ -101,9 +109,7 @@ namespace BrickBreaker
         public void ResumeSound(Sound sound)
         {
             if(players.ContainsKey(sound) && !IsMusicMuted)
-            {
                 ((MediaPlayer)players[sound]).Start();
-            }
         }
 
         /// <summary>
@@ -113,9 +119,7 @@ namespace BrickBreaker
         public void Stop(Sound sound)
         {
             if (players.ContainsKey(sound))
-            {
                 ((MediaPlayer)players[sound]).Stop();
-            }
         }
 
         /// <summary>

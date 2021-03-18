@@ -29,25 +29,6 @@ namespace BrickBreaker
             this.background = background;
         }
 
-        public List<Score> GetList()
-        {
-            return this.objects;
-        }
-
-        public override long GetItemId(int position)
-        {
-            return position;
-        }
-        public override int Count
-        {
-            get { return this.objects.Count; }
-        }
-
-        public Score this[int position]
-        {
-            get { return this.objects[position]; }
-        }
-
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
             LayoutInflater layoutInflater = ((FireStoreActivity)context).LayoutInflater;

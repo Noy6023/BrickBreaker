@@ -25,14 +25,17 @@ namespace BrickBreaker
         Board board;
         Difficulty difficulty;
         private WakeLock wakeLock;
+
+        /// <summary>
+        /// the on create function
+        /// </summary>
+        /// <param name="savedInstanceState"></param>
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             difficulty = Difficulty.Easy;
             if (Intent.Extras != null)
-            {
                 difficulty = (Difficulty)Intent.GetIntExtra("difficulty", 1);
-            }
             board = new Board(this, difficulty);
             SetContentView(board);
             sensMan = (SensorManager)GetSystemService(Context.SensorService);
@@ -52,19 +55,14 @@ namespace BrickBreaker
             base.OnResume();
             wakeLock.Acquire();
             if (board != null)
-            {
                 board.Resume();
-            }
-
         }
         protected override void OnStart()
         {
             base.OnStart();
             wakeLock.Acquire();
             if (board != null)
-            {
                 board.StartGame();
-            }
         }
         protected override void OnDestroy()
         {
@@ -81,9 +79,7 @@ namespace BrickBreaker
             base.OnPause();
             wakeLock.Release();
             if (board != null)
-            {
                 board.Pause();
-            }
         }
         public override void Finish()
         {

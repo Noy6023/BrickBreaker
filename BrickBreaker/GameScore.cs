@@ -18,17 +18,28 @@ namespace BrickBreaker
     public class GameScore : Shape
     {
         private int score;
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="position">the position</param>
+        /// <param name="color">the color</param>
         public GameScore(Vector position, Color color) : base(position, color)
         {
             base.Paint.TextSize = Constants.DEFULT_SCORE_SIZE;
             this.score = 0;
         }
+
+        /// <summary>
+        /// defult constructor
+        /// </summary>
         public GameScore() : base()
         {
             base.Paint.TextSize = Constants.DEFULT_SCORE_SIZE;
             this.score = 0;
             Position = new Vector(0, (int)Paint.TextSize);
         }
+
         /// <summary>
         /// get score function
         /// </summary>
@@ -42,11 +53,10 @@ namespace BrickBreaker
         public void ChangeColor(bool isLightTheme)
         {
             if (isLightTheme)
-            {
                 Paint.Color = Color.Black;
-            }
             else Paint.Color = Color.White;
         }
+
         /// <summary>
         /// increases the score according to the difficulty
         /// </summary>
@@ -54,13 +64,9 @@ namespace BrickBreaker
         public void IncreaseScore(Difficulty difficulty)
         {
             if (difficulty == Difficulty.Easy)
-            {
                 score++;
-            }
             else
-            {
                 score += 2;
-            }
         }
 
         /// <summary>

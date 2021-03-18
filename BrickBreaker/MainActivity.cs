@@ -28,8 +28,6 @@ namespace BrickBreaker
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity, Android.Views.View.IOnClickListener, RadioGroup.IOnCheckedChangeListener, IOnSuccessListener, IOnFailureListener
     {
-        const int PERMISSION_REQUEST_CODE = 1;
-
         Button btnStart, btnSaveSettings,btnBackSettings, btnSaveName, btnBackName, btnName;
         LinearLayout llMain, llSettings, llHelp, llName;
         EditText etName;
@@ -54,7 +52,6 @@ namespace BrickBreaker
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
-            HandlePermissions();
             InitViews();
 
         }
@@ -104,62 +101,6 @@ namespace BrickBreaker
             }
         }
 
-        /// <summary>
-        /// handles permissons
-        /// </summary>
-        private void HandlePermissions()
-        {
-            List<string> lstAppPermissions = new List<string>();
-            lstAppPermissions.Add(Manifest.Permission.WakeLock);
-            RequestPermissions(lstAppPermissions);
-        }
-        /// <summary>
-        /// requests the permissions
-        /// </summary>
-        /// <param name="permissions">the nedded permissions</param>
-        private void RequestPermissions(List<string> permissions)
-        {
-            List<string> lstMissingPermissions = new List<string>();
-            for (int i = 0; i < permissions.Count; i++)
-            {
-                if (ContextCompat.CheckSelfPermission(this, permissions[i]) != Permission.Granted)
-                    lstMissingPermissions.Add(permissions[i]);
-            }
-            if (lstMissingPermissions.Count > 0)
-            {
-                String[] arrPermissions = lstMissingPermissions.ToArray();
-                ActivityCompat.RequestPermissions(this, arrPermissions, PERMISSION_REQUEST_CODE);
-            }
-        }
-        /// <summary>
-        /// prints the missing permissions
-        /// </summary>
-        /// <param name="requestCode"></param>
-        /// <param name="permissions"></param>
-        /// <param name="grantResults"></param>
-        public void RequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
-        {
-            List<string> lstMissingPermissions = new List<string>();
-            string missingPremissions = string.Empty;
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            if (requestCode == PERMISSION_REQUEST_CODE)
-            {
-                for (int i = 0; i < grantResults.Length; i++)
-                {
-                    if (grantResults[i] != Permission.Granted)
-                    {
-                        lstMissingPermissions.Add(permissions[i]);
-                        missingPremissions += permissions[i] + "\n";
-                    }
-                }
-                if (lstMissingPermissions.Count > 0)
-                {
-                    Toast.MakeText(this, "Missing permissions:\n" + missingPremissions, ToastLength.Long).Show();
-                    RequestPermissions(lstMissingPermissions);
-                }
-            }
-        }
-
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -174,13 +115,9 @@ namespace BrickBreaker
             Difficulty difficulty = (Difficulty)sp.GetInt("difficulty", 0);
             lastDifficultyChecked = difficulty;
             if(difficulty == Difficulty.Hard)
-            {
                 if (rbHard != null) rbHard.Checked = true;
-            }
             else
-            {
                 if (rbEasy != null) rbEasy.Checked = true;
-            }
         }
 
         /// <summary>
@@ -320,13 +257,9 @@ namespace BrickBreaker
             ivTiltPhone = helpDialog.FindViewById<ImageView>(Resource.Id.ivTiltPhone);
             llHelp.SetBackgroundColor(background);
             if(isLightTheme)
-            {
                 ivTiltPhone.SetBackgroundResource(Resource.Drawable.tilt_phone);
-            }
             else
-            {
                 ivTiltPhone.SetBackgroundResource(Resource.Drawable.white_tilt_phone);
-            }
             helpDialog.Show();
         }
 
@@ -361,13 +294,9 @@ namespace BrickBreaker
                 StartActivityForResult(intent, 0);
             }
             if(v == btnName)
-            {
                 CreateNameDialog();
-            }
             if(v == btnBackName)
-            {
                 nameDialog.Dismiss();
-            }
             if(v == btnSaveName)
             {   
                 score.Name = etName.Text;
@@ -377,9 +306,8 @@ namespace BrickBreaker
                 nameDialog.Dismiss();
             }
             if (v == btnBackSettings)
-            {
-                if (btnBackSettings != null) settingsDialog.Dismiss();
-            }
+                if (btnBackSettings != null)
+                    settingsDialog.Dismiss();
             if (v == btnSaveSettings)
             {
                 var editor = sp.Edit();
@@ -450,17 +378,11 @@ namespace BrickBreaker
                 Size ballSize = Size.Medium; //set defult to medium
                 //check which size was clicked and change it
                 if(checkedId == Resource.Id.rbBallSmall)
-                {
                     ballSize = Size.Small;
-                }
                 if (checkedId == Resource.Id.rbBallMedium)
-                {
                     ballSize = Size.Medium;
-                }
                 if (checkedId == Resource.Id.rbBallBig)
-                {
                     ballSize = Size.Big;
-                }
                 //insert the size to the editor
                 editor.PutInt("ball size", (int)ballSize);
             }
@@ -470,17 +392,11 @@ namespace BrickBreaker
                 Size brickSize = Size.Medium; //set defult to medium
                 //check which size was clicked and change it
                 if (checkedId == Resource.Id.rbBrickSmall)
-                {
                     brickSize = Size.Small;
-                }
                 if (checkedId == Resource.Id.rbBrickMedium)
-                {
                     brickSize = Size.Medium;
-                }
                 if (checkedId == Resource.Id.rbBrickBig)
-                {
                     brickSize = Size.Big;
-                }
                 //insert the size to the editor
                 editor.PutInt("brick size", (int)brickSize);
             }
@@ -490,13 +406,9 @@ namespace BrickBreaker
                 Difficulty difficulty = Difficulty.Easy; //set defult to easy
                 //check which difficulty was clicked and change it
                 if (checkedId == Resource.Id.rbEasy)
-                {
                     difficulty = Difficulty.Easy;
-                }
                 if (checkedId == Resource.Id.rbHard)
-                {
                     difficulty = Difficulty.Hard;
-                }
                 //insert the difficulty to the editor
                 editor.PutInt("difficulty", (int)difficulty);
             }

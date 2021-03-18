@@ -136,12 +136,10 @@ namespace BrickBreaker
         public void Pause()
         {
             isPaused = true;
-            resume.Show = true;
+            resume.IsVisible = true;
             IsRunning = false;
             if(!HasLost)
-            {
                 AudioManager.Instance.Pause(Sound.music);
-            }
         }
 
         /// <summary>
@@ -151,7 +149,7 @@ namespace BrickBreaker
         public void Resume()
         {
             isPaused = false;
-            resume.Show = false;
+            resume.IsVisible = false;
             IsRunning = true;
             if(flagClick) AudioManager.Instance.ResumeSound(Sound.music);
         }
@@ -203,7 +201,7 @@ namespace BrickBreaker
                         }
                         if (isPaused)
                         {
-                            resume.Show = true;
+                            resume.IsVisible = true;
                             resume.Draw(canvas);
                         }
                     }
@@ -214,9 +212,7 @@ namespace BrickBreaker
                     finally
                     {
                         if (canvas != null)
-                        {
                             this.Holder.UnlockCanvasAndPost(canvas);
-                        }
                     }
                 }
             }
@@ -312,18 +308,14 @@ namespace BrickBreaker
             Vector position = new Vector(e.GetX(), e.GetY());
             if (!flagClick)
             {
-                start.Show = false;
+                start.IsVisible = false;
                 flagClick = true;
                 AudioManager.Instance.PlayMusicLoop(Sound.music);
             }
             else if (pause.IsClicked(position))
-            {
                 Pause();
-            }
             else if (resume.IsClicked(position))
-            {
                 Resume();
-            }
             return base.OnTouchEvent(e);
         }
 
@@ -392,18 +384,14 @@ namespace BrickBreaker
                 for (int j = 0; j < bricks.GetLength(1); j++)
                 {
                     if (bricks[i, j].IsVisible)
-                    {
                         bricks[i, j].Draw(canvas);
-                    }
                 }
             }
             //draw the ball 
             ball.Draw(canvas);
             start.Draw(canvas);
             if(isPaused)
-            {
-                resume.Show = true;
-            }
+                resume.IsVisible = true;
             resume.Draw(canvas); //draw the resume button
         }
 
@@ -439,9 +427,7 @@ namespace BrickBreaker
             BottomBat.UpdateMovement(); //update the bottom bat movement
             TopBat.UpdateMovement(); //update the bottom bat movement
             if (flagClick)
-            {
                 ball.UpdateMovement(canvas); //update the ball movement
-            }
             else ball.Position = new Vector(BottomBat.Position.X + Bat.Size.X / 2, ball.Position.Y);
             BottomBat.UpdateBounds(canvas); //check bounds of the bat
             TopBat.UpdateBounds(canvas); //check bounds of the bat

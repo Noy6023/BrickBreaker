@@ -25,10 +25,18 @@ namespace BrickBreaker
         private FirebaseFirestore firestore;
         private FirebaseAuth auth;
         private FirebaseApp app;
+
+        /// <summary>
+        /// static constructor
+        /// </summary>
         static FireBaseData() //static constructor
         {
 
         }
+
+        /// <summary>
+        /// gets the instance
+        /// </summary>
         public static FireBaseData Instance
         {
             get
@@ -36,6 +44,7 @@ namespace BrickBreaker
                 return instance;
             }
         }
+
         /// <summary>
         /// constructor
         /// </summary>
@@ -50,6 +59,7 @@ namespace BrickBreaker
             firestore = FirebaseFirestore.GetInstance(app);
             auth = FirebaseAuth.Instance;
         }
+
         /// <summary>
         /// links the project to the database
         /// </summary>
@@ -80,6 +90,7 @@ namespace BrickBreaker
                 cr = firestore.Collection(cName).Document(dName);
             cr.Set(hmFields);
         }
+
         /// <summary>
         /// deletes a document from a collection
         /// </summary>
@@ -90,6 +101,7 @@ namespace BrickBreaker
             DocumentReference cr = firestore.Collection(cName).Document(dName);
             cr.Delete();
         }
+
         /// <summary>
         /// gets the collection
         /// </summary>
@@ -99,6 +111,12 @@ namespace BrickBreaker
         {
             return firestore.Collection(cName).Get();
         }
+
+        /// <summary>
+        /// saves a score to a collection
+        /// </summary>
+        /// <param name="cName">the collection</param>
+        /// <param name="score">the score</param>
         public void SaveScoreToCollection(string cName, Score score)
         {
             Hashtable data = new Hashtable();
@@ -108,6 +126,7 @@ namespace BrickBreaker
             DocumentReference cr = firestore.Collection(cName).Document(score.Key.ToString());
             cr.Set(data);
         }
+
         /// <summary>
         /// gets a document from the collection
         /// </summary>
@@ -119,6 +138,11 @@ namespace BrickBreaker
             return firestore.Collection(cName).Document(dName).Get();
         }
 
+        /// <summary>
+        /// adds a snapshot lisetener to a collection
+        /// </summary>
+        /// <param name="cName">the collection name</param>
+        /// <param name="activity">the activity name</param>
         public void AddSnapshotListener(string cName, FireStoreActivity activity)
         {
             firestore.Collection(cName).AddSnapshotListener(activity);

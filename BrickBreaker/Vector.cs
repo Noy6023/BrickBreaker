@@ -18,11 +18,22 @@ namespace BrickBreaker
     {
         public float X { get; set; } //the x coordinate
         public float Y { get; set; } //the y coordinate
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="x">the x coordinate</param>
+        /// <param name="y">the y coordinate</param>
         public Vector(float x, float y) //constructor
         {
             this.X = x;
             this.Y = y;
         }
+
+        /// <summary>
+        /// copy constructor
+        /// </summary>
+        /// <param name="other">the other vector to copy</param>
         public Vector(Vector other) //copy constructor
         {
             this.X = other.X;

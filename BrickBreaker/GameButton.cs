@@ -19,28 +19,41 @@ namespace BrickBreaker
     {
         public Bitmap Bitmap { get; set; }
         public Vector Size { get; set; }
-        public bool Show { get; set; }
-        //ctor
-        public GameButton(Vector position, Bitmap bitmap, Vector size, bool show) : base(position)
+        public bool IsVisible { get; set; }
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="position">the position</param>
+        /// <param name="bitmap">the bitmap</param>
+        /// <param name="size">the size</param>
+        /// <param name="show">whether it should be shown </param>
+        public GameButton(Vector position, Bitmap bitmap, Vector size, bool isVisible) : base(position)
         {
             this.Position = new Vector(position);
             this.Bitmap = bitmap;
             this.Size = new Vector(size.X, size.Y);
-            this.Show = show;
+            this.IsVisible = isVisible;
         }
+
         /// <summary>
         /// draw function
         /// </summary>
         /// <param name="canvas"></param>
         public override void Draw(Canvas canvas)
         {
-            if (Show)
+            if (IsVisible)
                 canvas.DrawBitmap(Bitmap, Position.X, Position.Y, Paint);
         }
+
+        /// <summary>
+        /// updates the button's side according to the real time scale that the canvas have done
+        /// </summary>
+        /// <param name="canvas">the canvas which scaled the bitmap</param>
         public void UpdateSize(Canvas canvas)
         {
             Size = new Vector(Bitmap.GetScaledWidth(canvas), Bitmap.GetScaledHeight(canvas));
         }
+
         /// <summary>
         /// checks if the button was clicked
         /// </summary>

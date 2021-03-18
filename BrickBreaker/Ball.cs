@@ -20,10 +20,22 @@ namespace BrickBreaker
     {
         public static int Radius { get; set; } //the radius of the ball
         public Vector Velocity { get; set; } //the velocity of the ball
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="position">the position</param>
+        /// <param name="color">the color</param>
+        /// <param name="velocity">the velocity</param>
         public Ball(Vector position, Color color, Vector velocity) : base(position, color) //constructor
         {
             this.Velocity = new Vector(velocity);
         }
+
+        /// <summary>
+        /// defult constructor
+        /// </summary>
+        /// <param name="color">the color</param>
         public Ball(Color color) : base(color) //defult constructor
         {
             base.Position = new Vector(Constants.DEFULT_VECTOR);
@@ -31,6 +43,7 @@ namespace BrickBreaker
             Paint.Color = color;
             this.Velocity = new Vector(Constants.BALL_START_VELOCITY);
         }
+
         /// <summary>
         /// updates the movement of the ball by adding the velocity to the position
         /// </summary>
@@ -44,6 +57,7 @@ namespace BrickBreaker
             Position.X += Velocity.X;
             Position.Y += Velocity.Y;
         }
+
         /// <summary>
         /// make sure the ball doesn't run from the screen 
         /// </summary>
@@ -53,6 +67,7 @@ namespace BrickBreaker
             if (Position.X - Ball.Radius < 0) Position.X = Radius;
             if (Position.X + Ball.Radius > canvas.Width) Position.X = canvas.Width-Radius;
         }
+
         /// <summary>
         /// handles a hit with the wall by negating the velocity
         /// </summary>
@@ -65,6 +80,7 @@ namespace BrickBreaker
                 Velocity.X = -Velocity.X;
             }
         }
+
         /// <summary>
         /// makes sure the velocity isn't too fast or too slow. if it is it makes it the min or max velocity
         /// </summary>
@@ -77,6 +93,7 @@ namespace BrickBreaker
             if (Math.Abs(this.Velocity.X) < Constants.BALL_MIN_VELOCITY.X) this.Velocity.X = signX * Constants.BALL_MIN_VELOCITY.X;
             if (Math.Abs(this.Velocity.X) > Constants.BALL_MAX_VELOCITY.X) this.Velocity.X = signX * Constants.BALL_MAX_VELOCITY.X;
         }
+
         /// <summary>
         /// changes the x velocity by a random number and makes sure it is not too fast or too slow
         /// </summary>
@@ -94,18 +111,13 @@ namespace BrickBreaker
         public void SetRadius(Canvas canvas)
         {
             if(Radius == Constants.SMALL_BALL_RADIUS)
-            {
-                Radius = canvas.Width / 50;
-            }
+                Radius = canvas.Width / Constants.SMALL_BALL_RADIUS;
             if (Radius == Constants.MEDIUM_BALL_RADIUS)
-            {
-                Radius = canvas.Width / 35;
-            }
+                Radius = canvas.Width / Constants.MEDIUM_BALL_RADIUS;
             if (Radius == Constants.BIG_BALL_RADIUS)
-            {
-                Radius = canvas.Width / 30;
-            }
+                Radius = canvas.Width / Constants.BIG_BALL_RADIUS;
         }
+
         /// <summary>
         /// draws the ball on the canvas
         /// </summary>

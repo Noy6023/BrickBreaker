@@ -19,30 +19,50 @@ namespace BrickBreaker
     {
         public Vector Position { get; set; } //the current positon of the shape
         public Paint Paint { get; set; } //the paint of the shape
-        ///ctors
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="position">position</param>
+        /// <param name="color">color</param>
         public Shape(Vector position, Color color)
         {
             this.Position = new Vector(position);
             this.Paint = new Paint();
             Paint.Color = color;
         }
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="position">position</param>
         public Shape(Vector position)
         {
             this.Position = new Vector(position);
             this.Paint = new Paint();
         }
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="color">color</param>
         public Shape(Color color)
         {
             Position = new Vector(Constants.DEFULT_VECTOR);
             this.Paint = new Paint();
             Paint.Color = color;
         }
+
+        /// <summary>
+        /// constructor
+        /// </summary>
         public Shape()
         {
             Paint = new Paint();
             Paint.Color = Constants.DEFULT_COLOR;
             Position = new Vector(Constants.DEFULT_VECTOR);
         }
+
         /// <summary>
         /// an abstract draw function that will be different in every sub class
         /// </summary>
@@ -71,9 +91,7 @@ namespace BrickBreaker
             double distance = Math.Sqrt((distX * distX) + (distY * distY));
 
             if (distance <= Ball.Radius)
-            {
                 return true;
-            }
             return false;
         }
     }

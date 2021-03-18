@@ -75,15 +75,10 @@ namespace BrickBreaker
             background = (Color)ColorManager.Instance.Colors[ColorKey.Background];
 
             if (ColorManager.Instance.IsColorLight(background))
-            {
                 SetTheme(Resource.Style.AppTheme);
-            }
             else
-            {
                 SetTheme(Resource.Style.AppThemeDark);
-            }
         }
-
 
         /// <summary>
         /// gets the index of the score in the score list
@@ -118,6 +113,7 @@ namespace BrickBreaker
             scoreList = new List<Score>();
             FetchData("Players");
         }
+
         /// <summary>
         /// trues to get the collection from the database
         /// </summary>
@@ -126,7 +122,6 @@ namespace BrickBreaker
         {
             //fd.GetCollection(cName).AddOnSuccessListener(this);
             fd.AddSnapshotListener("Players", this);
-            
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
@@ -145,17 +140,13 @@ namespace BrickBreaker
         {
             int i = 0;
             if(scoreList.Count == 0)
-            {
                 return i;
-            }
             if (value > scoreList[i].HighestValue) return i;
             if (value < scoreList[scoreList.Count - 1].HighestValue) return scoreList.Count;
             foreach (Score s in scoreList)
             {
                 if(i + 1 < scoreList.Count && value <= s.HighestValue && value >= scoreList[i+1].HighestValue)
-                {
                     return i+1;
-                }
                 i++;
             }
             return i;
@@ -199,9 +190,7 @@ namespace BrickBreaker
             if(v == btnUpload)
             {
                 if(btnUpload.Text == uploadText)
-                {
                     AddDocument(currentScore);
-                }
                 else
                 {
                     int index = GetIndexOf(currentScore);
