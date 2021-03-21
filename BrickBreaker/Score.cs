@@ -88,13 +88,15 @@ namespace BrickBreaker
         /// <summary>
         /// sets to score fields in a given intent
         /// </summary>
-        /// <param name="intent">the intent to put the score in</param>
-        public void SetScoreInIntent(Intent intent)
+        /// <param name="intent">the intent to update</param>
+        /// <returns>the intent</returns>
+        public Intent SetScoreInIntent(Intent intent)
         {
             intent.PutExtra("Name", Name);
             intent.PutExtra("LastValue", LastValue);
             intent.PutExtra("HighestValue", HighestValue);
             intent.PutExtra("Key", Key);
+            return intent;
         }
     }
 }

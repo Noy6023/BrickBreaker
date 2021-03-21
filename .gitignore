@@ -5,6 +5,6 @@ index.html
 BrickBreaker/bin/*
 BrickBreaker/obj/*
 BrickBreaker/files/*
-*.apk
+Versions/*
 *.obj
 *.html

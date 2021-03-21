@@ -124,6 +124,12 @@ namespace BrickBreaker
             fd.AddSnapshotListener("Players", this);
         }
 
+        /// <summary>
+        /// Resuests permission
+        /// </summary>
+        /// <param name="requestCode">request code</param>
+        /// <param name="permissions">the permissions</param>
+        /// <param name="grantResults"></param>
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);

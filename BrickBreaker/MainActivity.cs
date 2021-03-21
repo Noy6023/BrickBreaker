@@ -116,7 +116,7 @@ namespace BrickBreaker
             lastDifficultyChecked = difficulty;
             if(difficulty == Difficulty.Hard)
                 if (rbHard != null) rbHard.Checked = true;
-            else
+            if(difficulty == Difficulty.Easy)
                 if (rbEasy != null) rbEasy.Checked = true;
         }
 
@@ -184,7 +184,7 @@ namespace BrickBreaker
             if(item.ItemId == Resource.Id.topScores)
             {
                 Intent intent = new Intent(this, typeof(FireStoreActivity));
-                score.SetScoreInIntent(intent);
+                intent = score.SetScoreInIntent(intent);
                 StartActivityForResult(intent, 0);
                 return true;
             }

@@ -30,19 +30,14 @@ namespace BrickBreaker
         /// static constructor
         /// </summary>
         static FireBaseData() //static constructor
-        {
-
-        }
+        { }
 
         /// <summary>
         /// gets the instance
         /// </summary>
         public static FireBaseData Instance
         {
-            get
-            {
-                return instance;
-            }
+            get { return instance; }
         }
 
         /// <summary>

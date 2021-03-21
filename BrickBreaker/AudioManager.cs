@@ -44,10 +44,7 @@ namespace BrickBreaker
         /// </summary>
         public static AudioManager Instance
         {
-            get
-            {
-                return instance;
-            }
+            get { return instance; }
         }
 
         /// <summary>

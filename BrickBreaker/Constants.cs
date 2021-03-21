@@ -29,7 +29,6 @@ namespace BrickBreaker
         public static Vector BAT_SIZE = new Vector(300, 20);
         public static Color DEFULT_BAT_COLOR = Color.Black;
 
-
         //brick constants
         public static Vector BRICK_SMALL_SIZE = new Vector(30, 30);
         public static Vector BRICK_BIG_SIZE = new Vector(20, 20);
@@ -51,7 +50,5 @@ namespace BrickBreaker
 
         //score constants
         public const int DEFULT_SCORE_SIZE = 70;
-
-
     }
 }

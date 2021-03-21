@@ -44,12 +44,20 @@ namespace BrickBreaker
             KeepScreenOn();
             board.T.Start();
         }
+
+        /// <summary>
+        /// Keeps the screen on while in the game
+        /// </summary>
         private void KeepScreenOn()
         {
             PowerManager powerManager = (PowerManager)this.GetSystemService(Context.PowerService);
             wakeLock = powerManager.NewWakeLock(WakeLockFlags.Full, "My Lock");
             wakeLock.Acquire();
         }
+
+        /// <summary>
+        /// on resume function - handles resume
+        /// </summary>
         protected override void OnResume()
         {
             base.OnResume();
@@ -57,6 +65,10 @@ namespace BrickBreaker
             if (board != null)
                 board.Resume();
         }
+
+        /// <summary>
+        /// on start function - handles start
+        /// </summary>
         protected override void OnStart()
         {
             base.OnStart();
@@ -64,16 +76,28 @@ namespace BrickBreaker
             if (board != null)
                 board.StartGame();
         }
+
+        /// <summary>
+        /// on destroy function - handles destroy
+        /// </summary>
         protected override void OnDestroy()
         {
             base.OnDestroy();
             wakeLock.Release();
         }
+
+        /// <summary>
+        /// on stop function - handles stop
+        /// </summary>
         protected override void OnStop()
         {
             base.OnStop();
             wakeLock.Release();
         }
+
+        /// <summary>
+        /// on pause function - handle pause
+        /// </summary>
         protected override void OnPause()
         {
             base.OnPause();
@@ -81,6 +105,10 @@ namespace BrickBreaker
             if (board != null)
                 board.Pause();
         }
+        
+        /// <summary>
+        /// called when the game is finished
+        /// </summary>
         public override void Finish()
         {
             base.Finish();
@@ -93,14 +121,18 @@ namespace BrickBreaker
                 }
                 catch (InterruptedException e)
                 {
-                    //Toast.MakeText(this,"some problem happened",ToastLength.Long).Show();
                 }
                 break;
             }
         }
+
+        /// <summary>
+        /// handle sensor accuracy change event
+        /// </summary>
+        /// <param name="sensor"></param>
+        /// <param name="accuracy"></param>
         public void OnAccuracyChanged(Sensor sensor, [GeneratedEnum] SensorStatus accuracy)
-        {
-        }
+        { }
 
         /// <summary>
         /// handle sensor change event
@@ -119,9 +151,7 @@ namespace BrickBreaker
                     SetResult(Result.Ok, intent);
                     Finish();
                 }
-                    
             }
         }
-
     }
 }

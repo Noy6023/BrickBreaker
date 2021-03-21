@@ -27,9 +27,7 @@ namespace BrickBreaker
         /// static constructor
         /// </summary>
         static ColorManager() //static constructor
-        {
-
-        }
+        { }
 
         /// <summary>
         /// private constructor that inits the colors hashtable
@@ -44,10 +42,7 @@ namespace BrickBreaker
         /// </summary>
         public static ColorManager Instance
         {
-            get
-            {
-                return instance;
-            }
+            get { return instance; }
         }
 
         /// <summary>
@@ -133,6 +128,7 @@ namespace BrickBreaker
             }
             editor.Commit();
         }
+
         /// <summary>
         /// loads the colors of the game from the shared preference
         /// </summary>

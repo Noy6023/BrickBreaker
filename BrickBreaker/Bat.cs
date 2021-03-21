@@ -44,6 +44,7 @@ namespace BrickBreaker
             Paint.Color = color;
             Velocity = new Vector(Constants.DEFULT_VECTOR);
         }
+
         /// <summary>
         /// handle the bats bounds
         /// </summary>

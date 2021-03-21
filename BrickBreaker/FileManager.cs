@@ -27,19 +27,14 @@ namespace BrickBreaker
         /// constructor
         /// </summary>
         private FileManager() //private constructor
-        {
-
-        }
+        { }
 
         /// <summary>
         /// gets the instance
         /// </summary>
         public static FileManager Instance
         {
-            get
-            {
-                return instance;
-            }
+            get { return instance; }
         }
 
         /// <summary>
