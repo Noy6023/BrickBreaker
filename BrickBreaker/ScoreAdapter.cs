@@ -22,6 +22,14 @@ namespace BrickBreaker
         readonly List<Score> objects;
         Color background; 
 
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="context">the context</param>
+        /// <param name="resorce">the resource</param>
+        /// <param name="textViewRecourceId">the id</param>
+        /// <param name="objects">the objects list</param>
+        /// <param name="background">the background color</param>
         public ScoreAdapter(Context context, int resorce, int textViewRecourceId, List<Score> objects, Color background) : base(context, resorce, textViewRecourceId, objects)
         {
             this.context = context;
@@ -29,6 +37,21 @@ namespace BrickBreaker
             this.background = background;
         }
 
+        /// <summary>
+        /// gets the length of the list
+        /// </summary>
+        public override int Count
+        {
+            get { return this.objects.Count; }
+        }
+
+        /// <summary>
+        /// gets the view
+        /// </summary>
+        /// <param name="position">the position in the list</param>
+        /// <param name="convertView">the view</param>
+        /// <param name="parent">the parent</param>
+        /// <returns>the view</returns>
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
             LayoutInflater layoutInflater = ((FireStoreActivity)context).LayoutInflater;
@@ -44,6 +67,6 @@ namespace BrickBreaker
             }
             return view;
         }
-
     }
 }
+
