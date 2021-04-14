@@ -1,18 +1,9 @@
 ﻿using Android.App;
-using Android.Content;
 using Android.Gms.Tasks;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Firestore;
 using Java.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace BrickBreaker
 {

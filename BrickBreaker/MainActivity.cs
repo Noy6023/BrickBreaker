@@ -3,22 +3,11 @@ using Android.OS;
 using Android.Support.V7.App;
 using Android.Runtime;
 using Android.Widget;
-using System;
 using Android.Views;
 using Android.Content;
 using Android.Graphics;
-using Java.IO;
-using System.IO;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using Android;
-using Android.Support.V4.Content;
-using Android.Content.PM;
-using Android.Support.V4.App;
 using Android.Gms.Tasks;
 using Firebase.Firestore;
-using Android.Graphics.Drawables;
 
 namespace BrickBreaker
 {

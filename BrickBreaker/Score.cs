@@ -1,14 +1,5 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+﻿using Android.Content;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace BrickBreaker
 {
@@ -57,7 +48,7 @@ namespace BrickBreaker
             {
                 LastValue = Int32.Parse(info[0]);
                 HighestValue = Int32.Parse(info[1]);
-                Key = Int32.Parse(info[2]);
+                Key = int.Parse(info[2]);
                 Name = info[3];
             }
         }

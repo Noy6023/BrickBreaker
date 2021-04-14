@@ -1,9 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
-using Android.Drm;
-using Android.Gms.Tasks;
 using Android.Graphics;
-using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.App;
@@ -11,10 +8,7 @@ using Android.Views;
 using Android.Widget;
 using Firebase.Firestore;
 using Java.Util;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace BrickBreaker
 {
@@ -120,7 +114,6 @@ namespace BrickBreaker
         /// <param name="cName"></param>
         private void FetchData(string cName)
         {
-            //fd.GetCollection(cName).AddOnSuccessListener(this);
             fd.AddSnapshotListener("Players", this);
         }
 
@@ -133,7 +126,6 @@ namespace BrickBreaker
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 

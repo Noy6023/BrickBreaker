@@ -1,20 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using Android.App;
 using Android.Content;
 using Android.Graphics;
-using Android.Media;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
-using Android.Widget;
-using Org.Apache.Http.Impl.Client;
 
 namespace BrickBreaker
 {
