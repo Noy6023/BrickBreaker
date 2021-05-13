@@ -17,23 +17,23 @@ namespace BrickBreaker
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity, Android.Views.View.IOnClickListener, RadioGroup.IOnCheckedChangeListener, IOnSuccessListener, IOnFailureListener
     {
-        Button btnStart, btnSaveSettings,btnBackSettings, btnSaveName, btnBackName, btnName;
-        LinearLayout llMain, llSettings, llHelp, llName;
-        EditText etName;
-        CheckBox cbMuteSound, cbMuteMusic;
-        TextView tvLastScore, tvMaxScore;
-        ImageView ivTiltPhone;
-        Color background;
-        Dialog settingsDialog, nameDialog, helpDialog;
-        ISharedPreferences sp;
-        RadioGroup rgBallSize, rgBrickSize, rgDifficulty;
-        RadioButton rbBallSmall, rbBallMedium, rbBallBig;
-        RadioButton rbBrickSmall, rbBrickMedium, rbBrickBig;
-        RadioButton rbEasy, rbHard;
-        Size lastBallChecked, lastBrickChecked;
-        Difficulty lastDifficultyChecked;
-        Score score;
-        bool isLightTheme;
+        private Button btnStart, btnSaveSettings,btnBackSettings, btnSaveName, btnBackName, btnName;
+        private LinearLayout llMain, llSettings, llHelp, llName;
+        private EditText etName;
+        private CheckBox cbMuteSound, cbMuteMusic;
+        private TextView tvLastScore, tvMaxScore;
+        private ImageView ivTiltPhone;
+        private Color background;
+        private Dialog settingsDialog, nameDialog, helpDialog;
+        private ISharedPreferences sp;
+        private RadioGroup rgBallSize, rgBrickSize, rgDifficulty;
+        private RadioButton rbBallSmall, rbBallMedium, rbBallBig;
+        private RadioButton rbBrickSmall, rbBrickMedium, rbBrickBig;
+        private RadioButton rbEasy, rbHard;
+        private Size lastBallChecked, lastBrickChecked;
+        private Difficulty lastDifficultyChecked;
+        private Score score;
+        private bool isLightTheme;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             sp = this.GetSharedPreferences("Settings", FileCreationMode.Private);
@@ -42,7 +42,6 @@ namespace BrickBreaker
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
             InitViews();
-
         }
 
         /// <summary>
@@ -172,7 +171,7 @@ namespace BrickBreaker
         {
             if(item.ItemId == Resource.Id.topScores)
             {
-                Intent intent = new Intent(this, typeof(FireStoreActivity));
+                Intent intent = new Intent(this, typeof(TopScoresActivity));
                 intent = score.SetScoreInIntent(intent);
                 StartActivityForResult(intent, 0);
                 return true;

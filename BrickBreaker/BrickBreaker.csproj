@@ -83,7 +83,7 @@
     <Compile Include="Difficulty.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="FireBaseData.cs" />
-    <Compile Include="FireStoreActivity.cs" />
+    <Compile Include="TopScoresActivity.cs" />
     <Compile Include="Score.cs" />
     <Compile Include="ScoreAdapter.cs" />
     <Compile Include="Size.cs" />

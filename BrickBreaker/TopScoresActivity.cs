@@ -16,20 +16,18 @@ namespace BrickBreaker
     /// the firestore activity - top scores screen
     /// </summary>
     [Activity(Label = "Top Scores")]
-    public class FireStoreActivity : AppCompatActivity, View.IOnClickListener, Firebase.Firestore.IEventListener
+    public class TopScoresActivity : AppCompatActivity, View.IOnClickListener, Firebase.Firestore.IEventListener
     {
-        List<Score> scoreList;
-        ScoreAdapter scoreAdapter;
-        ListView lv;
-        Button btnUpload;
-        Score currentScore;
-        TextView tvName;
-        TextView tvHighestScore;
-        LinearLayout llTopScores;
-        Color background;
-        FireBaseData fd = FireBaseData.Instance;
-        string uploadText;
-        string removeText;
+        private List<Score> scoreList;
+        private ScoreAdapter scoreAdapter;
+        private ListView lv;
+        private Button btnUpload;
+        private Score currentScore;
+        private TextView tvName, tvHighestScore;
+        private LinearLayout llTopScores;
+        private Color background;
+        private readonly FireBaseData fd = FireBaseData.Instance;
+        private string uploadText, removeText;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             ChangeTheme();

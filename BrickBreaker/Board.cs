@@ -11,19 +11,17 @@ namespace BrickBreaker
     /// </summary>
     public class Board : SurfaceView
     {
-        //the context of the game
-        Context context; //the context of the game
+        readonly Context context; //the context of the game
         //the objects of the game
-        Ball ball; // the ball
+        readonly Ball ball; // the ball
         Brick[,] bricks; //the bricks array
         public GameScore Score { get; set; }//the score that is increased by hitting a brick
-        public Bat TopBat { get; set; } //the top bat
-        public Bat BottomBat { get; set; } //the bottom bat
-
-        /// the buttons
+        private Bat TopBat { get; set; } //the top bat
+        private Bat BottomBat { get; set; } //the bottom bat
+        // the buttons
         GameButton pause, resume, start;
         Vector screenSize; //holds the screen size
-        Difficulty difficulty;
+        readonly Difficulty difficulty;
         //flags
         public bool HasLost { get; set; } //keeps the result whether the bat ha missed and lost or not
         bool isFirstCall = true; //check if its the first time running to init the game
@@ -34,7 +32,7 @@ namespace BrickBreaker
         public bool ThreadRunning = true; //a flag that holds whether the thread is running or not
         public bool IsRunning = true; //a flag that holds whether the game is running or not
         public Thread T; //the thread
-        ThreadStart ts; //the thread start
+        readonly ThreadStart ts; //the thread start
         
         /// <summary>
         /// the constructor of the board class
@@ -65,6 +63,7 @@ namespace BrickBreaker
             //start the thread - game
             ts = new ThreadStart(Run);
             T = new Thread(ts);
+            T.Start();
         }
 
         /// <summary>
@@ -195,7 +194,7 @@ namespace BrickBreaker
                     }
                     catch (Exception e)
                     {
-
+                        
                     }
                     finally
                     {
@@ -404,6 +403,7 @@ namespace BrickBreaker
                         }
                     }
                 }
+                
             }
             if (CountVisible(bricks) == 0)
             {
@@ -412,6 +412,7 @@ namespace BrickBreaker
                 MakeVisible(bricks);
                 Pause();
             }
+
             BottomBat.UpdateMovement(); //update the bottom bat movement
             TopBat.UpdateMovement(); //update the bottom bat movement
             if (flagClick)

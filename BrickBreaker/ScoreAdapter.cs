@@ -11,9 +11,9 @@ namespace BrickBreaker
     /// </summary>
     class ScoreAdapter : ArrayAdapter<Score>
     {
-        readonly Android.Content.Context context;
-        readonly List<Score> objects;
-        Color background; 
+        private readonly Android.Content.Context context;
+        private readonly List<Score> objects;
+        private Color background; 
 
         /// <summary>
         /// constructor
@@ -47,7 +47,7 @@ namespace BrickBreaker
         /// <returns>the view</returns>
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            LayoutInflater layoutInflater = ((FireStoreActivity)context).LayoutInflater;
+            LayoutInflater layoutInflater = ((TopScoresActivity)context).LayoutInflater;
             View view = layoutInflater.Inflate(Resource.Layout.activity_score, parent, false);
             TextView tvName = view.FindViewById<TextView>(Resource.Id.tvScoreName);
             TextView tvValue = view.FindViewById<TextView>(Resource.Id.tvScoreValue);

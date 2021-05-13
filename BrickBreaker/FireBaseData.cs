@@ -129,7 +129,7 @@ namespace BrickBreaker
         /// </summary>
         /// <param name="cName">the collection name</param>
         /// <param name="activity">the activity name</param>
-        public void AddSnapshotListener(string cName, FireStoreActivity activity)
+        public void AddSnapshotListener(string cName, TopScoresActivity activity)
         {
             firestore.Collection(cName).AddSnapshotListener(activity);
         }

@@ -15,17 +15,10 @@ namespace BrickBreaker
     [Activity(Label = "Customize")]
     public class CustomizeActivity : AppCompatActivity, Android.Views.View.IOnClickListener
     {
-        const int BALL_REQUEST_CODE = 0, BAT_REQUEST_CODE = 1, BRICK_REQUEST_CODE = 2, BACKGROUND_REQUEST_CODE = 3;
-        Button btnBallColor;
-        Button btnBatColor;
-        Button btnBrickColor;
-        Button btnBackgroundColor;
-        Button btnRandom;
-        Button btnDefult;
-        Button btnBack;
-        TableLayout tlCustomize;
-        Color background;
-        //Hashtable colors;
+        private const int BALL_REQUEST_CODE = 0, BAT_REQUEST_CODE = 1, BRICK_REQUEST_CODE = 2, BACKGROUND_REQUEST_CODE = 3;
+        private Button btnBallColor, btnBatColor, btnBrickColor, btnBackgroundColor, btnRandom, btnDefult, btnBack;
+        private TableLayout tlCustomize;
+        private Color background;
 
         /// <summary>
         /// the on create function
@@ -36,7 +29,6 @@ namespace BrickBreaker
             ChangeTheme();
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.activity_customize);
-            // Create your application here
             InitViews();
         }
 

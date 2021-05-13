@@ -3,6 +3,7 @@ using Android.Content;
 using Android.Hardware;
 using Android.OS;
 using Android.Runtime;
+using Android.Util;
 using Java.Lang;
 using static Android.OS.PowerManager;
 
@@ -14,9 +15,9 @@ namespace BrickBreaker
     [Activity(Label = "GameActivity")]
     public class GameActivity : Activity, Android.Hardware.ISensorEventListener
     {
-        SensorManager sensMan;
-        Board board;
-        Difficulty difficulty;
+        private SensorManager sensMan;
+        private Board board;
+        private Difficulty difficulty;
         private WakeLock wakeLock;
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace BrickBreaker
             Sensor sen = sensMan.GetDefaultSensor(SensorType.Accelerometer);
             sensMan.RegisterListener(this, sen, Android.Hardware.SensorDelay.Game);
             KeepScreenOn();
-            board.T.Start();
+            //board.T.Start();
         }
 
         /// <summary>
