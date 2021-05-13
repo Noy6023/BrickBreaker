@@ -69,7 +69,9 @@ namespace BrickBreaker
         /// <param name="ball">the ball</param>
         /// <param name="canvas">the canvas</param>
         /// <param name="bat">'t' if its the top bat. 'b' if its the bottom bat</param>
-        /// <returns>1- the bat hit the ball. -1- the bat missed the ball. 0- the ball wasn't near the bat</returns>
+        /// <returns>1: the bat hit the ball.
+        /// -1: the bat missed the ball.
+        /// 0: the ball wasn't near the bat</returns>
         public int IsBallHit(Ball ball, Canvas canvas)
         {
             if (batType == BatType.Top)

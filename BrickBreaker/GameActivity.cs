@@ -115,6 +115,7 @@ namespace BrickBreaker
                 }
                 catch (InterruptedException e)
                 {
+                    Log.Debug(string.Empty, e.Message);
                 }
                 break;
             }

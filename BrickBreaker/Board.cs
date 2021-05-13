@@ -2,6 +2,7 @@
 using System.Threading;
 using Android.Content;
 using Android.Graphics;
+using Android.Util;
 using Android.Views;
 
 namespace BrickBreaker
@@ -24,7 +25,7 @@ namespace BrickBreaker
         readonly Difficulty difficulty;
         //flags
         public bool HasLost { get; set; } //keeps the result whether the bat ha missed and lost or not
-        bool isFirstCall = true; //check if its the first time running to init the game
+        bool hasInitedGame = false; //check if its the first time running to init the game
         bool flagClick = false;
         bool isLightTheme = true;
         bool isPaused = false;
@@ -42,7 +43,6 @@ namespace BrickBreaker
         {
             this.context = context; //set this context to the given context
             HasLost = false; //init the result
-
             //create the objects
             ball = new Ball(ColorManager.Instance.GetColor(ColorKey.Ball)); //create the ball
             BottomBat = new Bat(ColorManager.Instance.GetColor(ColorKey.Bat), BatType.Bottom);  //create the bottom bat
@@ -50,7 +50,6 @@ namespace BrickBreaker
             Score = new GameScore(); //create the score
             screenSize = new Vector(Constants.DEFULT_SCREEN_SIZE); //init the screen size to defult 
             this.difficulty = difficulty;
-
             //Set the theme - dark or light
             SetIsThemeLight();
             //Create the buttons
@@ -59,7 +58,6 @@ namespace BrickBreaker
             Score.ChangeColor(isLightTheme);
             //init the players
             AudioManager.Instance.InitPlayers(context);
-            
             //start the thread - game
             ts = new ThreadStart(Run);
             T = new Thread(ts);
@@ -166,10 +164,9 @@ namespace BrickBreaker
                     try
                     {
                         canvas = this.Holder.LockCanvas();
-                        if (isFirstCall)
+                        if (!hasInitedGame)
                         {
                             InitGame(canvas);
-                            isFirstCall = false;
                         }
 
                         //update the game
@@ -194,7 +191,7 @@ namespace BrickBreaker
                     }
                     catch (Exception e)
                     {
-                        
+                        Log.Debug(string.Empty, e.Message);
                     }
                     finally
                     {
@@ -214,6 +211,7 @@ namespace BrickBreaker
             bricks = new Bricks(canvas);
             InitSizes(canvas);
             InitPositions(canvas);
+            hasInitedGame = true;
         }
 
         /// <summary>

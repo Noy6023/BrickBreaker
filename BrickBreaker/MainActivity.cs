@@ -17,6 +17,7 @@ namespace BrickBreaker
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity, Android.Views.View.IOnClickListener, RadioGroup.IOnCheckedChangeListener, IOnSuccessListener, IOnFailureListener
     {
+        private const int GAME_CODE = 0, TOP_SCORES_CODE = 1, CUSTOMIZE_CODE = 2;
         private Button btnStart, btnSaveSettings,btnBackSettings, btnSaveName, btnBackName, btnName;
         private LinearLayout llMain, llSettings, llHelp, llName;
         private EditText etName;
@@ -173,7 +174,7 @@ namespace BrickBreaker
             {
                 Intent intent = new Intent(this, typeof(TopScoresActivity));
                 intent = score.SetScoreInIntent(intent);
-                StartActivityForResult(intent, 0);
+                StartActivityForResult(intent, TOP_SCORES_CODE);
                 return true;
             }
             if (item.ItemId == Resource.Id.settings)
@@ -184,7 +185,7 @@ namespace BrickBreaker
             if (item.ItemId == Resource.Id.customize)
             {
                 Intent intent = new Intent(this, typeof(CustomizeActivity));
-                StartActivityForResult(intent, 1);
+                StartActivityForResult(intent, CUSTOMIZE_CODE);
                 return true;
             }
             if(item.ItemId == Resource.Id.help)
@@ -279,7 +280,7 @@ namespace BrickBreaker
             {
                 Intent intent = new Intent(this, typeof(GameActivity));
                 intent.PutExtra("difficulty", (int)lastDifficultyChecked);
-                StartActivityForResult(intent, 0);
+                StartActivityForResult(intent, GAME_CODE);
             }
             if(v == btnName)
                 CreateNameDialog();
@@ -318,7 +319,7 @@ namespace BrickBreaker
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
-            if (requestCode == 0)
+            if (requestCode == GAME_CODE)
             {
                 if (resultCode == Result.Ok)
                 {
@@ -332,7 +333,7 @@ namespace BrickBreaker
                     }
                 }
             }
-            if(requestCode == 1)
+            if(requestCode == CUSTOMIZE_CODE)
             {
                 ColorManager.Instance.SaveColors(sp);
                 Recreate();
@@ -423,7 +424,6 @@ namespace BrickBreaker
             var snapshot = (DocumentSnapshot)result;
             string name = snapshot.Exists() ? snapshot.Get("Name").ToString() : score.Name;
             int highestScore = snapshot.Exists() ? int.Parse(snapshot.Get("Score").ToString()) : score.HighestValue;
-            //int key = int.Parse(snapshot.Get("Key").ToString());
             score = new Score(name, score.LastValue, highestScore, score.Key);
             SetScoreInfo();
         }
@@ -434,6 +434,7 @@ namespace BrickBreaker
         /// <param name="e">the exception</param>
         public void OnFailure(Java.Lang.Exception e)
         {
+            score.SetInfo(FileManager.Instance.LoadInfo(this));
             SetScoreInfo();
         }
     }
