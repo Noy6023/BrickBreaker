@@ -3,6 +3,11 @@ using System;
 
 namespace BrickBreaker
 {
+    public enum BatType
+    {
+        Top,
+        Bottom
+    }
     /// <summary>
     /// the bat class
     /// </summary>
@@ -10,6 +15,7 @@ namespace BrickBreaker
     {
         public static Vector Size { get; set; } //the size of the bat
         public Vector Velocity { get; set; } //the velocity of the bat
+        private readonly BatType batType; //the type of the bat
 
         /// <summary>
         /// constructor
@@ -17,22 +23,24 @@ namespace BrickBreaker
         /// <param name="position">the position</param>
         /// <param name="color">the color</param>
         /// <param name="velocity">the velocity</param>
-        public Bat(Vector position, Color color, Vector velocity) : base(position, color)
+        public Bat(Vector position, Color color, Vector velocity, BatType batType) : base(position, color)
         {
             this.Velocity = new Vector(velocity);
+            this.batType = batType;
         }
 
         /// <summary>
         /// defult constructor
         /// </summary>
         /// <param name="color">the color</param>
-        public Bat(Color color):base(color)
+        public Bat(Color color, BatType batType):base(color)
         {
             base.Position = new Vector(0, Constants.DEFULT_SCREEN_SIZE.Y - (Constants.DEFULT_SCREEN_SIZE.Y / 10));
             Size = new Vector(Constants.BAT_SIZE.X, Constants.BAT_SIZE.Y);
             base.Paint = new Paint();
             Paint.Color = color;
             Velocity = new Vector(Constants.DEFULT_VECTOR);
+            this.batType = batType;
         }
 
         /// <summary>
@@ -62,9 +70,9 @@ namespace BrickBreaker
         /// <param name="canvas">the canvas</param>
         /// <param name="bat">'t' if its the top bat. 'b' if its the bottom bat</param>
         /// <returns>1- the bat hit the ball. -1- the bat missed the ball. 0- the ball wasn't near the bat</returns>
-        public int IsBallHit(Ball ball, Canvas canvas, char bat)
+        public int IsBallHit(Ball ball, Canvas canvas)
         {
-            if (bat == 'b')
+            if (batType == BatType.Top)
             {
                 if (ball.Position.Y - Ball.Radius * 2 > canvas.Height)
                     return -1;
@@ -76,8 +84,10 @@ namespace BrickBreaker
             }
             if(HasHitBall(ball, Size))
             {
-                if(bat == 'b') ball.Position.Y = this.Position.Y - Ball.Radius;
-                else ball.Position.Y = this.Position.Y + Size.Y + Ball.Radius;
+                if(batType == BatType.Bottom)
+                    ball.Position.Y = this.Position.Y - Ball.Radius;
+                else
+                    ball.Position.Y = this.Position.Y + Size.Y + Ball.Radius;
                 ball.ChangeVelocity();
                 ball.Velocity.Y = -ball.Velocity.Y;
                 if (ball.Position.X > this.Position.X + Size.X / 2)

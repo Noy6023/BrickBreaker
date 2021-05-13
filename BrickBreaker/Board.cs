@@ -45,8 +45,8 @@ namespace BrickBreaker
 
             //create the objects
             ball = new Ball(ColorManager.Instance.GetColor(ColorKey.Ball)); //create the ball
-            BottomBat = new Bat(ColorManager.Instance.GetColor(ColorKey.Bat));  //create the bottom bat
-            TopBat = new Bat(ColorManager.Instance.GetColor(ColorKey.Bat)); //create the top bat
+            BottomBat = new Bat(ColorManager.Instance.GetColor(ColorKey.Bat), BatType.Bottom);  //create the bottom bat
+            TopBat = new Bat(ColorManager.Instance.GetColor(ColorKey.Bat), BatType.Top); //create the top bat
             Score = new GameScore(); //create the score
             screenSize = new Vector(Constants.DEFULT_SCREEN_SIZE); //init the screen size to defult 
             this.difficulty = difficulty;
@@ -345,12 +345,12 @@ namespace BrickBreaker
             TopBat.UpdateBounds(canvas); //check bounds of the bat
             ball.UpdateWallHit(new Vector(canvas.Width, canvas.Height)); //check bounds of the ball - walls
             
-            if (BottomBat.IsBallHit(ball, canvas, 'b') == 1 || TopBat.IsBallHit(ball, canvas, 't') == 1)
+            if (BottomBat.IsBallHit(ball, canvas) == 1 || TopBat.IsBallHit(ball, canvas) == 1)
             {
                 // if the bat hit the ball - play sound
                 AudioManager.Instance.PlaySound(Sound.bat_hit);
             }
-            else if (BottomBat.IsBallHit(ball, canvas, 'b') == -1 || TopBat.IsBallHit(ball, canvas, 't') == -1)
+            else if (BottomBat.IsBallHit(ball, canvas) == -1 || TopBat.IsBallHit(ball, canvas) == -1)
             {
                 // if the bat missed the ball - the player lost
                 HasLost = true;
