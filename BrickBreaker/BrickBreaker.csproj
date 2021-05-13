@@ -76,6 +76,7 @@
     <Compile Include="Bat.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="Brick.cs" />
+    <Compile Include="Bricks.cs" />
     <Compile Include="ColorKey.cs" />
     <Compile Include="ColorManager.cs" />
     <Compile Include="ColorPickerActivity.cs" />

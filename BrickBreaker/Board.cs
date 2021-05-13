@@ -14,13 +14,13 @@ namespace BrickBreaker
         readonly Context context; //the context of the game
         //the objects of the game
         readonly Ball ball; // the ball
-        Brick[,] bricks; //the bricks array
+        private Bricks bricks; //the bricks
         public GameScore Score { get; set; }//the score that is increased by hitting a brick
         private Bat TopBat { get; set; } //the top bat
         private Bat BottomBat { get; set; } //the bottom bat
-        // the buttons
-        GameButton pause, resume, start;
-        Vector screenSize; //holds the screen size
+        //the buttons
+        private GameButton pause, resume, start;
+        private Vector screenSize; //holds the screen size
         readonly Difficulty difficulty;
         //flags
         public bool HasLost { get; set; } //keeps the result whether the bat ha missed and lost or not
@@ -211,7 +211,7 @@ namespace BrickBreaker
         /// <param name="canvas">the canvas</param>
         private void InitGame(Canvas canvas)
         {
-            InitBricks(canvas);
+            bricks = new Bricks(canvas);
             InitSizes(canvas);
             InitPositions(canvas);
         }
@@ -248,6 +248,7 @@ namespace BrickBreaker
             TopBat.SetSize(canvas);
             BottomBat.SetSize(canvas);
         }
+
         /// <summary>
         /// generates a start position for the bottom bat
         /// </summary>
@@ -258,31 +259,6 @@ namespace BrickBreaker
             Random r = new Random();
             Vector randPos = new Vector(r.Next((int)(canvas.Width - Bat.Size.X)),canvas.Height- 2*Bat.Size.Y);
             return randPos;
-        }
-
-        /// <summary>
-        /// inits the brick array by creating the brickes and positioning them
-        /// </summary>
-        /// <param name="canvas">the canvas</param>
-        private void InitBricks(Canvas canvas)
-        {
-            Color brickColor = ColorManager.Instance.GetColor(ColorKey.Brick);
-            float space = canvas.Width / 20 ;
-            float x = space * 1.5f;
-            float y = canvas.Height / 3;
-            Brick.SetSize(canvas);
-            bricks = new Brick[(int)((canvas.Height / 3) / (Brick.Size.Y + space)), (int)((canvas.Width - x) / (Brick.Size.X + space))];
-
-            for(int i = 0; i < bricks.GetLength(0); i++)
-            {
-                for(int j = 0; j < bricks.GetLength(1); j++)
-                {
-                    bricks[i, j] = new Brick(new Vector(x, y), brickColor);
-                    x += Brick.Size.X + space;
-                }
-                y += Brick.Size.Y + space;
-                x = space * 1.5f;
-            }
         }
 
         /// <summary>
@@ -320,39 +296,6 @@ namespace BrickBreaker
         }
 
         /// <summary>
-        /// makes every brick in the given array visible
-        /// </summary>
-        /// <param name="bricks">the bricks array</param>
-        public void MakeVisible(Brick[,] bricks)
-        {
-            for (int i = 0; i < bricks.GetLength(0); i++)
-            {
-                for (int j = 0; j < bricks.GetLength(1); j++)
-                {
-                    bricks[i, j].IsVisible = true;
-                }
-            }
-        }
-
-        /// <summary>
-        /// counts the visible bricks
-        /// </summary>
-        /// <param name="bricks">the bricks array</param>
-        /// <returns>the number of visible bricks</returns>
-        public int CountVisible(Brick[,] bricks)
-        {
-            int count = 0;
-            for (int i = 0; i < bricks.GetLength(0); i++)
-            {
-                for (int j = 0; j < bricks.GetLength(1); j++)
-                {
-                    if (bricks[i, j].IsVisible) count++;
-                }
-            }
-            return count;
-        }
-
-        /// <summary>
         /// draws all the objects on the canvas
         /// </summary>
         /// <param name="canvas">the canvas</param>
@@ -365,15 +308,7 @@ namespace BrickBreaker
             pause.Draw(canvas); //draws the pause
             BottomBat.Draw(canvas); //draws the bottom bat
             TopBat.Draw(canvas); //draws the top bat
-            //draw the bricks
-            for (int i = 0; i < bricks.GetLength(0); i++)
-            {
-                for (int j = 0; j < bricks.GetLength(1); j++)
-                {
-                    if (bricks[i, j].IsVisible)
-                        bricks[i, j].Draw(canvas);
-                }
-            }
+            bricks.Draw(canvas);
             //draw the ball 
             ball.Draw(canvas);
             start.Draw(canvas);
@@ -388,31 +323,19 @@ namespace BrickBreaker
         /// <param name="canvas">the canvas</param>
         private void Update(Canvas canvas)
         {
-            if(IsBallNearBricks())
+            if (bricks.HasBallHit(ball))
             {
-                //if the ball is near the bricks - check hit on every brick
-                for (int i = 0; i < bricks.GetLength(0); i++)
-                {
-                    for (int j = 0; j < bricks.GetLength(1); j++)
-                    {
-                        if (bricks[i, j].IsHit(ball))
-                        {
-                            //if there was a hit - play hit sound and increase score
-                            AudioManager.Instance.PlaySound(Sound.brick_hit);
-                            Score.IncreaseScore(difficulty);
-                        }
-                    }
-                }
-                
+                //if there was a hit - play hit sound and increase score
+                AudioManager.Instance.PlaySound(Sound.brick_hit);
+                Score.IncreaseScore(difficulty);
             }
-            if (CountVisible(bricks) == 0)
+            if (bricks.AreOver())
             {
                 //if there aren't any bricks left - play sound and refill the bricks
                 AudioManager.Instance.PlaySound(Sound.finished_bricks);
-                MakeVisible(bricks);
+                bricks.MakeVisible();
                 Pause();
             }
-
             BottomBat.UpdateMovement(); //update the bottom bat movement
             TopBat.UpdateMovement(); //update the bottom bat movement
             if (flagClick)
@@ -432,17 +355,6 @@ namespace BrickBreaker
                 // if the bat missed the ball - the player lost
                 HasLost = true;
             }
-        }
-
-        /// <summary>
-        /// checks if the ball is near the bricks
-        /// </summary>
-        /// <returns>true- the ball is lower than the first brick and higher than the last brick. else - false.</returns>
-        private bool IsBallNearBricks()
-        {
-            if ((ball.Position.Y >= bricks[0, 0].Position.Y - Ball.Radius && ball.Position.Y <= bricks[bricks.GetLength(0) - 1, 0].Position.Y + 2* Ball.Radius))
-                return true;
-            return false;
         }
     }
 }

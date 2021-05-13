@@ -57,9 +57,7 @@ namespace BrickBreaker
                 return false;
             if(this.HasHitBall(ball, Size))
             {
-                this.IsVisible = false;
-                ball.Velocity.Y = -ball.Velocity.Y;
-                ball.ChangeVelocity();
+                
                 return true;
             }
             return false;
