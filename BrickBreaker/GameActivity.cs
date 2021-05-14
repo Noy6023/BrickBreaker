@@ -29,7 +29,7 @@ namespace BrickBreaker
             base.OnCreate(savedInstanceState);
             difficulty = Difficulty.Easy;
             if (Intent.Extras != null)
-                difficulty = (Difficulty)Intent.GetIntExtra("difficulty", 1);
+                difficulty = (Difficulty)Intent.GetIntExtra(Constants.DIFFICULTY, 1);
             board = new Board(this, difficulty);
             SetContentView(board);
             sensMan = (SensorManager)GetSystemService(Context.SensorService);
@@ -141,7 +141,7 @@ namespace BrickBreaker
                 if (board.HasLost)
                 {
                     Intent intent = new Intent(this, typeof(MainActivity));
-                    intent.PutExtra("score", board.Score.GetScore());
+                    intent.PutExtra(Constants.LAST_SCORE, board.Score.GetScore());
                     SetResult(Result.Ok, intent);
                     Finish();
                 }

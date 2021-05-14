@@ -42,5 +42,27 @@ namespace BrickBreaker
 
         //score constants
         public const int DEFULT_SCORE_SIZE = 70;
+
+        //firestore constants
+        public const string NAME = "Name";
+        public const string HIGHEST_VALUE = "HighestValue";
+        public const string LAST_VALUE = "LastValue";
+        public const string KEY = "Key";
+        public const string PLAYERS_COLLECTION = "Players";
+        public const string SCORE = "Score";
+        public const string DEFULT_NAME = "Player";
+
+        //shared prefrences constants
+        public const string SP_NAME = "Settings";
+        public const string MUSIC = "music";
+        public const string LAST_SCORE = "score";
+        public const string SOUND = "sound";
+        public const string BALL_SIZE = "ball size";
+        public const string BRICK_SIZE = "brick size";
+        public const string DIFFICULTY = "difficulty";
+        public const string BACKGROUND = "Background";
+        public const string BALL = "Ball";
+        public const string BAT = "Bat";
+        public const string TEXT = "Text";
     }
 }

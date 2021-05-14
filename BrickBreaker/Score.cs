@@ -17,7 +17,7 @@ namespace BrickBreaker
         /// </summary>
         public Score()
         {
-            Name = "Player";
+            Name = Constants.DEFULT_NAME;
             LastValue = 0;
             HighestValue = 0;
             Key = new Random().Next(10000, 100000);
@@ -83,10 +83,10 @@ namespace BrickBreaker
         /// <returns>the intent</returns>
         public Intent SetScoreInIntent(Intent intent)
         {
-            intent.PutExtra("Name", Name);
-            intent.PutExtra("LastValue", LastValue);
-            intent.PutExtra("HighestValue", HighestValue);
-            intent.PutExtra("Key", Key);
+            intent.PutExtra(Constants.NAME, Name);
+            intent.PutExtra(Constants.LAST_VALUE, LastValue);
+            intent.PutExtra(Constants.HIGHEST_VALUE, HighestValue);
+            intent.PutExtra(Constants.KEY, Key);
             return intent;
         }
     }

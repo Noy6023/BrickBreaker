@@ -94,7 +94,7 @@ namespace BrickBreaker
         /// <returns>the score</returns>
         private Score GetScore()
         {
-            return new Score(Intent.GetStringExtra("Name"), Intent.GetIntExtra("LastValue", 0), Intent.GetIntExtra("HighestValue", 0), Intent.GetIntExtra("Key", 0));
+            return new Score(Intent.GetStringExtra(Constants.NAME), Intent.GetIntExtra(Constants.LAST_VALUE, 0), Intent.GetIntExtra(Constants.HIGHEST_VALUE, 0), Intent.GetIntExtra(Constants.KEY, 0));
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace BrickBreaker
         private void InitScoreList()
         {
             scoreList = new List<Score>();
-            FetchData("Players");
+            FetchData(Constants.PLAYERS_COLLECTION);
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace BrickBreaker
         /// <param name="cName"></param>
         private void FetchData(string cName)
         {
-            fd.AddSnapshotListener("Players", this);
+            fd.AddSnapshotListener(cName, this);
         }
 
         /// <summary>
@@ -157,10 +157,10 @@ namespace BrickBreaker
             Hashtable data = new Hashtable();
             if(Intent.Extras != null)
             {
-                data.Put("Name", score.Name);
-                data.Put("Score", score.HighestValue);
-                data.Put("Key", score.Key);
-                fd.AddDocumentToCollection("Players", score.Key.ToString(), data);
+                data.Put(Constants.NAME, score.Name);
+                data.Put(Constants.SCORE, score.HighestValue);
+                data.Put(Constants.KEY, score.Key);
+                fd.AddDocumentToCollection(Constants.PLAYERS_COLLECTION, score.Key.ToString(), data);
                 AddToList(score);
                 btnUpload.Text = removeText;
             }
@@ -194,7 +194,7 @@ namespace BrickBreaker
                         scoreList.RemoveAt(index);
                     scoreAdapter.NotifyDataSetChanged();
                     btnUpload.Text = uploadText;
-                    fd.DeleteDocumentFromCollection("Players", currentScore.Key.ToString());
+                    fd.DeleteDocumentFromCollection(Constants.PLAYERS_COLLECTION, currentScore.Key.ToString());
                 }
             }
         }
@@ -214,9 +214,9 @@ namespace BrickBreaker
                 foreach (DocumentSnapshot item in documents)
                 {
                     Score score = new Score();
-                    score.Name = item.Get("Name").ToString();
-                    score.HighestValue = int.Parse(item.Get("Score").ToString());
-                    score.Key = int.Parse(item.Get("Key").ToString());
+                    score.Name = item.Get(Constants.NAME).ToString();
+                    score.HighestValue = int.Parse(item.Get(Constants.SCORE).ToString());
+                    score.Key = int.Parse(item.Get(Constants.KEY).ToString());
                     if (score.Key == currentScore.Key) btnUpload.Text = removeText;
                     AddToList(score);
                 }

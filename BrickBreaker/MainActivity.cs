@@ -37,7 +37,7 @@ namespace BrickBreaker
         private bool isLightTheme;
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            sp = this.GetSharedPreferences("Settings", FileCreationMode.Private);
+            sp = this.GetSharedPreferences(Constants.SP_NAME, FileCreationMode.Private);
             ChangeTheme();
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
@@ -61,8 +61,8 @@ namespace BrickBreaker
             llMain.SetBackgroundColor(background);
             score.SetInfo(FileManager.Instance.LoadInfo(this));
             SetScoreInfo();
-            AudioManager.IsSoundMuted = sp.GetBoolean("sound", false);
-            AudioManager.IsMusicMuted = sp.GetBoolean("music", false);
+            AudioManager.IsSoundMuted = sp.GetBoolean(Constants.SOUND, false);
+            AudioManager.IsMusicMuted = sp.GetBoolean(Constants.MUSIC, false);
             lastBallChecked = Size.Medium;
             lastBrickChecked = Size.Medium;
             lastDifficultyChecked = Difficulty.Easy;
@@ -101,7 +101,7 @@ namespace BrickBreaker
         /// </summary>
         private void SetDifficulty()
         {
-            Difficulty difficulty = (Difficulty)sp.GetInt("difficulty", 0);
+            Difficulty difficulty = (Difficulty)sp.GetInt(Constants.DIFFICULTY, 0);
             lastDifficultyChecked = difficulty;
             if(difficulty == Difficulty.Hard)
                 if (rbHard != null) rbHard.Checked = true;
@@ -115,7 +115,7 @@ namespace BrickBreaker
         private void SetSizes()
         {
             //get the size or get medium size by defult
-            Size ballSize = (Size)sp.GetInt("ball size", 1);
+            Size ballSize = (Size)sp.GetInt(Constants.BALL_SIZE, 1);
             lastBallChecked = ballSize;
             if (ballSize == Size.Big)
             {
@@ -133,7 +133,7 @@ namespace BrickBreaker
                 if (rbBallMedium != null) rbBallMedium.Checked = true;
 
             }
-            Size brickSize = (Size)sp.GetInt("brick size", 1);
+            Size brickSize = (Size)sp.GetInt(Constants.BRICK_SIZE, 1);
             lastBrickChecked = brickSize;
             if (brickSize == Size.Big)
             {
@@ -279,7 +279,7 @@ namespace BrickBreaker
             if(v == btnStart)
             {
                 Intent intent = new Intent(this, typeof(GameActivity));
-                intent.PutExtra("difficulty", (int)lastDifficultyChecked);
+                intent.PutExtra(Constants.DIFFICULTY, (int)lastDifficultyChecked);
                 StartActivityForResult(intent, GAME_CODE);
             }
             if(v == btnName)
@@ -290,7 +290,7 @@ namespace BrickBreaker
             {   
                 score.Name = etName.Text;
                 btnName.Text = score.Name;
-                FireBaseData.Instance.SaveScoreToCollection("Players", score);
+                FireBaseData.Instance.SaveScoreToCollection(Constants.PLAYERS_COLLECTION, score);
                 FileManager.Instance.SaveInfo('\n', score.GetInfo(), this);
                 nameDialog.Dismiss();
             }
@@ -300,11 +300,11 @@ namespace BrickBreaker
             if (v == btnSaveSettings)
             {
                 var editor = sp.Edit();
-                editor.PutBoolean("sound", cbMuteSound.Checked);
-                editor.PutBoolean("music", cbMuteMusic.Checked);
+                editor.PutBoolean(Constants.SOUND, cbMuteSound.Checked);
+                editor.PutBoolean(Constants.MUSIC, cbMuteMusic.Checked);
                 editor.Commit();
-                AudioManager.IsSoundMuted = sp.GetBoolean("sound", false);
-                AudioManager.IsMusicMuted = sp.GetBoolean("music", false);
+                AudioManager.IsSoundMuted = sp.GetBoolean(Constants.SOUND, false);
+                AudioManager.IsMusicMuted = sp.GetBoolean(Constants.MUSIC, false);
                 settingsDialog.Dismiss();
             }
         }
@@ -325,10 +325,10 @@ namespace BrickBreaker
                 {
                     if (data.Extras != null)
                     {
-                        score.LastValue = data.GetIntExtra("score", 0);
+                        score.LastValue = data.GetIntExtra(Constants.LAST_SCORE, 0);
                         score.ChangedScore();
                         SetScoreInfo();
-                        FireBaseData.Instance.SaveScoreToCollection("Players", score);
+                        FireBaseData.Instance.SaveScoreToCollection(Constants.PLAYERS_COLLECTION, score);
                         FileManager.Instance.SaveInfo('\n', score.GetInfo(), this);
                     }
                 }
@@ -373,7 +373,7 @@ namespace BrickBreaker
                 if (checkedId == Resource.Id.rbBallBig)
                     ballSize = Size.Big;
                 //insert the size to the editor
-                editor.PutInt("ball size", (int)ballSize);
+                editor.PutInt(Constants.BALL_SIZE, (int)ballSize);
             }
             //check if the radio group is the brick size
             if (group == rgBrickSize)
@@ -387,7 +387,7 @@ namespace BrickBreaker
                 if (checkedId == Resource.Id.rbBrickBig)
                     brickSize = Size.Big;
                 //insert the size to the editor
-                editor.PutInt("brick size", (int)brickSize);
+                editor.PutInt(Constants.BRICK_SIZE, (int)brickSize);
             }
             //check if the radio group is the difficulty
             if (group == rgDifficulty)
@@ -399,7 +399,7 @@ namespace BrickBreaker
                 if (checkedId == Resource.Id.rbHard)
                     difficulty = Difficulty.Hard;
                 //insert the difficulty to the editor
-                editor.PutInt("difficulty", (int)difficulty);
+                editor.PutInt(Constants.DIFFICULTY, (int)difficulty);
             }
             //commit the changes and set them
             editor.Commit();
@@ -412,7 +412,7 @@ namespace BrickBreaker
         /// </summary>
         private void GetInfoFromFirestore()
         {
-            FireBaseData.Instance.GetDocument("Players", score.Key.ToString()).AddOnSuccessListener(this).AddOnFailureListener(this);
+            FireBaseData.Instance.GetDocument(Constants.PLAYERS_COLLECTION, score.Key.ToString()).AddOnSuccessListener(this).AddOnFailureListener(this);
         }
 
         /// <summary>
@@ -422,8 +422,8 @@ namespace BrickBreaker
         public void OnSuccess(Java.Lang.Object result)
         {
             var snapshot = (DocumentSnapshot)result;
-            string name = snapshot.Exists() ? snapshot.Get("Name").ToString() : score.Name;
-            int highestScore = snapshot.Exists() ? int.Parse(snapshot.Get("Score").ToString()) : score.HighestValue;
+            string name = snapshot.Exists() ? snapshot.Get(Constants.NAME).ToString() : score.Name;
+            int highestScore = snapshot.Exists() ? int.Parse(snapshot.Get(Constants.SCORE).ToString()) : score.HighestValue;
             score = new Score(name, score.LastValue, highestScore, score.Key);
             SetScoreInfo();
         }
