@@ -36,7 +36,6 @@ namespace BrickBreaker
             Sensor sen = sensMan.GetDefaultSensor(SensorType.Accelerometer);
             sensMan.RegisterListener(this, sen, Android.Hardware.SensorDelay.Game);
             KeepScreenOn();
-            //board.T.Start();
         }
 
         /// <summary>
