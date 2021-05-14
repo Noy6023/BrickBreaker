@@ -60,9 +60,5 @@ namespace BrickBreaker
         public const string BALL_SIZE = "ball size";
         public const string BRICK_SIZE = "brick size";
         public const string DIFFICULTY = "difficulty";
-        public const string BACKGROUND = "Background";
-        public const string BALL = "Ball";
-        public const string BAT = "Bat";
-        public const string TEXT = "Text";
     }
 }
