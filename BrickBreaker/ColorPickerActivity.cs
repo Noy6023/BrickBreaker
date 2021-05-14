@@ -54,7 +54,7 @@ namespace BrickBreaker
                 picker.OldCenterColor = picker.Color;
                 picker.SetNewCenterColor(picker.Color);
                 Intent intent = new Intent();
-                intent.PutExtra("color", picker.Color);
+                intent.PutExtra(Constants.COLOR, picker.Color);
                 SetResult(Result.Ok, intent);
                 Finish();
             }

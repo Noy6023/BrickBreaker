@@ -129,7 +129,7 @@ namespace BrickBreaker
                 {
                     if(!data.Extras.IsEmpty)
                     {
-                        int color = data.GetIntExtra("color", 0); //get the color int that was chosen
+                        int color = data.GetIntExtra(Constants.COLOR, 0); //get the color int that was chosen
                         ColorDrawable colorDrawable = new ColorDrawable(ColorManager.Instance.IntToColorConvertor(color));
                         btnBallColor.Background = colorDrawable; //set the button color to it
                         ColorManager.Instance.SetColor(ColorKey.Ball, color); //update the color in the color manager
@@ -142,7 +142,7 @@ namespace BrickBreaker
                 {
                     if (!data.Extras.IsEmpty)
                     {
-                        int color = data.GetIntExtra("color", 0);
+                        int color = data.GetIntExtra(Constants.COLOR, 0);
                         ColorDrawable colorDrawable = new ColorDrawable(ColorManager.Instance.IntToColorConvertor(color));
                         btnBatColor.Background = colorDrawable;
                         ColorManager.Instance.SetColor(ColorKey.Bat, color);
@@ -155,7 +155,7 @@ namespace BrickBreaker
                 {
                     if (!data.Extras.IsEmpty)
                     {
-                        int color = data.GetIntExtra("color", 0);
+                        int color = data.GetIntExtra(Constants.COLOR, 0);
                         ColorDrawable colorDrawable = new ColorDrawable(ColorManager.Instance.IntToColorConvertor(color));
                         btnBrickColor.Background = colorDrawable;
                         ColorManager.Instance.SetColor(ColorKey.Brick, color);
@@ -169,7 +169,7 @@ namespace BrickBreaker
                 {
                     if (!data.Extras.IsEmpty)
                     {
-                        int color = data.GetIntExtra("color", 0);
+                        int color = data.GetIntExtra(Constants.COLOR, 0);
                         ColorDrawable colorDrawable = new ColorDrawable(ColorManager.Instance.IntToColorConvertor(color));
                         btnBackgroundColor.Background = colorDrawable;
                         ColorManager.Instance.SetColor(ColorKey.Background, color);

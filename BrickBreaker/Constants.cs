@@ -1,7 +1,5 @@
-﻿using Android.App;
-using Android.Content;
-using Android.Graphics;
-using Android.OS;
+﻿using Android.Graphics;
+
 namespace BrickBreaker
 {
     /// <summary>
@@ -60,5 +58,6 @@ namespace BrickBreaker
         public const string BALL_SIZE = "ball size";
         public const string BRICK_SIZE = "brick size";
         public const string DIFFICULTY = "difficulty";
+        public const string COLOR = "color";
     }
 }
