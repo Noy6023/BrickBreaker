@@ -4,7 +4,5 @@ Docs/*
 index.html
 BrickBreaker/bin/*
 BrickBreaker/obj/*
-BrickBreaker/files/*
-Versions/*
 *.obj
 *.html
