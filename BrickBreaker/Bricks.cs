@@ -14,16 +14,16 @@ namespace BrickBreaker
 {
     class Bricks
     {
-        private Brick[,] bricks;
-        private int visibleBricks;
+        private Brick[,] bricks; //the bricks array
+        private int visibleBricks; //the number of visible bricks
         public Bricks(Canvas canvas)
         {
-            InitBricks(canvas);
-            visibleBricks = bricks.Length;
+            InitBricks(canvas); //create the bricks array according to the size of the screen
+            visibleBricks = bricks.Length; //all the bricks are visible when created
         }
 
         /// <summary>
-        /// inits the brick array by creating the brickes and positioning them
+        /// inits the brick array by creating the bricks and positioning them
         /// </summary>
         /// <param name="canvas">the canvas</param>
         private void InitBricks(Canvas canvas)
@@ -46,6 +46,11 @@ namespace BrickBreaker
                 x = space * 1.5f;
             }
         }
+
+        /// <summary>
+        /// draw the bricks
+        /// </summary>
+        /// <param name="canvas">the canvas to draw on</param>
         public void Draw(Canvas canvas)
         {
             //draw the bricks
