@@ -17,18 +17,18 @@ namespace BrickBreaker
         readonly Ball ball; // the ball
         private Bricks bricks; //the bricks
         public GameScore Score { get; set; }//the score that is increased by hitting a brick
-        private Bat TopBat { get; set; } //the top bat
-        private Bat BottomBat { get; set; } //the bottom bat
+        private Bat TopBat; //the top bat
+        private Bat BottomBat; //the bottom bat
         //the buttons
         private GameButton pause, resume, start;
         private Vector screenSize; //holds the screen size
         readonly Difficulty difficulty;
         //flags
         public bool HasLost { get; set; } //keeps the result whether the bat ha missed and lost or not
-        bool hasInitedGame = false; //check if its the first time running to init the game
-        bool flagClick = false;
-        bool isLightTheme = true;
-        bool isPaused = false;
+        private bool hasInitedGame = false; //check if its the first time running to init the game
+        private bool flagClick = false;
+        private bool isLightTheme = true;
+        private bool isPaused = false;
         //the threads
         public bool ThreadRunning = true; //a flag that holds whether the thread is running or not
         public bool IsRunning = true; //a flag that holds whether the game is running or not
@@ -297,12 +297,11 @@ namespace BrickBreaker
         /// draws all the objects on the canvas
         /// </summary>
         /// <param name="canvas">the canvas</param>
-        public new void Draw(Canvas canvas)
+        private new void Draw(Canvas canvas)
         {
             base.OnDraw(canvas); //set the canvas to be drawn on
             canvas.DrawColor(ColorManager.Instance.GetColor(ColorKey.Background)); //draws the background color
             Score.Draw(canvas); //draws the score
-            //pause.Position = new Point(0, 0);
             pause.Draw(canvas); //draws the pause
             BottomBat.Draw(canvas); //draws the bottom bat
             TopBat.Draw(canvas); //draws the top bat
